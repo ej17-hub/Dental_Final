@@ -23,5 +23,12 @@ namespace Dental_Final
             Patients.Show();
             this.Hide();
         }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            Services services = new Services();
+            services.Show();
+            this.Hide();
+        }
     }
 }
