@@ -84,5 +84,27 @@ namespace Dental_Final
                 }
             }
         }
+
+        public void SetPatientData(SqlDataReader reader)
+        {
+            // Example: set each field from the reader
+            txtFirstName.Text = reader["first_name"].ToString();
+            txtLastName.Text = reader["last_name"].ToString();
+            txtMiddleInitial.Text = reader["middle_initial"].ToString();
+            txtSuffix.Text = reader["suffix"].ToString();
+            txtEmail.Text = reader["email"].ToString();
+            txtPhone.Text = reader["phone"].ToString();
+            cmbGender.Text = reader["gender"].ToString();
+            txtAddress.Text = reader["address"].ToString();
+
+            // Set birth date if not null
+            if (reader["birth_date"] != DBNull.Value)
+                dtpBirthDate.Value = Convert.ToDateTime(reader["birth_date"]);
+            else
+                dtpBirthDate.Value = DateTime.Now;
+
+            // Password is usually not shown for editing, but if you want:
+            // txtPassword.Text = reader["password_hash"].ToString();
+        }
     }
 }

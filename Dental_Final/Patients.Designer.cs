@@ -28,13 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Patients));
             this.label2 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
-            this.button9 = new System.Windows.Forms.Button();
+            this.searchTerm = new System.Windows.Forms.Button();
+            this.dataGridViewPatients = new System.Windows.Forms.DataGridView();
             this.button10 = new System.Windows.Forms.Button();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
@@ -47,11 +49,14 @@
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.contextMenuActions = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPatients)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.contextMenuActions.SuspendLayout();
             this.SuspendLayout();
             // 
             // label2
@@ -102,14 +107,25 @@
             this.textBox1.Size = new System.Drawing.Size(265, 40);
             this.textBox1.TabIndex = 68;
             // 
-            // button9
+            // searchTerm
             // 
-            this.button9.Location = new System.Drawing.Point(580, 127);
-            this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(142, 40);
-            this.button9.TabIndex = 69;
-            this.button9.Text = "Search";
-            this.button9.UseVisualStyleBackColor = true;
+            this.searchTerm.Location = new System.Drawing.Point(580, 127);
+            this.searchTerm.Name = "searchTerm";
+            this.searchTerm.Size = new System.Drawing.Size(142, 40);
+            this.searchTerm.TabIndex = 69;
+            this.searchTerm.Text = "Search";
+            this.searchTerm.UseVisualStyleBackColor = true;
+            this.searchTerm.Click += new System.EventHandler(this.searchTerm_Click);
+            // 
+            // dataGridViewPatients
+            // 
+            this.dataGridViewPatients.BackgroundColor = System.Drawing.Color.White;
+            this.dataGridViewPatients.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewPatients.Location = new System.Drawing.Point(294, 189);
+            this.dataGridViewPatients.Name = "dataGridViewPatients";
+            this.dataGridViewPatients.Size = new System.Drawing.Size(932, 462);
+            this.dataGridViewPatients.TabIndex = 71;
+            this.dataGridViewPatients.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewPatients_CellContentClick);
             // 
             // button10
             // 
@@ -218,23 +234,36 @@
             this.pictureBox1.TabIndex = 53;
             this.pictureBox1.TabStop = false;
             // 
-            // dataGridView1
+            // contextMenuActions
             // 
-            this.dataGridView1.BackgroundColor = System.Drawing.Color.White;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(294, 189);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(932, 462);
-            this.dataGridView1.TabIndex = 71;
+            this.contextMenuActions.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.editToolStripMenuItem,
+            this.deleteToolStripMenuItem});
+            this.contextMenuActions.Name = "contextMenuActions";
+            this.contextMenuActions.Size = new System.Drawing.Size(181, 70);
+            // 
+            // editToolStripMenuItem
+            // 
+            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.editToolStripMenuItem.Text = "Edit";
+            this.editToolStripMenuItem.Click += new System.EventHandler(this.editToolStripMenuItem_Click);
+            // 
+            // deleteToolStripMenuItem
+            // 
+            this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.deleteToolStripMenuItem.Text = "Delete";
+            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
             // Patients
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1264, 741);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.dataGridViewPatients);
             this.Controls.Add(this.button10);
-            this.Controls.Add(this.button9);
+            this.Controls.Add(this.searchTerm);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label5);
@@ -253,10 +282,11 @@
             this.Controls.Add(this.pictureBox1);
             this.Name = "Patients";
             this.Text = "Patients";
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPatients)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.contextMenuActions.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -280,8 +310,11 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Button button9;
+        private System.Windows.Forms.Button searchTerm;
         private System.Windows.Forms.Button button10;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView dataGridViewPatients;
+        private System.Windows.Forms.ContextMenuStrip contextMenuActions;
+        private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
     }
 }
