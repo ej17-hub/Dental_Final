@@ -119,6 +119,7 @@
             this.button10.Size = new System.Drawing.Size(142, 40);
             this.button10.TabIndex = 70;
             this.button10.UseVisualStyleBackColor = true;
+            this.button10.Click += new System.EventHandler(this.button10_Click);
             // 
             // pictureBox3
             // 
@@ -219,6 +220,7 @@
             // 
             // dataGridView1
             // 
+            this.dataGridView1.BackgroundColor = System.Drawing.Color.White;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Location = new System.Drawing.Point(294, 189);
             this.dataGridView1.Name = "dataGridView1";

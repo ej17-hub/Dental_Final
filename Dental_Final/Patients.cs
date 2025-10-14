@@ -17,6 +17,11 @@ namespace Dental_Final
             InitializeComponent();
         }
 
-        
+        private void button10_Click(object sender, EventArgs e)
+        {
+            Adding_Patient adding = new Adding_Patient();
+            adding.Show();
+            this.Hide();
+        }
     }
 }
