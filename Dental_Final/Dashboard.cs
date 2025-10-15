@@ -15,6 +15,7 @@ namespace Dental_Final
         public Dashboard()
         {
             InitializeComponent();
+            this.WindowState = FormWindowState.Maximized;
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -24,11 +25,5 @@ namespace Dental_Final
             this.Hide();
         }
 
-        private void button5_Click(object sender, EventArgs e)
-        {
-            Services services = new Services();
-            services.Show();
-            this.Hide();
-        }
     }
 }
