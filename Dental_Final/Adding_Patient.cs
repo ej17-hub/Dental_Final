@@ -32,7 +32,7 @@ namespace Dental_Final
 
         private void button1_Click(object sender, EventArgs e)
         {
-            string connectionString = @"Server=FANGON\SQLEXPRESS;Database=dental_final_clinic;Trusted_Connection=True;";
+            string connectionString = "Server=DESKTOP-PB8NME4\\SQLEXPRESS;Database=dental_final_clinic;Trusted_Connection=True;";
 
             // Collect data from form controls
             string firstName = txtFirstName.Text.Trim();

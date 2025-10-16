@@ -27,7 +27,7 @@ namespace Dental_Final
 
         private void LoadPatients()
         {
-            string connectionString = @"Server=FANGON\SQLEXPRESS;Database=dental_final_clinic;Trusted_Connection=True;";
+            string connectionString = "Server=DESKTOP-PB8NME4\\SQLEXPRESS;Database=dental_final_clinic;Trusted_Connection=True;";
             string query = @"SELECT 
                                 patient_id, 
                                 first_name + ' ' + last_name AS Patient,
@@ -150,7 +150,7 @@ namespace Dental_Final
 
                 if (confirmResult == DialogResult.Yes)
                 {
-                    string connectionString = @"Server=FANGON\SQLEXPRESS;Database=dental_final_clinic;Trusted_Connection=True;";
+                    string connectionString = "Server=DESKTOP-PB8NME4\\SQLEXPRESS;Database=dental_final_clinic;Trusted_Connection=True;";
                     string query = "DELETE FROM patients WHERE patient_id = @PatientId";
 
                     using (SqlConnection conn = new SqlConnection(connectionString))

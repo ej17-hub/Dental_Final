@@ -62,6 +62,7 @@
             this.button2.TabIndex = 62;
             this.button2.Text = "Return";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // label11
             // 
@@ -69,7 +70,7 @@
             this.label11.Location = new System.Drawing.Point(211, 278);
             this.label11.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(28, 16);
+            this.label11.Size = new System.Drawing.Size(25, 13);
             this.label11.TabIndex = 61;
             this.label11.Text = "+63";
             // 
@@ -78,7 +79,7 @@
             this.txtSuffix.Location = new System.Drawing.Point(215, 211);
             this.txtSuffix.Margin = new System.Windows.Forms.Padding(4);
             this.txtSuffix.Name = "txtSuffix";
-            this.txtSuffix.Size = new System.Drawing.Size(184, 22);
+            this.txtSuffix.Size = new System.Drawing.Size(184, 20);
             this.txtSuffix.TabIndex = 60;
             // 
             // label10
@@ -88,7 +89,7 @@
             this.label10.Location = new System.Drawing.Point(72, 213);
             this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(53, 18);
+            this.label10.Size = new System.Drawing.Size(43, 15);
             this.label10.TabIndex = 59;
             this.label10.Text = "Suffix:";
             // 
@@ -97,7 +98,7 @@
             this.txtMiddleInitial.Location = new System.Drawing.Point(215, 158);
             this.txtMiddleInitial.Margin = new System.Windows.Forms.Padding(4);
             this.txtMiddleInitial.Name = "txtMiddleInitial";
-            this.txtMiddleInitial.Size = new System.Drawing.Size(184, 22);
+            this.txtMiddleInitial.Size = new System.Drawing.Size(184, 20);
             this.txtMiddleInitial.TabIndex = 58;
             // 
             // label9
@@ -107,7 +108,7 @@
             this.label9.Location = new System.Drawing.Point(72, 160);
             this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(106, 18);
+            this.label9.Size = new System.Drawing.Size(83, 15);
             this.label9.TabIndex = 57;
             this.label9.Text = "Middle Initial: ";
             // 
@@ -116,7 +117,7 @@
             this.textBoxLastName.Location = new System.Drawing.Point(215, 105);
             this.textBoxLastName.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxLastName.Name = "textBoxLastName";
-            this.textBoxLastName.Size = new System.Drawing.Size(184, 22);
+            this.textBoxLastName.Size = new System.Drawing.Size(184, 20);
             this.textBoxLastName.TabIndex = 56;
             // 
             // label8
@@ -126,7 +127,7 @@
             this.label8.Location = new System.Drawing.Point(72, 107);
             this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(90, 18);
+            this.label8.Size = new System.Drawing.Size(74, 15);
             this.label8.TabIndex = 55;
             this.label8.Text = "Last Name: ";
             // 
@@ -146,7 +147,7 @@
             this.label7.Location = new System.Drawing.Point(482, 213);
             this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(70, 18);
+            this.label7.Size = new System.Drawing.Size(58, 15);
             this.label7.TabIndex = 53;
             this.label7.Text = "Address:";
             // 
@@ -166,7 +167,7 @@
             this.dateTimePickerBirthDate.Location = new System.Drawing.Point(625, 158);
             this.dateTimePickerBirthDate.Margin = new System.Windows.Forms.Padding(4);
             this.dateTimePickerBirthDate.Name = "dateTimePickerBirthDate";
-            this.dateTimePickerBirthDate.Size = new System.Drawing.Size(265, 22);
+            this.dateTimePickerBirthDate.Size = new System.Drawing.Size(265, 20);
             this.dateTimePickerBirthDate.TabIndex = 51;
             // 
             // cmbGender
@@ -178,7 +179,7 @@
             this.cmbGender.Location = new System.Drawing.Point(214, 328);
             this.cmbGender.Margin = new System.Windows.Forms.Padding(4);
             this.cmbGender.Name = "cmbGender";
-            this.cmbGender.Size = new System.Drawing.Size(184, 24);
+            this.cmbGender.Size = new System.Drawing.Size(184, 21);
             this.cmbGender.TabIndex = 50;
             // 
             // txtPassword
@@ -186,7 +187,7 @@
             this.txtPassword.Location = new System.Drawing.Point(625, 105);
             this.txtPassword.Margin = new System.Windows.Forms.Padding(4);
             this.txtPassword.Name = "txtPassword";
-            this.txtPassword.Size = new System.Drawing.Size(265, 22);
+            this.txtPassword.Size = new System.Drawing.Size(265, 20);
             this.txtPassword.TabIndex = 49;
             // 
             // label6
@@ -196,7 +197,7 @@
             this.label6.Location = new System.Drawing.Point(482, 107);
             this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(81, 18);
+            this.label6.Size = new System.Drawing.Size(68, 15);
             this.label6.TabIndex = 48;
             this.label6.Text = "Password:";
             // 
@@ -205,7 +206,7 @@
             this.textBoxEmail.Location = new System.Drawing.Point(625, 51);
             this.textBoxEmail.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxEmail.Name = "textBoxEmail";
-            this.textBoxEmail.Size = new System.Drawing.Size(265, 22);
+            this.textBoxEmail.Size = new System.Drawing.Size(265, 20);
             this.textBoxEmail.TabIndex = 47;
             // 
             // label5
@@ -215,7 +216,7 @@
             this.label5.Location = new System.Drawing.Point(482, 53);
             this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(116, 18);
+            this.label5.Size = new System.Drawing.Size(96, 15);
             this.label5.TabIndex = 46;
             this.label5.Text = "E-mail Address:";
             // 
@@ -226,7 +227,7 @@
             this.label4.Location = new System.Drawing.Point(482, 160);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(84, 18);
+            this.label4.Size = new System.Drawing.Size(66, 15);
             this.label4.TabIndex = 45;
             this.label4.Text = "Birth Date:";
             // 
@@ -237,7 +238,7 @@
             this.label3.Location = new System.Drawing.Point(71, 331);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(66, 18);
+            this.label3.Size = new System.Drawing.Size(51, 15);
             this.label3.TabIndex = 44;
             this.label3.Text = "Gender:";
             // 
@@ -246,7 +247,7 @@
             this.textBoxPhone.Location = new System.Drawing.Point(252, 275);
             this.textBoxPhone.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxPhone.Name = "textBoxPhone";
-            this.textBoxPhone.Size = new System.Drawing.Size(147, 22);
+            this.textBoxPhone.Size = new System.Drawing.Size(147, 20);
             this.textBoxPhone.TabIndex = 43;
             // 
             // label2
@@ -256,7 +257,7 @@
             this.label2.Location = new System.Drawing.Point(72, 277);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(118, 18);
+            this.label2.Size = new System.Drawing.Size(94, 15);
             this.label2.TabIndex = 42;
             this.label2.Text = "Phone Number:";
             // 
@@ -265,7 +266,7 @@
             this.textBoxFirstName.Location = new System.Drawing.Point(215, 51);
             this.textBoxFirstName.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxFirstName.Name = "textBoxFirstName";
-            this.textBoxFirstName.Size = new System.Drawing.Size(184, 22);
+            this.textBoxFirstName.Size = new System.Drawing.Size(184, 20);
             this.textBoxFirstName.TabIndex = 41;
             // 
             // label1
@@ -275,7 +276,7 @@
             this.label1.Location = new System.Drawing.Point(72, 53);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(92, 18);
+            this.label1.Size = new System.Drawing.Size(74, 15);
             this.label1.TabIndex = 40;
             this.label1.Text = "First Name: ";
             // 
