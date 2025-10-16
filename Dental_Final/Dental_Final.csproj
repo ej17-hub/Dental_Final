@@ -52,11 +52,23 @@
     <Compile Include="Adding_Patient.Designer.cs">
       <DependentUpon>Adding_Patient.cs</DependentUpon>
     </Compile>
+    <Compile Include="Add_Dentist.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Add_Dentist.Designer.cs">
+      <DependentUpon>Add_Dentist.cs</DependentUpon>
+    </Compile>
     <Compile Include="Add_Services.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Add_Services.Designer.cs">
       <DependentUpon>Add_Services.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Add_Staff.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Add_Staff.Designer.cs">
+      <DependentUpon>Add_Staff.cs</DependentUpon>
     </Compile>
     <Compile Include="Appointments.cs">
       <SubType>Form</SubType>
@@ -102,11 +114,23 @@
     <Compile Include="Services.Designer.cs">
       <DependentUpon>Services.cs</DependentUpon>
     </Compile>
+    <Compile Include="Staff.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Staff.Designer.cs">
+      <DependentUpon>Staff.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Adding_Patient.resx">
       <DependentUpon>Adding_Patient.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Add_Dentist.resx">
+      <DependentUpon>Add_Dentist.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Add_Services.resx">
       <DependentUpon>Add_Services.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Add_Staff.resx">
+      <DependentUpon>Add_Staff.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Appointments.resx">
       <DependentUpon>Appointments.cs</DependentUpon>
@@ -138,6 +162,9 @@
     </Compile>
     <EmbeddedResource Include="Services.resx">
       <DependentUpon>Services.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Staff.resx">
+      <DependentUpon>Staff.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

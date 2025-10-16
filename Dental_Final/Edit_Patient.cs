@@ -18,7 +18,7 @@ namespace Dental_Final
 
         private void LoadPatientData()
         {
-            string connectionString = "Server=DESKTOP-PB8NME4\\SQLEXPRESS;Database=dental_final_clinic;Trusted_Connection=True;";
+            string connectionString = "Server=FANGON\\SQLEXPRESS;Database=dental_final_clinic;Trusted_Connection=True;";
             string query = "SELECT * FROM patients WHERE patient_id = @PatientId";
 
             using (SqlConnection conn = new SqlConnection(connectionString))
@@ -49,7 +49,7 @@ namespace Dental_Final
 
         private void buttonSave_Click(object sender, EventArgs e)
         {
-            string connectionString = "Server=DESKTOP-PB8NME4\\SQLEXPRESS;Database=dental_final_clinic;Trusted_Connection=True;";
+            string connectionString = "Server=FANGON\\SQLEXPRESS;Database=dental_final_clinic;Trusted_Connection=True;";
             string query = @"UPDATE patients SET
                 first_name = @FirstName,
                 last_name = @LastName,
@@ -85,7 +85,7 @@ namespace Dental_Final
 
         private void button2_Click(object sender, EventArgs e)
         {
-            this.Hide();
+            this.Close();
         }
     }
 }

@@ -13,12 +13,17 @@ namespace Dental_Final
 {
     public partial class Add_Services : Form
     {
+        Services s = new Services();
+
         // Nullable int to hold the service ID when editing an existing service
         private int? editingServiceId;
 
         public Add_Services()
         {
             InitializeComponent();
+         
+            s.Show();
+            s.WindowState = FormWindowState.Maximized;
         }
 
         // Method to set the service ID for editing
@@ -43,7 +48,7 @@ namespace Dental_Final
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            string connectionString = "Server=DESKTOP-PB8NME4\\SQLEXPRESS;Database=dental_final_clinic;Trusted_Connection=True;";
+            string connectionString = "Server=FANGON\\SQLEXPRESS;Database=dental_final_clinic;Trusted_Connection=True;";
 
             string serviceName = txtServiceName.Text.Trim();
             decimal servicePrice;
@@ -79,14 +84,19 @@ namespace Dental_Final
                         {
                             int affected = cmd.ExecuteNonQuery();
                             if (affected > 0)
+                            {
                                 MessageBox.Show("Service updated successfully.");
-                            else
-                                MessageBox.Show("No service was updated. Please check the data.");
-                            this.Close();
+                                      
+                            }
 
-                            Services services = new Services();
-                            services.Show();
-                            this.Hide();
+                            else
+                            {
+                                MessageBox.Show("No service was updated. Please check the data.");
+                                this.Close();
+                            }
+
+                           
+                            
                         }
                         catch (Exception ex)
                         {
@@ -110,6 +120,8 @@ namespace Dental_Final
                             cmd.ExecuteNonQuery();
                             MessageBox.Show("Service added successfully.");
                             this.Close();
+                            s.Close();
+
                             Services services = new Services();
                             services.Show();
                             this.Hide();
@@ -121,6 +133,16 @@ namespace Dental_Final
                     }
                 }
             }
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

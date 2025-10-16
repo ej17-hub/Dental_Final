@@ -13,12 +13,18 @@ namespace Dental_Final
 {
     public partial class Edit_Services : Form
     {
+
+        Services s = new Services();
+
         private int serviceId;
-        private string connectionString = "Server=DESKTOP-PB8NME4\\SQLEXPRESS;Database=dental_final_clinic;Trusted_Connection=True;";
+        private string connectionString = "Server=FANGON\\SQLEXPRESS;Database=dental_final_clinic;Trusted_Connection=True;";
 
         public Edit_Services(int id)
         {
             InitializeComponent();
+           
+            s.Show();
+            s.WindowState = FormWindowState.Maximized;
             serviceId = id;
             LoadServiceData();
         }
@@ -85,6 +91,7 @@ namespace Dental_Final
                         if (result > 0)
                         {
                             MessageBox.Show("Service updated successfully!");
+                            s.Close();
                             Services servicesForm = new Services();
                             servicesForm.Show();
                             this.Close();
@@ -100,6 +107,11 @@ namespace Dental_Final
                     }
                 }
             }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

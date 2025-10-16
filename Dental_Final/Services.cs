@@ -19,6 +19,9 @@ namespace Dental_Final
         {
             InitializeComponent();
             LoadServicesData();
+
+            this.WindowState = FormWindowState.Maximized;
+
             dataGridViewServices.AllowUserToAddRows = false;
 
             // Ensure single subscription to prevent the handler running multiple times
@@ -28,8 +31,10 @@ namespace Dental_Final
 
         private void LoadServicesData()
         {
-            string connectionString = "Server=DESKTOP-PB8NME4\\SQLEXPRESS;Database=dental_final_clinic;Trusted_Connection=True;";
+            string connectionString = "Server=FANGON\\SQLEXPRESS;Database=dental_final_clinic;Trusted_Connection=True;";
             string query = "SELECT service_id, name, price, description, duration_minutes FROM services";
+
+
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             using (SqlDataAdapter adapter = new SqlDataAdapter(query, conn))
@@ -50,7 +55,7 @@ namespace Dental_Final
                     dataGridViewServices.Columns.Remove("Edit");
                 if (dataGridViewServices.Columns.Contains("Delete"))
                     dataGridViewServices.Columns.Remove("Delete");
-         
+
 
                 // Add Edit button column
                 DataGridViewButtonColumn editColumn = new DataGridViewButtonColumn();
@@ -75,6 +80,12 @@ namespace Dental_Final
                 {
                     dataGridViewServices.Columns["service_id"].Visible = false;
                 }
+
+                // Rename headers
+                dataGridViewServices.Columns["name"].HeaderText = "Service Name";
+                dataGridViewServices.Columns["price"].HeaderText = "Price";
+                dataGridViewServices.Columns["description"].HeaderText = "Description";
+                dataGridViewServices.Columns["duration_minutes"].HeaderText = "Duration (min)";
             }
         }
 
@@ -82,7 +93,9 @@ namespace Dental_Final
         {
             Add_Services add_Service = new Add_Services();
             add_Service.Show();
-            this.Hide();
+
+            this.Close();
+
         }
 
         private void dataGridViewServices_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
@@ -98,10 +111,10 @@ namespace Dental_Final
                     //Open your edit form(uncomment and adjust when Edit_Services implementation exists)
                     Edit_Services editForm = new Edit_Services(serviceId);
                     editForm.Show();
-                  
+                    this.Close();
                     return;
                 }
-                
+
 
                 // Delete button clicked
                 if (clickedColumn == "Delete")
@@ -116,7 +129,7 @@ namespace Dental_Final
 
                     if (result == DialogResult.Yes)
                     {
-                        string connectionString = "Server=DESKTOP-PB8NME4\\SQLEXPRESS;Database=dental_final_clinic;Trusted_Connection=True;";
+                        string connectionString = "Server=FANGON\\SQLEXPRESS;Database=dental_final_clinic;Trusted_Connection=True;";
                         string query = "DELETE FROM services WHERE service_id = @ServiceId";
 
                         using (SqlConnection conn = new SqlConnection(connectionString))
@@ -149,6 +162,6 @@ namespace Dental_Final
                 }
             }
         }
-        
+
     }
 }
