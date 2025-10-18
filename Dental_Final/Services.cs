@@ -31,7 +31,7 @@ namespace Dental_Final
 
         private void LoadServicesData()
         {
-            string connectionString = "Server=FANGON\\SQLEXPRESS;Database=dental_final_clinic;Trusted_Connection=True;";
+            string connectionString = "Server=DESKTOP-O65C6K9\\SQLEXPRESS;Database=dental_final_clinic;Trusted_Connection=True;";
             string query = "SELECT service_id, name, price, description, duration_minutes FROM services";
 
 
@@ -129,7 +129,7 @@ namespace Dental_Final
 
                     if (result == DialogResult.Yes)
                     {
-                        string connectionString = "Server=FANGON\\SQLEXPRESS;Database=dental_final_clinic;Trusted_Connection=True;";
+                        string connectionString = "Server=DESKTOP-O65C6K9\\SQLEXPRESS;Database=dental_final_clinic;Trusted_Connection=True;";
                         string query = "DELETE FROM services WHERE service_id = @ServiceId";
 
                         using (SqlConnection conn = new SqlConnection(connectionString))
@@ -163,5 +163,37 @@ namespace Dental_Final
             }
         }
 
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Dashboard dashboard = new Dashboard();
+            dashboard.Show();
+            this.Hide();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            //Appointments
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            Patients patients = new Patients();
+            patients.Show();
+            this.Hide();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            Staff staff= new Staff();
+            staff.Show();
+            this.Hide();
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            Adding_Patient adding_Patient = new Adding_Patient();
+            adding_Patient.Show();
+
+        }
     }
 }

@@ -82,6 +82,12 @@
     <Compile Include="Dashboard.Designer.cs">
       <DependentUpon>Dashboard.cs</DependentUpon>
     </Compile>
+    <Compile Include="Edit_Dentist.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Edit_Dentist.Designer.cs">
+      <DependentUpon>Edit_Dentist.cs</DependentUpon>
+    </Compile>
     <Compile Include="Edit_Patient.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -93,6 +99,12 @@
     </Compile>
     <Compile Include="Edit_Services.Designer.cs">
       <DependentUpon>Edit_Services.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Edit_Staff.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Edit_Staff.Designer.cs">
+      <DependentUpon>Edit_Staff.cs</DependentUpon>
     </Compile>
     <Compile Include="Log_in.cs">
       <SubType>Form</SubType>
@@ -138,11 +150,17 @@
     <EmbeddedResource Include="Dashboard.resx">
       <DependentUpon>Dashboard.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Edit_Dentist.resx">
+      <DependentUpon>Edit_Dentist.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Edit_Patient.resx">
       <DependentUpon>Edit_Patient.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Edit_Services.resx">
       <DependentUpon>Edit_Services.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Edit_Staff.resx">
+      <DependentUpon>Edit_Staff.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Log_in.resx">
       <DependentUpon>Log_in.cs</DependentUpon>

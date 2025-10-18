@@ -27,7 +27,7 @@ namespace Dental_Final
 
         private void LoadPatients()
         {
-            string connectionString = "Server=FANGON\\SQLEXPRESS;Database=dental_final_clinic;Trusted_Connection=True;";
+            string connectionString = "Server=DESKTOP-O65C6K9\\SQLEXPRESS;Database=dental_final_clinic;Trusted_Connection=True;";
             string query = @"SELECT 
                                 patient_id, 
                                 first_name + ' ' + last_name AS Patient,
@@ -150,7 +150,7 @@ namespace Dental_Final
 
                 if (confirmResult == DialogResult.Yes)
                 {
-                    string connectionString = "Server=FANGON\\SQLEXPRESS;Database=dental_final_clinic;Trusted_Connection=True;";
+                    string connectionString = "Server=DESKTOP-O65C6K9\\SQLEXPRESS;Database=dental_final_clinic;Trusted_Connection=True;";
                     string query = "DELETE FROM patients WHERE patient_id = @PatientId";
 
                     using (SqlConnection conn = new SqlConnection(connectionString))
@@ -165,6 +165,39 @@ namespace Dental_Final
                     LoadPatients();
                 }
             }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Dashboard dashboard = new Dashboard();
+            dashboard.Show();
+            this.Hide();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+          //Appointments
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            Staff staff = new Staff();
+            staff.Show();
+            this.Hide();
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            Services services = new Services();
+            services.Show();
+            this.Hide();
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            Adding_Patient adding_Patient = new Adding_Patient();
+            adding_Patient.Show();
+            this.Hide();
         }
     }
 }

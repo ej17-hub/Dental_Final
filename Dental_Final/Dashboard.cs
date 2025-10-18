@@ -31,5 +31,12 @@ namespace Dental_Final
             services.Show();
             this.Hide();
         }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            Staff staff = new Staff();
+            staff.Show();
+            this.Hide();
+        }
     }
 }

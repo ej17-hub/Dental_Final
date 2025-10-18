@@ -17,7 +17,7 @@ namespace Dental_Final
         Services s = new Services();
 
         private int serviceId;
-        private string connectionString = "Server=FANGON\\SQLEXPRESS;Database=dental_final_clinic;Trusted_Connection=True;";
+        private string connectionString = "Server=DESKTOP-O65C6K9\\SQLEXPRESS;Database=dental_final_clinic;Trusted_Connection=True;";
 
         public Edit_Services(int id)
         {

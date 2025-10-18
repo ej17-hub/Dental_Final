@@ -1,6 +1,6 @@
 ﻿namespace Dental_Final
 {
-    partial class Add_Staff
+    partial class Edit_Staff
     {
         /// <summary>
         /// Required designer variable.
@@ -38,7 +38,7 @@
             this.label8 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.dtpBirthDate = new System.Windows.Forms.DateTimePicker();
-            this.cboGender = new System.Windows.Forms.ComboBox();
+            this.cbGender = new System.Windows.Forms.ComboBox();
             this.txtEmail = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -53,175 +53,176 @@
             // 
             this.button2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
             this.button2.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold);
-            this.button2.Location = new System.Drawing.Point(364, 228);
+            this.button2.Location = new System.Drawing.Point(368, 242);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(88, 36);
-            this.button2.TabIndex = 62;
+            this.button2.TabIndex = 81;
             this.button2.Text = "Return";
             this.button2.UseVisualStyleBackColor = false;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(470, 88);
+            this.label11.Location = new System.Drawing.Point(474, 102);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(25, 13);
-            this.label11.TabIndex = 61;
+            this.label11.TabIndex = 80;
             this.label11.Text = "+63";
             // 
             // txtSuffix
             // 
-            this.txtSuffix.Location = new System.Drawing.Point(166, 171);
+            this.txtSuffix.Location = new System.Drawing.Point(170, 185);
             this.txtSuffix.Name = "txtSuffix";
             this.txtSuffix.Size = new System.Drawing.Size(139, 20);
-            this.txtSuffix.TabIndex = 60;
+            this.txtSuffix.TabIndex = 79;
             // 
             // label10
             // 
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(58, 173);
+            this.label10.Location = new System.Drawing.Point(62, 187);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(43, 15);
-            this.label10.TabIndex = 59;
+            this.label10.TabIndex = 78;
             this.label10.Text = "Suffix:";
             // 
             // txtMiddleInitial
             // 
-            this.txtMiddleInitial.Location = new System.Drawing.Point(166, 128);
+            this.txtMiddleInitial.Location = new System.Drawing.Point(170, 142);
             this.txtMiddleInitial.Name = "txtMiddleInitial";
             this.txtMiddleInitial.Size = new System.Drawing.Size(139, 20);
-            this.txtMiddleInitial.TabIndex = 58;
+            this.txtMiddleInitial.TabIndex = 77;
             // 
             // label9
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(58, 130);
+            this.label9.Location = new System.Drawing.Point(62, 144);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(83, 15);
-            this.label9.TabIndex = 57;
+            this.label9.TabIndex = 76;
             this.label9.Text = "Middle Initial: ";
             // 
             // txtLastName
             // 
-            this.txtLastName.Location = new System.Drawing.Point(166, 85);
+            this.txtLastName.Location = new System.Drawing.Point(170, 99);
             this.txtLastName.Name = "txtLastName";
             this.txtLastName.Size = new System.Drawing.Size(139, 20);
-            this.txtLastName.TabIndex = 56;
+            this.txtLastName.TabIndex = 75;
             // 
             // label8
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(58, 87);
+            this.label8.Location = new System.Drawing.Point(62, 101);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(74, 15);
-            this.label8.TabIndex = 55;
+            this.label8.TabIndex = 74;
             this.label8.Text = "Last Name: ";
             // 
             // button1
             // 
             this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.button1.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold);
-            this.button1.Location = new System.Drawing.Point(473, 228);
+            this.button1.Location = new System.Drawing.Point(477, 242);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(199, 36);
-            this.button1.TabIndex = 52;
+            this.button1.TabIndex = 73;
             this.button1.Text = "Submit";
             this.button1.UseVisualStyleBackColor = false;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // dtpBirthDate
             // 
-            this.dtpBirthDate.Location = new System.Drawing.Point(473, 128);
+            this.dtpBirthDate.Location = new System.Drawing.Point(477, 142);
             this.dtpBirthDate.Name = "dtpBirthDate";
             this.dtpBirthDate.Size = new System.Drawing.Size(200, 20);
-            this.dtpBirthDate.TabIndex = 51;
+            this.dtpBirthDate.TabIndex = 72;
             // 
-            // cboGender
+            // cbGender
             // 
-            this.cboGender.FormattingEnabled = true;
-            this.cboGender.Items.AddRange(new object[] {
+            this.cbGender.FormattingEnabled = true;
+            this.cbGender.Items.AddRange(new object[] {
             "Male ",
             "Female"});
-            this.cboGender.Location = new System.Drawing.Point(473, 168);
-            this.cboGender.Name = "cboGender";
-            this.cboGender.Size = new System.Drawing.Size(200, 21);
-            this.cboGender.TabIndex = 50;
+            this.cbGender.Location = new System.Drawing.Point(477, 182);
+            this.cbGender.Name = "cbGender";
+            this.cbGender.Size = new System.Drawing.Size(200, 21);
+            this.cbGender.TabIndex = 71;
             // 
             // txtEmail
             // 
-            this.txtEmail.Location = new System.Drawing.Point(473, 41);
+            this.txtEmail.Location = new System.Drawing.Point(477, 55);
             this.txtEmail.Name = "txtEmail";
             this.txtEmail.Size = new System.Drawing.Size(200, 20);
-            this.txtEmail.TabIndex = 47;
+            this.txtEmail.TabIndex = 70;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(366, 43);
+            this.label5.Location = new System.Drawing.Point(370, 57);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(96, 15);
-            this.label5.TabIndex = 46;
+            this.label5.TabIndex = 69;
             this.label5.Text = "E-mail Address:";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(366, 130);
+            this.label4.Location = new System.Drawing.Point(370, 144);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(66, 15);
-            this.label4.TabIndex = 45;
+            this.label4.TabIndex = 68;
             this.label4.Text = "Birth Date:";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(366, 171);
+            this.label3.Location = new System.Drawing.Point(370, 185);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(51, 15);
-            this.label3.TabIndex = 44;
+            this.label3.TabIndex = 67;
             this.label3.Text = "Gender:";
             // 
             // txtPhone
             // 
-            this.txtPhone.Location = new System.Drawing.Point(500, 85);
+            this.txtPhone.Location = new System.Drawing.Point(504, 99);
             this.txtPhone.Name = "txtPhone";
             this.txtPhone.Size = new System.Drawing.Size(173, 20);
-            this.txtPhone.TabIndex = 43;
+            this.txtPhone.TabIndex = 66;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(365, 87);
+            this.label2.Location = new System.Drawing.Point(369, 101);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(94, 15);
-            this.label2.TabIndex = 42;
+            this.label2.TabIndex = 65;
             this.label2.Text = "Phone Number:";
             // 
             // txtFirstName
             // 
-            this.txtFirstName.Location = new System.Drawing.Point(166, 41);
+            this.txtFirstName.Location = new System.Drawing.Point(170, 55);
             this.txtFirstName.Name = "txtFirstName";
             this.txtFirstName.Size = new System.Drawing.Size(139, 20);
-            this.txtFirstName.TabIndex = 41;
+            this.txtFirstName.TabIndex = 64;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(58, 43);
+            this.label1.Location = new System.Drawing.Point(62, 57);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(74, 15);
-            this.label1.TabIndex = 40;
+            this.label1.TabIndex = 63;
             this.label1.Text = "First Name: ";
             // 
-            // Add_Staff
+            // Edit_Staff
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -237,7 +238,7 @@
             this.Controls.Add(this.label8);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.dtpBirthDate);
-            this.Controls.Add(this.cboGender);
+            this.Controls.Add(this.cbGender);
             this.Controls.Add(this.txtEmail);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
@@ -246,9 +247,8 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.txtFirstName);
             this.Controls.Add(this.label1);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.Name = "Add_Staff";
-            this.Text = "Add_Staff";
+            this.Name = "Edit_Staff";
+            this.Text = "Edit_Staff";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -266,7 +266,7 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.DateTimePicker dtpBirthDate;
-        private System.Windows.Forms.ComboBox cboGender;
+        private System.Windows.Forms.ComboBox cbGender;
         private System.Windows.Forms.TextBox txtEmail;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
