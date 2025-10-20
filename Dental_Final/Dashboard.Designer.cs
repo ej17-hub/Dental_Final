@@ -72,7 +72,7 @@
             this.label1.Location = new System.Drawing.Point(21, 473);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(138, 22);
+            this.label1.Size = new System.Drawing.Size(173, 29);
             this.label1.TabIndex = 20;
             this.label1.Text = "Quick Actions";
             // 
@@ -83,7 +83,7 @@
             this.label2.Location = new System.Drawing.Point(300, 23);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(113, 22);
+            this.label2.Size = new System.Drawing.Size(138, 29);
             this.label2.TabIndex = 26;
             this.label2.Text = "Dashboard";
             // 
@@ -95,7 +95,7 @@
             this.label3.Location = new System.Drawing.Point(301, 66);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(149, 20);
+            this.label3.Size = new System.Drawing.Size(181, 24);
             this.label3.TabIndex = 27;
             this.label3.Text = "Welcome Back, Admin!";
             // 
@@ -107,7 +107,7 @@
             this.lblTodayAppointment.Location = new System.Drawing.Point(346, 177);
             this.lblTodayAppointment.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblTodayAppointment.Name = "lblTodayAppointment";
-            this.lblTodayAppointment.Size = new System.Drawing.Size(44, 32);
+            this.lblTodayAppointment.Size = new System.Drawing.Size(55, 40);
             this.lblTodayAppointment.TabIndex = 29;
             this.lblTodayAppointment.Text = "10";
             // 
@@ -119,7 +119,7 @@
             this.lblWaitingPatients.Location = new System.Drawing.Point(658, 177);
             this.lblWaitingPatients.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblWaitingPatients.Name = "lblWaitingPatients";
-            this.lblWaitingPatients.Size = new System.Drawing.Size(44, 32);
+            this.lblWaitingPatients.Size = new System.Drawing.Size(55, 40);
             this.lblWaitingPatients.TabIndex = 31;
             this.lblWaitingPatients.Text = "10";
             // 
@@ -131,7 +131,7 @@
             this.lblAvailableDentists.Location = new System.Drawing.Point(965, 177);
             this.lblAvailableDentists.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblAvailableDentists.Name = "lblAvailableDentists";
-            this.lblAvailableDentists.Size = new System.Drawing.Size(44, 32);
+            this.lblAvailableDentists.Size = new System.Drawing.Size(55, 40);
             this.lblAvailableDentists.TabIndex = 33;
             this.lblAvailableDentists.Text = "10";
             // 
@@ -143,7 +143,7 @@
             this.lblCompletedAppointments.Location = new System.Drawing.Point(1285, 177);
             this.lblCompletedAppointments.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblCompletedAppointments.Name = "lblCompletedAppointments";
-            this.lblCompletedAppointments.Size = new System.Drawing.Size(44, 32);
+            this.lblCompletedAppointments.Size = new System.Drawing.Size(55, 40);
             this.lblCompletedAppointments.TabIndex = 35;
             this.lblCompletedAppointments.Text = "10";
             // 
@@ -155,7 +155,7 @@
             this.label4.Location = new System.Drawing.Point(33, 848);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(122, 20);
+            this.label4.Size = new System.Drawing.Size(149, 24);
             this.label4.TabIndex = 36;
             this.label4.Text = "Clinic Administrator";
             // 
@@ -167,7 +167,7 @@
             this.label5.Location = new System.Drawing.Point(33, 821);
             this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(69, 22);
+            this.label5.Size = new System.Drawing.Size(88, 29);
             this.label5.TabIndex = 37;
             this.label5.Text = "Admin";
             // 
@@ -178,7 +178,7 @@
             this.label6.Location = new System.Drawing.Point(300, 272);
             this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(217, 22);
+            this.label6.Size = new System.Drawing.Size(269, 29);
             this.label6.TabIndex = 38;
             this.label6.Text = "Today\'s Appointments";
             // 
@@ -302,6 +302,7 @@
             this.button1.Size = new System.Drawing.Size(217, 59);
             this.button1.TabIndex = 16;
             this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // button2
             // 

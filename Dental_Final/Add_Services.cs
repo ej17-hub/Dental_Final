@@ -48,7 +48,7 @@ namespace Dental_Final
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            string connectionString = "Server=DESKTOP-O65C6K9\\SQLEXPRESS;Database=dental_final_clinic;Trusted_Connection=True;";
+            string connectionString = "Server=FANGON\\SQLEXPRESS;Database=dental_final_clinic;Trusted_Connection=True;";
 
             string serviceName = txtServiceName.Text.Trim();
             decimal servicePrice;

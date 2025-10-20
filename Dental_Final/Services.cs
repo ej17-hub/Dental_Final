@@ -31,7 +31,7 @@ namespace Dental_Final
 
         private void LoadServicesData()
         {
-            string connectionString = "Server=DESKTOP-O65C6K9\\SQLEXPRESS;Database=dental_final_clinic;Trusted_Connection=True;";
+            string connectionString = "Server=FANGON\\SQLEXPRESS;Database=dental_final_clinic;Trusted_Connection=True;";
             string query = "SELECT service_id, name, price, description, duration_minutes FROM services";
 
 
@@ -129,7 +129,7 @@ namespace Dental_Final
 
                     if (result == DialogResult.Yes)
                     {
-                        string connectionString = "Server=DESKTOP-O65C6K9\\SQLEXPRESS;Database=dental_final_clinic;Trusted_Connection=True;";
+                        string connectionString = "Server=FANGON\\SQLEXPRESS;Database=dental_final_clinic;Trusted_Connection=True;";
                         string query = "DELETE FROM services WHERE service_id = @ServiceId";
 
                         using (SqlConnection conn = new SqlConnection(connectionString))

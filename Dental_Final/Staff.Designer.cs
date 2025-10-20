@@ -64,9 +64,10 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Arial", 18F, System.Drawing.FontStyle.Bold);
-            this.label5.Location = new System.Drawing.Point(220, 104);
+            this.label5.Location = new System.Drawing.Point(293, 128);
+            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(107, 29);
+            this.label5.Size = new System.Drawing.Size(134, 35);
             this.label5.TabIndex = 117;
             this.label5.Text = "Dentists";
             // 
@@ -74,9 +75,10 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Arial", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(219, 32);
+            this.label2.Location = new System.Drawing.Point(292, 39);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(186, 34);
+            this.label2.Size = new System.Drawing.Size(238, 44);
             this.label2.TabIndex = 116;
             this.label2.Text = "Dental Team";
             // 
@@ -85,9 +87,10 @@
             this.label1.AutoSize = true;
             this.label1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(247)))), ((int)(((byte)(247)))), ((int)(((byte)(247)))));
             this.label1.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(25, 667);
+            this.label1.Location = new System.Drawing.Point(33, 821);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(69, 22);
+            this.label1.Size = new System.Drawing.Size(88, 29);
             this.label1.TabIndex = 114;
             this.label1.Text = "Admin";
             // 
@@ -96,9 +99,10 @@
             this.label3.AutoSize = true;
             this.label3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(247)))), ((int)(((byte)(247)))), ((int)(((byte)(247)))));
             this.label3.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(25, 689);
+            this.label3.Location = new System.Drawing.Point(33, 848);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(122, 20);
+            this.label3.Size = new System.Drawing.Size(149, 24);
             this.label3.TabIndex = 113;
             this.label3.Text = "Clinic Administrator";
             // 
@@ -107,9 +111,10 @@
             this.label6.AutoSize = true;
             this.label6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(214)))), ((int)(((byte)(248)))));
             this.label6.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(16, 384);
+            this.label6.Location = new System.Drawing.Point(21, 473);
+            this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(138, 22);
+            this.label6.Size = new System.Drawing.Size(173, 29);
             this.label6.TabIndex = 109;
             this.label6.Text = "Quick Actions";
             // 
@@ -135,10 +140,11 @@
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridViewDentists.DefaultCellStyle = dataGridViewCellStyle2;
-            this.dataGridViewDentists.Location = new System.Drawing.Point(225, 148);
+            this.dataGridViewDentists.Location = new System.Drawing.Point(300, 182);
+            this.dataGridViewDentists.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.dataGridViewDentists.Name = "dataGridViewDentists";
             this.dataGridViewDentists.RowHeadersWidth = 51;
-            this.dataGridViewDentists.Size = new System.Drawing.Size(908, 208);
+            this.dataGridViewDentists.Size = new System.Drawing.Size(1211, 256);
             this.dataGridViewDentists.TabIndex = 102;
             this.dataGridViewDentists.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewDentists_CellContentClick);
             // 
@@ -146,9 +152,10 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(20, 713);
+            this.label4.Location = new System.Drawing.Point(27, 878);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(122, 20);
+            this.label4.Size = new System.Drawing.Size(149, 24);
             this.label4.TabIndex = 100;
             this.label4.Text = "Clinic Administrator";
             // 
@@ -174,10 +181,11 @@
             dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridViewStaff.DefaultCellStyle = dataGridViewCellStyle4;
-            this.dataGridViewStaff.Location = new System.Drawing.Point(225, 422);
+            this.dataGridViewStaff.Location = new System.Drawing.Point(300, 519);
+            this.dataGridViewStaff.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.dataGridViewStaff.Name = "dataGridViewStaff";
             this.dataGridViewStaff.RowHeadersWidth = 51;
-            this.dataGridViewStaff.Size = new System.Drawing.Size(908, 206);
+            this.dataGridViewStaff.Size = new System.Drawing.Size(1211, 254);
             this.dataGridViewStaff.TabIndex = 118;
             this.dataGridViewStaff.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewStaff_CellContentClick);
             // 
@@ -185,9 +193,10 @@
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Arial", 18F, System.Drawing.FontStyle.Bold);
-            this.label7.Location = new System.Drawing.Point(229, 384);
+            this.label7.Location = new System.Drawing.Point(305, 473);
+            this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(66, 29);
+            this.label7.Size = new System.Drawing.Size(82, 35);
             this.label7.TabIndex = 120;
             this.label7.Text = "Staff";
             this.label7.Click += new System.EventHandler(this.label7_Click);
@@ -195,11 +204,11 @@
             // button9
             // 
             this.button9.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button9.BackgroundImage")));
-            this.button9.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.button9.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button9.Location = new System.Drawing.Point(998, 377);
+            this.button9.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.button9.Location = new System.Drawing.Point(1361, 461);
+            this.button9.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(135, 36);
+            this.button9.Size = new System.Drawing.Size(150, 47);
             this.button9.TabIndex = 119;
             this.button9.UseVisualStyleBackColor = true;
             this.button9.Click += new System.EventHandler(this.button9_Click);
@@ -209,9 +218,10 @@
             this.button8.BackColor = System.Drawing.Color.Transparent;
             this.button8.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button8.BackgroundImage")));
             this.button8.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.button8.Location = new System.Drawing.Point(20, 546);
+            this.button8.Location = new System.Drawing.Point(27, 672);
+            this.button8.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(159, 56);
+            this.button8.Size = new System.Drawing.Size(212, 69);
             this.button8.TabIndex = 112;
             this.button8.UseVisualStyleBackColor = false;
             // 
@@ -220,9 +230,10 @@
             this.button7.BackColor = System.Drawing.Color.Transparent;
             this.button7.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button7.BackgroundImage")));
             this.button7.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.button7.Location = new System.Drawing.Point(20, 484);
+            this.button7.Location = new System.Drawing.Point(27, 596);
+            this.button7.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(159, 56);
+            this.button7.Size = new System.Drawing.Size(212, 69);
             this.button7.TabIndex = 111;
             this.button7.UseVisualStyleBackColor = false;
             // 
@@ -231,9 +242,10 @@
             this.button6.BackColor = System.Drawing.Color.Transparent;
             this.button6.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button6.BackgroundImage")));
             this.button6.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.button6.Location = new System.Drawing.Point(20, 422);
+            this.button6.Location = new System.Drawing.Point(27, 519);
+            this.button6.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(159, 56);
+            this.button6.Size = new System.Drawing.Size(212, 69);
             this.button6.TabIndex = 110;
             this.button6.UseVisualStyleBackColor = false;
             // 
@@ -242,9 +254,10 @@
             this.button5.BackColor = System.Drawing.Color.Transparent;
             this.button5.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button5.BackgroundImage")));
             this.button5.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.button5.Location = new System.Drawing.Point(16, 320);
+            this.button5.Location = new System.Drawing.Point(21, 394);
+            this.button5.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(163, 48);
+            this.button5.Size = new System.Drawing.Size(217, 59);
             this.button5.TabIndex = 108;
             this.button5.UseVisualStyleBackColor = false;
             this.button5.Click += new System.EventHandler(this.button5_Click);
@@ -254,9 +267,10 @@
             this.button4.BackColor = System.Drawing.Color.Transparent;
             this.button4.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button4.BackgroundImage")));
             this.button4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.button4.Location = new System.Drawing.Point(16, 266);
+            this.button4.Location = new System.Drawing.Point(21, 327);
+            this.button4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(163, 48);
+            this.button4.Size = new System.Drawing.Size(217, 59);
             this.button4.TabIndex = 107;
             this.button4.UseVisualStyleBackColor = false;
             // 
@@ -266,9 +280,10 @@
             this.button3.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button3.BackgroundImage")));
             this.button3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.button3.ForeColor = System.Drawing.Color.Transparent;
-            this.button3.Location = new System.Drawing.Point(16, 212);
+            this.button3.Location = new System.Drawing.Point(21, 261);
+            this.button3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(163, 48);
+            this.button3.Size = new System.Drawing.Size(217, 59);
             this.button3.TabIndex = 106;
             this.button3.UseVisualStyleBackColor = false;
             this.button3.Click += new System.EventHandler(this.button3_Click);
@@ -278,9 +293,10 @@
             this.button2.BackColor = System.Drawing.Color.Transparent;
             this.button2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button2.BackgroundImage")));
             this.button2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.button2.Location = new System.Drawing.Point(16, 104);
+            this.button2.Location = new System.Drawing.Point(21, 128);
+            this.button2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(163, 48);
+            this.button2.Size = new System.Drawing.Size(217, 59);
             this.button2.TabIndex = 104;
             this.button2.UseVisualStyleBackColor = false;
             this.button2.Click += new System.EventHandler(this.button2_Click);
@@ -288,21 +304,21 @@
             // pictureBox1
             // 
             this.pictureBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(247)))), ((int)(((byte)(247)))), ((int)(((byte)(247)))));
-            this.pictureBox1.Location = new System.Drawing.Point(-1, 648);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(2);
+            this.pictureBox1.Location = new System.Drawing.Point(-1, 798);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(1171, 76);
+            this.pictureBox1.Size = new System.Drawing.Size(1561, 94);
             this.pictureBox1.TabIndex = 115;
             this.pictureBox1.TabStop = false;
             // 
             // btnNewService
             // 
             this.btnNewService.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnNewService.BackgroundImage")));
-            this.btnNewService.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.btnNewService.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnNewService.Location = new System.Drawing.Point(998, 97);
+            this.btnNewService.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btnNewService.Location = new System.Drawing.Point(1355, 116);
+            this.btnNewService.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnNewService.Name = "btnNewService";
-            this.btnNewService.Size = new System.Drawing.Size(135, 36);
+            this.btnNewService.Size = new System.Drawing.Size(156, 47);
             this.btnNewService.TabIndex = 101;
             this.btnNewService.UseVisualStyleBackColor = true;
             this.btnNewService.Click += new System.EventHandler(this.btnNewService_Click);
@@ -313,8 +329,9 @@
             this.pictureBox4.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox4.BackgroundImage")));
             this.pictureBox4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pictureBox4.Location = new System.Drawing.Point(-1, -2);
+            this.pictureBox4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.pictureBox4.Name = "pictureBox4";
-            this.pictureBox4.Size = new System.Drawing.Size(977, 687);
+            this.pictureBox4.Size = new System.Drawing.Size(1303, 846);
             this.pictureBox4.TabIndex = 103;
             this.pictureBox4.TabStop = false;
             // 
@@ -324,19 +341,19 @@
             this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.button1.Image = ((System.Drawing.Image)(resources.GetObject("button1.Image")));
             this.button1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button1.Location = new System.Drawing.Point(16, 158);
+            this.button1.Location = new System.Drawing.Point(21, 194);
+            this.button1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(163, 48);
+            this.button1.Size = new System.Drawing.Size(217, 59);
             this.button1.TabIndex = 105;
             this.button1.UseVisualStyleBackColor = false;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // Staff
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.ClientSize = new System.Drawing.Size(1168, 722);
+            this.ClientSize = new System.Drawing.Size(1557, 889);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.button9);
             this.Controls.Add(this.dataGridViewStaff);
@@ -358,7 +375,7 @@
             this.Controls.Add(this.btnNewService);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.pictureBox4);
-            this.Margin = new System.Windows.Forms.Padding(2);
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "Staff";
             this.Text = "Staff";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewDentists)).EndInit();

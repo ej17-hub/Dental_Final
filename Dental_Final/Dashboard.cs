@@ -38,5 +38,12 @@ namespace Dental_Final
             staff.Show();
             this.Hide();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Appointments appointments = new Appointments();
+            appointments.Show();
+            this.Hide();
+        }
     }
 }

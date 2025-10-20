@@ -9,7 +9,7 @@ namespace Dental_Final
 {
     public partial class Staff : Form
     {
-        private readonly string connectionString = "Server=DESKTOP-O65C6K9\\SQLEXPRESS;Database=dental_final_clinic;Trusted_Connection=True;";
+        private readonly string connectionString = "Server=FANGON\\SQLEXPRESS;Database=dental_final_clinic;Trusted_Connection=True;";
 
         private readonly Dictionary<string, string> dayAbbreviations = new Dictionary<string, string>
 {
@@ -26,6 +26,7 @@ namespace Dental_Final
             InitializeComponent();
             LoadDentists();
             LoadStaff();
+            this.WindowState = FormWindowState.Maximized;
         }
 
         private void btnNewService_Click(object sender, EventArgs e)
@@ -390,8 +391,8 @@ ORDER BY last_name, first_name;";
 
         private void button5_Click(object sender, EventArgs e)
         {
-            Staff staff = new Staff();
-            staff.Show();
+            Services services = new Services();
+            services.Show();
             this.Hide();
 
         }

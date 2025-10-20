@@ -9,7 +9,7 @@ namespace Dental_Final
 {
     public partial class Add_Dentist : Form
     {
-        private readonly string connectionString = "Server=DESKTOP-O65C6K9\\SQLEXPRESS;Database=dental_final_clinic;Trusted_Connection=True;";
+        private readonly string connectionString = "Server=FANGON\\SQLEXPRESS;Database=dental_final_clinic;Trusted_Connection=True;";
 
 
         public Add_Dentist()
