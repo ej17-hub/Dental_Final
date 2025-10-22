@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Patients));
             this.label2 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -66,7 +66,7 @@
             this.label2.Location = new System.Drawing.Point(295, 37);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(128, 34);
+            this.label2.Size = new System.Drawing.Size(164, 44);
             this.label2.TabIndex = 67;
             this.label2.Text = "Patients";
             // 
@@ -77,7 +77,7 @@
             this.label5.Location = new System.Drawing.Point(31, 850);
             this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(69, 22);
+            this.label5.Size = new System.Drawing.Size(88, 29);
             this.label5.TabIndex = 66;
             this.label5.Text = "Admin";
             // 
@@ -88,7 +88,7 @@
             this.label4.Location = new System.Drawing.Point(31, 878);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(122, 20);
+            this.label4.Size = new System.Drawing.Size(149, 24);
             this.label4.TabIndex = 65;
             this.label4.Text = "Clinic Administrator";
             // 
@@ -117,15 +117,16 @@
             this.dataGridViewPatients.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridViewPatients.BackgroundColor = System.Drawing.Color.White;
             this.dataGridViewPatients.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewPatients.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewPatients.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridViewPatients.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewPatients.EnableHeadersVisualStyles = false;
             this.dataGridViewPatients.Location = new System.Drawing.Point(286, 195);
             this.dataGridViewPatients.Margin = new System.Windows.Forms.Padding(4);
             this.dataGridViewPatients.Name = "dataGridViewPatients";
@@ -152,7 +153,7 @@
             this.label1.Location = new System.Drawing.Point(32, 822);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(69, 22);
+            this.label1.Size = new System.Drawing.Size(88, 29);
             this.label1.TabIndex = 83;
             this.label1.Text = "Admin";
             // 
@@ -164,7 +165,7 @@
             this.label3.Location = new System.Drawing.Point(32, 849);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(122, 20);
+            this.label3.Size = new System.Drawing.Size(149, 24);
             this.label3.TabIndex = 82;
             this.label3.Text = "Clinic Administrator";
             // 
@@ -176,7 +177,7 @@
             this.label6.Location = new System.Drawing.Point(20, 474);
             this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(138, 22);
+            this.label6.Size = new System.Drawing.Size(173, 29);
             this.label6.TabIndex = 78;
             this.label6.Text = "Quick Actions";
             // 

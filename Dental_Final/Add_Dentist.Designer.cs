@@ -165,7 +165,7 @@
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(265, 44);
             this.button1.TabIndex = 52;
-            this.button1.Text = "Submit";
+            this.button1.Text = "Add Dentist";
             this.button1.UseVisualStyleBackColor = false;
             // 
             // dtpBirthDate
@@ -358,7 +358,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.checkedListBox1);
             this.Name = "Add_Dentist";
-            this.Text = "Add_Dentist";
+            this.Text = "Add Dentist";
             this.ResumeLayout(false);
             this.PerformLayout();
 

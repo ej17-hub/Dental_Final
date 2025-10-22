@@ -24,9 +24,18 @@ namespace Dental_Final
 
             dataGridViewServices.AllowUserToAddRows = false;
 
+            // Make only the column headers bold and keep cell text regular
+            dataGridViewServices.EnableHeadersVisualStyles = false;
+            dataGridViewServices.ColumnHeadersDefaultCellStyle.Font = new Font(dataGridViewServices.Font, FontStyle.Bold);
+            dataGridViewServices.DefaultCellStyle.Font = new Font(dataGridViewServices.Font, FontStyle.Regular);
+
             // Ensure single subscription to prevent the handler running multiple times
             dataGridViewServices.CellContentClick -= dataGridViewServices_CellContentClick_1;
             dataGridViewServices.CellContentClick += dataGridViewServices_CellContentClick_1;
+
+            // Ensure single subscription for formatting the Price column to show peso sign
+            dataGridViewServices.CellFormatting -= DataGridViewServices_CellFormatting;
+            dataGridViewServices.CellFormatting += DataGridViewServices_CellFormatting;
         }
 
         private void LoadServicesData()
@@ -82,10 +91,41 @@ namespace Dental_Final
                 }
 
                 // Rename headers
-                dataGridViewServices.Columns["name"].HeaderText = "Service Name";
-                dataGridViewServices.Columns["price"].HeaderText = "Price";
-                dataGridViewServices.Columns["description"].HeaderText = "Description";
-                dataGridViewServices.Columns["duration_minutes"].HeaderText = "Duration (min)";
+                if (dataGridViewServices.Columns.Contains("name"))
+                    dataGridViewServices.Columns["name"].HeaderText = "Service Name";
+                if (dataGridViewServices.Columns.Contains("price"))
+                {
+                    dataGridViewServices.Columns["price"].HeaderText = "Price";
+                    // keep price left-aligned to match other columns
+                    dataGridViewServices.Columns["price"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+                }
+                if (dataGridViewServices.Columns.Contains("description"))
+                    dataGridViewServices.Columns["description"].HeaderText = "Description";
+                if (dataGridViewServices.Columns.Contains("duration_minutes"))
+                    dataGridViewServices.Columns["duration_minutes"].HeaderText = "Duration (min)";
+            }
+        }
+
+        // Formats price cells to include the peso sign while keeping underlying value numeric
+        private void DataGridViewServices_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+            var grid = sender as DataGridView;
+            if (grid == null) return;
+            var col = grid.Columns[e.ColumnIndex];
+            if (col == null) return;
+
+            if (string.Equals(col.Name, "price", StringComparison.OrdinalIgnoreCase))
+            {
+                if (e.Value != null && e.Value != DBNull.Value)
+                {
+                    decimal val;
+                    if (decimal.TryParse(e.Value.ToString(), out val))
+                    {
+                        e.Value = "₱" + val.ToString("N2");
+                        e.FormattingApplied = true;
+                    }
+                }
             }
         }
 
@@ -172,7 +212,9 @@ namespace Dental_Final
 
         private void button1_Click(object sender, EventArgs e)
         {
-            //Appointments
+            Appointments appointments = new Appointments();
+            appointments.Show();
+            this.Hide();
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -184,7 +226,7 @@ namespace Dental_Final
 
         private void button4_Click(object sender, EventArgs e)
         {
-            Staff staff= new Staff();
+            Staff staff = new Staff();
             staff.Show();
             this.Hide();
         }

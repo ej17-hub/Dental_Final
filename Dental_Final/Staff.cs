@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -10,17 +11,17 @@ namespace Dental_Final
     public partial class Staff : Form
     {
         private readonly string connectionString = "Server=FANGON\\SQLEXPRESS;Database=dental_final_clinic;Trusted_Connection=True;";
-
         private readonly Dictionary<string, string> dayAbbreviations = new Dictionary<string, string>
-{
-    { "Monday", "M" },
-    { "Tuesday", "T" },
-    { "Wednesday", "W" },
-    { "Thursday", "Th" },
-    { "Friday", "F" },
-    { "Saturday", "Sat" },
-    { "Sunday", "Sun" }
-};
+        {
+            { "Monday", "M" },
+            { "Tuesday", "T" },
+            { "Wednesday", "W" },
+            { "Thursday", "Th" },
+            { "Friday", "F" },
+            { "Saturday", "Sat" },
+            { "Sunday", "Sun" }
+        };
+
         public Staff()
         {
             InitializeComponent();
@@ -43,7 +44,7 @@ namespace Dental_Final
             if (e.RowIndex < 0)
                 return;
 
-            // Get dentist_id from the selected row
+            // Get dentist_id from the hidden original-value column
             int dentistId = Convert.ToInt32(dataGridViewDentists.Rows[e.RowIndex].Cells["dentist_id"].Value);
 
             // Edit button clicked
@@ -84,7 +85,7 @@ namespace Dental_Final
             }
         }
 
-        // Loads dentists and displays only: dentist_id, Dentist (first last [mi] [suffix]), gender, specialization, email, available_days
+        // Loads dentists and displays only: formatted display id, Dentist (first last [mi] [suffix]), gender, specialization, email, available_days
         public void LoadDentists()
         {
             const string query = @"
@@ -123,94 +124,112 @@ namespace Dental_Final
                         }
                     }
 
-                    dataGridViewDentists.AutoGenerateColumns = true;
+                    // Add a display-only column that preserves the original integer dentist_id
+                    if (!dt.Columns.Contains("dentist_display_id"))
+                        dt.Columns.Add("dentist_display_id", typeof(string));
+
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        if (row["dentist_id"] != DBNull.Value)
+                        {
+                            int id = Convert.ToInt32(row["dentist_id"]);
+                            row["dentist_display_id"] = "#DT" + id.ToString("000");
+                        }
+                        else
+                        {
+                            row["dentist_display_id"] = string.Empty;
+                        }
+                    }
+
+                    dataGridViewDentists.AutoGenerateColumns = false;
                     dataGridViewDentists.DataSource = dt;
                     dataGridViewDentists.AllowUserToAddRows = false;
 
-                    // Remove old action columns if they exist
-                    if (dataGridViewDentists.Columns.Contains("Edit"))
-                        dataGridViewDentists.Columns.Remove("Edit");
-                    if (dataGridViewDentists.Columns.Contains("Delete"))
-                        dataGridViewDentists.Columns.Remove("Delete");
+                    // Clear existing columns
+                    dataGridViewDentists.Columns.Clear();
+
+                    // Hidden original dentist_id column (keeps integer value for actions)
+                    var dentistIdHidden = new DataGridViewTextBoxColumn
+                    {
+                        Name = "dentist_id",
+                        HeaderText = "Id",
+                        DataPropertyName = "dentist_id",
+                        Visible = false
+                    };
+                    dataGridViewDentists.Columns.Add(dentistIdHidden);
+
+                    // Visible formatted display column
+                    var dentistDisplayCol = new DataGridViewTextBoxColumn
+                    {
+                        Name = "dentist_display_id",
+                        HeaderText = "Dentist ID",
+                        DataPropertyName = "dentist_display_id",
+                        AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+                    };
+                    dataGridViewDentists.Columns.Add(dentistDisplayCol);
+
+                    // Add other visible data columns
+                    dataGridViewDentists.Columns.Add(new DataGridViewTextBoxColumn
+                    {
+                        Name = "Dentist",
+                        HeaderText = "Name",
+                        DataPropertyName = "Dentist",
+                        AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+                    });
+
+                    dataGridViewDentists.Columns.Add(new DataGridViewTextBoxColumn
+                    {
+                        Name = "gender",
+                        HeaderText = "Gender",
+                        DataPropertyName = "gender",
+                        AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+                    });
+
+                    dataGridViewDentists.Columns.Add(new DataGridViewTextBoxColumn
+                    {
+                        Name = "specialization",
+                        HeaderText = "Specialization",
+                        DataPropertyName = "specialization",
+                        AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+                    });
+
+                    dataGridViewDentists.Columns.Add(new DataGridViewTextBoxColumn
+                    {
+                        Name = "email",
+                        HeaderText = "Email",
+                        DataPropertyName = "email",
+                        AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+                    });
+
+                    dataGridViewDentists.Columns.Add(new DataGridViewTextBoxColumn
+                    {
+                        Name = "available_days",
+                        HeaderText = "Available Days",
+                        DataPropertyName = "available_days",
+                        AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+                    });
 
                     // Add Edit button column
-                    DataGridViewButtonColumn editColumn = new DataGridViewButtonColumn();
-                    editColumn.Name = "Edit";
-                    editColumn.HeaderText = "";
-                    editColumn.Text = "Edit";
-                    editColumn.UseColumnTextForButtonValue = true;
-                    editColumn.Width = 60;
+                    DataGridViewButtonColumn editColumn = new DataGridViewButtonColumn
+                    {
+                        Name = "Edit",
+                        HeaderText = "",
+                        Text = "Edit",
+                        UseColumnTextForButtonValue = true,
+                        Width = 60
+                    };
                     dataGridViewDentists.Columns.Add(editColumn);
 
                     // Add Delete button column
-                    DataGridViewButtonColumn deleteColumn = new DataGridViewButtonColumn();
-                    deleteColumn.Name = "Delete";
-                    deleteColumn.HeaderText = "";
-                    deleteColumn.Text = "Delete";
-                    deleteColumn.UseColumnTextForButtonValue = true;
-                    deleteColumn.Width = 60;
+                    DataGridViewButtonColumn deleteColumn = new DataGridViewButtonColumn
+                    {
+                        Name = "Delete",
+                        HeaderText = "",
+                        Text = "Delete",
+                        UseColumnTextForButtonValue = true,
+                        Width = 60
+                    };
                     dataGridViewDentists.Columns.Add(deleteColumn);
-
-                    // Ensure desired columns exist and set headers/order
-                    if (dataGridViewDentists.Columns.Contains("dentist_id"))
-                    {
-                        dataGridViewDentists.Columns["dentist_id"].HeaderText = "Dentist ID";
-                        dataGridViewDentists.Columns["dentist_id"].DisplayIndex = 0;
-                        dataGridViewDentists.Columns["dentist_id"].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-                    }
-
-                    if (dataGridViewDentists.Columns.Contains("Dentist"))
-                    {
-                        dataGridViewDentists.Columns["Dentist"].HeaderText = "Name";
-                        dataGridViewDentists.Columns["Dentist"].DisplayIndex = 1;
-                        dataGridViewDentists.Columns["Dentist"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                    }
-
-                    if (dataGridViewDentists.Columns.Contains("gender"))
-                    {
-                        dataGridViewDentists.Columns["gender"].HeaderText = "Gender";
-                        dataGridViewDentists.Columns["gender"].DisplayIndex = 2;
-                        dataGridViewDentists.Columns["gender"].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-                    }
-
-                    if (dataGridViewDentists.Columns.Contains("specialization"))
-                    {
-                        dataGridViewDentists.Columns["specialization"].HeaderText = "Specialization";
-                        dataGridViewDentists.Columns["specialization"].DisplayIndex = 3;
-                        dataGridViewDentists.Columns["specialization"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                    }
-
-                    if (dataGridViewDentists.Columns.Contains("email"))
-                    {
-                        dataGridViewDentists.Columns["email"].HeaderText = "Email";
-                        dataGridViewDentists.Columns["email"].DisplayIndex = 4;
-                        dataGridViewDentists.Columns["email"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                    }
-
-                    if (dataGridViewDentists.Columns.Contains("available_days"))
-                    {
-                        dataGridViewDentists.Columns["available_days"].HeaderText = "Available Days";
-                        dataGridViewDentists.Columns["available_days"].DisplayIndex = 5;
-                        dataGridViewDentists.Columns["available_days"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                    }
-
-                    if (dataGridViewDentists.Columns.Contains("Edit"))
-                    {
-                        dataGridViewDentists.Columns["Edit"].DisplayIndex = 6; // Or whatever position you prefer
-                    }
-
-                    if (dataGridViewDentists.Columns.Contains("Delete"))
-                    {
-                        dataGridViewDentists.Columns["Delete"].DisplayIndex = 7; // Or whatever position you prefer
-                    }
-
-                    // Remove any other auto-generated columns
-                    var keep = new[] { "dentist_id", "Dentist", "gender", "specialization", "email", "available_days", "Edit", "Delete" };
-                    foreach (DataGridViewColumn col in dataGridViewDentists.Columns.Cast<DataGridViewColumn>().ToList())
-                    {
-                        if (!keep.Contains(col.Name))
-                            dataGridViewDentists.Columns.Remove(col.Name);
-                    }
                 }
             }
             catch (Exception ex)
@@ -224,6 +243,7 @@ namespace Dental_Final
 
         }
 
+        // Load staff with formatted display id (#STxxx) while keeping underlying staff_id integer
         public void LoadStaff()
         {
             const string query = @"
@@ -247,6 +267,23 @@ ORDER BY last_name, first_name;";
                     var dt = new DataTable();
                     da.Fill(dt);
 
+                    // Add display-only staff_display_id column
+                    if (!dt.Columns.Contains("staff_display_id"))
+                        dt.Columns.Add("staff_display_id", typeof(string));
+
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        if (row["staff_id"] != DBNull.Value)
+                        {
+                            int id = Convert.ToInt32(row["staff_id"]);
+                            row["staff_display_id"] = "#ST" + id.ToString("000");
+                        }
+                        else
+                        {
+                            row["staff_display_id"] = string.Empty;
+                        }
+                    }
+
                     dataGridViewStaff.AutoGenerateColumns = false;
                     dataGridViewStaff.DataSource = dt;
                     dataGridViewStaff.AllowUserToAddRows = false;
@@ -254,15 +291,27 @@ ORDER BY last_name, first_name;";
                     // Clear all columns first
                     dataGridViewStaff.Columns.Clear();
 
-                    // Add data columns
-                    dataGridViewStaff.Columns.Add(new DataGridViewTextBoxColumn
+                    // Hidden original staff_id column (keeps integer value for actions)
+                    var staffIdHidden = new DataGridViewTextBoxColumn
                     {
                         Name = "staff_id",
-                        HeaderText = "Staff ID",
+                        HeaderText = "Id",
                         DataPropertyName = "staff_id",
-                        AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
-                    });
+                        Visible = false
+                    };
+                    dataGridViewStaff.Columns.Add(staffIdHidden);
 
+                    // Visible formatted staff display column
+                    var staffDisplayCol = new DataGridViewTextBoxColumn
+                    {
+                        Name = "staff_display_id",
+                        HeaderText = "Staff ID",
+                        DataPropertyName = "staff_display_id",
+                        AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+                    };
+                    dataGridViewStaff.Columns.Add(staffDisplayCol);
+
+                    // Name
                     dataGridViewStaff.Columns.Add(new DataGridViewTextBoxColumn
                     {
                         Name = "Name",
@@ -321,7 +370,6 @@ ORDER BY last_name, first_name;";
             Add_Staff addStaffForm = new Add_Staff();
             addStaffForm.ShowDialog();
             LoadStaff();
-
         }
 
         private void dataGridViewStaff_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -329,6 +377,7 @@ ORDER BY last_name, first_name;";
             if (e.RowIndex < 0)
                 return;
 
+            // Get underlying integer staff_id from hidden column
             int staffId = Convert.ToInt32(dataGridViewStaff.Rows[e.RowIndex].Cells["staff_id"].Value);
 
             // Edit button clicked
@@ -386,7 +435,6 @@ ORDER BY last_name, first_name;";
             Patients patients = new Patients();
             patients.Show();
             this.Hide();
-
         }
 
         private void button5_Click(object sender, EventArgs e)
@@ -394,7 +442,6 @@ ORDER BY last_name, first_name;";
             Services services = new Services();
             services.Show();
             this.Hide();
-
         }
     }
 }

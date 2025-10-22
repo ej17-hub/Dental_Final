@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
@@ -18,7 +19,7 @@ namespace Dental_Final
 
             // load lookups
             LoadPatientsIntoComboBox();
-            LoadDentistsIntoComboBox();
+            LoadDentistsIntoComboBox(); // loads based on the current date picker value
             LoadStaffIntoComboBoxes();
 
             // services checkbox list
@@ -26,6 +27,18 @@ namespace Dental_Final
 
             this.button2.Click -= Button2_Click;
             this.button2.Click += Button2_Click;
+
+            // Re-load dentists when the appointment date changes so only available dentists show
+            if (this.dateTimePicker1 != null)
+            {
+                this.dateTimePicker1.ValueChanged -= DateTimePicker1_ValueChanged;
+                this.dateTimePicker1.ValueChanged += DateTimePicker1_ValueChanged;
+            }
+        }
+
+        private void DateTimePicker1_ValueChanged(object sender, EventArgs e)
+        {
+            LoadDentistsIntoComboBox();
         }
 
         // Checks whether a column exists on a table (dbo schema)
@@ -40,6 +53,19 @@ namespace Dental_Final
                 conn.Open();
                 var r = cmd.ExecuteScalar();
                 return r != null;
+            }
+        }
+
+        // Check table existence (used to detect appointments_services linking table)
+        private bool TableExists(string tableName)
+        {
+            const string sql = "SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND TABLE_NAME = @table";
+            using (var conn = new SqlConnection(connectionString))
+            using (var cmd = new SqlCommand(sql, conn))
+            {
+                cmd.Parameters.AddWithValue("@table", tableName);
+                conn.Open();
+                return cmd.ExecuteScalar() != null;
             }
         }
 
@@ -88,25 +114,46 @@ namespace Dental_Final
 
         private void LoadDentistsIntoComboBox()
         {
-            string select;
+            // Determine selected day name from date picker (falls back to today if control missing)
+            string dayName = (this.dateTimePicker1 != null) ? this.dateTimePicker1.Value.DayOfWeek.ToString() : DateTime.Today.DayOfWeek.ToString();
+
+            // Build base select depending on available name columns
+            string selectBase;
+            string orderBy;
             if (ColumnExists("dentists", "first_name") && ColumnExists("dentists", "last_name"))
             {
-                select = "SELECT dentist_id, RTRIM(ISNULL(first_name,'')) + ' ' + RTRIM(ISNULL(last_name,'')) AS display_name FROM dentists ORDER BY last_name, first_name";
+                selectBase = "SELECT dentist_id, RTRIM(ISNULL(first_name,'')) + ' ' + RTRIM(ISNULL(last_name,'')) AS display_name FROM dentists";
+                orderBy = " ORDER BY last_name, first_name";
             }
             else if (ColumnExists("dentists", "name"))
             {
-                select = "SELECT dentist_id, RTRIM(ISNULL(name,'')) AS display_name FROM dentists ORDER BY name";
+                selectBase = "SELECT dentist_id, RTRIM(ISNULL(name,'')) AS display_name FROM dentists";
+                orderBy = " ORDER BY name";
             }
             else
             {
-                select = "SELECT dentist_id, CONVERT(varchar(20), dentist_id) AS display_name FROM dentists ORDER BY dentist_id";
+                selectBase = "SELECT dentist_id, CONVERT(varchar(20), dentist_id) AS display_name FROM dentists";
+                orderBy = " ORDER BY dentist_id";
             }
+
+            // If dentists table has available_days column, filter dentists by the dayName
+            bool hasAvailableDays = ColumnExists("dentists", "available_days");
+            string finalSql = selectBase;
+            if (hasAvailableDays)
+            {
+                // Use CHARINDEX to find the day token; assumes available_days contains day names (e.g. 'Monday, Tuesday')
+                finalSql += " WHERE CHARINDEX(@day, available_days) > 0";
+            }
+            finalSql += orderBy;
 
             try
             {
                 using (var conn = new SqlConnection(connectionString))
-                using (var cmd = new SqlCommand(select, conn))
+                using (var cmd = new SqlCommand(finalSql, conn))
                 {
+                    if (hasAvailableDays)
+                        cmd.Parameters.AddWithValue("@day", dayName);
+
                     conn.Open();
                     using (var rdr = cmd.ExecuteReader())
                     {
@@ -214,7 +261,6 @@ namespace Dental_Final
 
         private void button1_Click(object sender, EventArgs e)
         {
-
             // Patient
             var patientItem = comboBox2.SelectedItem as ServiceItem;
             if (patientItem == null || patientItem.Id <= 0)
@@ -238,35 +284,41 @@ namespace Dental_Final
             int? staff2Id = (staff2Item != null && staff2Item.Id > 0) ? staff2Item.Id : (int?)null;
 
             // Services (multiple)
-            var selectedServices = checkedListBoxServices.CheckedItems
+            var selectedServiceItems = checkedListBoxServices.CheckedItems
                 .OfType<ServiceItem>()
-                .Select(si => si.Id)
                 .ToList();
 
-            if (selectedServices.Count == 0)
+            if (selectedServiceItems.Count == 0)
             {
                 MessageBox.Show("Please select at least one service.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             // Appointment date (from date picker) and time (from time picker)
-            // Ensure your designer has dateTimePicker1 (date) and dateTimePicker2 (time).
             DateTime apptDate;
             TimeSpan apptTime;
 
-            // get date from dateTimePicker1 (date-only)
             if (dateTimePicker1 != null)
                 apptDate = dateTimePicker1.Value.Date;
             else
                 apptDate = DateTime.Today;
 
-            // get time from dateTimePicker2 (time-only) — fall back to midnight if missing
             if (dateTimePicker2 != null)
                 apptTime = dateTimePicker2.Value.TimeOfDay;
             else
                 apptTime = TimeSpan.Zero;
 
-            string notes = null; // set if you have a notes textbox (e.g. txtNotes.Text)
+            // NOTES: use the actual designer TextBox (textBox2) for notes
+            // Designer shows a multiline TextBox named textBox2 for notes.
+            string notes = null;
+            if (this.textBox2 != null)
+            {
+                notes = string.IsNullOrWhiteSpace(this.textBox2.Text) ? null : this.textBox2.Text.Trim();
+            }
+
+            // collect service IDs and names
+            var serviceIds = selectedServiceItems.Select(si => si.Id).ToList();
+            var serviceNames = selectedServiceItems.Select(si => si.Name).ToList();
 
             using (var conn = new SqlConnection(connectionString))
             {
@@ -275,26 +327,97 @@ namespace Dental_Final
                 {
                     try
                     {
-                        const string insertSql = @"
-                        INSERT INTO appointments
-                            (patient_id, dentist_id, service_id, appointment_date, appointment_time, staff_assign_1, staff_assign_2, notes, created_at)
-                        VALUES
-                            (@patient_id, @dentist_id, @service_id, @appointment_date, @appointment_time, @staff1, @staff2, @notes, GETDATE())";
-
-                        foreach (var serviceId in selectedServices)
+                        // compute total price for selected services
+                        decimal? totalPrice = null;
+                        if (serviceIds.Any())
                         {
-                            using (var cmd = new SqlCommand(insertSql, conn, tran))
-                            {
-                                cmd.Parameters.AddWithValue("@patient_id", patientItem.Id);
-                                cmd.Parameters.AddWithValue("@dentist_id", dentistItem.Id);
-                                cmd.Parameters.AddWithValue("@service_id", serviceId);
-                                cmd.Parameters.Add("@appointment_date", SqlDbType.Date).Value = apptDate;
-                                cmd.Parameters.Add("@appointment_time", SqlDbType.Time).Value = apptTime;
-                                cmd.Parameters.AddWithValue("@staff1", staff1Id.HasValue ? (object)staff1Id.Value : DBNull.Value);
-                                cmd.Parameters.AddWithValue("@staff2", staff2Id.HasValue ? (object)staff2Id.Value : DBNull.Value);
-                                cmd.Parameters.AddWithValue("@notes", string.IsNullOrEmpty(notes) ? (object)DBNull.Value : notes);
+                            var pnames = serviceIds.Select((s, i) => "@s" + i).ToArray();
+                            var sumSql = $"SELECT SUM(price) FROM services WHERE service_id IN ({string.Join(",", pnames)})";
 
-                                cmd.ExecuteNonQuery();
+                            using (var sumCmd = new SqlCommand(sumSql, conn, tran))
+                            {
+                                for (int i = 0; i < serviceIds.Count; i++)
+                                    sumCmd.Parameters.AddWithValue(pnames[i], serviceIds[i]);
+
+                                var s = sumCmd.ExecuteScalar();
+                                if (s != DBNull.Value && s != null)
+                                    totalPrice = Convert.ToDecimal(s);
+                            }
+                        }
+
+                        // Insert one appointment row. service_id column keeps first service for backward compatibility.
+                        int? serviceIdForColumn = serviceIds.FirstOrDefault();
+
+                        // include price column if it exists
+                        bool hasPriceColumn = ColumnExists("appointments", "price");
+
+                        string insertSql;
+                        if (hasPriceColumn)
+                        {
+                            insertSql = @"
+                    INSERT INTO appointments
+                        (patient_id, dentist_id, service_id, appointment_date, appointment_time, staff_assign_1, staff_assign_2, notes, price, created_at)
+                    VALUES
+                        (@patient_id, @dentist_id, @service_id, @appointment_date, @appointment_time, @staff1, @staff2, @notes, @price, GETDATE());
+                    SELECT CAST(SCOPE_IDENTITY() AS int);
+                ";
+                        }
+                        else
+                        {
+                            insertSql = @"
+                    INSERT INTO appointments
+                        (patient_id, dentist_id, service_id, appointment_date, appointment_time, staff_assign_1, staff_assign_2, notes, created_at)
+                    VALUES
+                        (@patient_id, @dentist_id, @service_id, @appointment_date, @appointment_time, @staff1, @staff2, @notes, GETDATE());
+                    SELECT CAST(SCOPE_IDENTITY() AS int);
+                ";
+                        }
+
+                        int newAppointmentId;
+                        using (var cmd = new SqlCommand(insertSql, conn, tran))
+                        {
+                            cmd.Parameters.AddWithValue("@patient_id", patientItem.Id);
+                            cmd.Parameters.AddWithValue("@dentist_id", dentistItem.Id);
+                            if (serviceIdForColumn.HasValue)
+                                cmd.Parameters.AddWithValue("@service_id", serviceIdForColumn.Value);
+                            else
+                                cmd.Parameters.AddWithValue("@service_id", DBNull.Value);
+                            cmd.Parameters.Add("@appointment_date", SqlDbType.Date).Value = apptDate;
+                            cmd.Parameters.Add("@appointment_time", SqlDbType.Time).Value = apptTime;
+                            cmd.Parameters.AddWithValue("@staff1", staff1Id.HasValue ? (object)staff1Id.Value : DBNull.Value);
+                            cmd.Parameters.AddWithValue("@staff2", staff2Id.HasValue ? (object)staff2Id.Value : DBNull.Value);
+                            cmd.Parameters.AddWithValue("@notes", string.IsNullOrEmpty(notes) ? (object)DBNull.Value : notes);
+
+                            if (hasPriceColumn)
+                            {
+                                if (totalPrice.HasValue)
+                                {
+                                    var p = cmd.Parameters.Add("@price", SqlDbType.Decimal);
+                                    p.Value = totalPrice.Value;
+                                }
+                                else
+                                {
+                                    cmd.Parameters.AddWithValue("@price", DBNull.Value);
+                                }
+                            }
+
+                            newAppointmentId = (int)cmd.ExecuteScalar();
+                        }
+
+                        // If a linking table exists, insert rows mapping the appointment to each selected service.
+                        if (TableExists("appointments_services"))
+                        {
+                            const string linkInsert = "INSERT INTO appointments_services (appointment_id, service_id) VALUES (@aid, @sid)";
+                            using (var linkCmd = new SqlCommand(linkInsert, conn, tran))
+                            {
+                                linkCmd.Parameters.Add("@aid", SqlDbType.Int).Value = newAppointmentId;
+                                linkCmd.Parameters.Add("@sid", SqlDbType.Int);
+
+                                foreach (var sid in serviceIds)
+                                {
+                                    linkCmd.Parameters["@sid"].Value = sid;
+                                    linkCmd.ExecuteNonQuery();
+                                }
                             }
                         }
 

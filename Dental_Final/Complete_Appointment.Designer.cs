@@ -90,6 +90,7 @@
             this.button2.TabIndex = 133;
             this.button2.Text = "Return";
             this.button2.UseVisualStyleBackColor = false;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // label8
             // 
@@ -114,6 +115,7 @@
             this.button1.TabIndex = 131;
             this.button1.Text = "Submit";
             this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // label4
             // 
