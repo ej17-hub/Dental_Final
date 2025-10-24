@@ -72,12 +72,12 @@ namespace Dental_Final
 
         private void button1_Click(object sender, EventArgs e)
         {
-            
-                // Collect availability days
-                var days = checkedListBox1.CheckedItems.Cast<string>().ToArray();
-                string availableDays = days.Length > 0 ? string.Join(",", days) : null;
 
-                string query = @"UPDATE dentists SET 
+            // Collect availability days
+            var days = checkedListBox1.CheckedItems.Cast<string>().ToArray();
+            string availableDays = days.Length > 0 ? string.Join(",", days) : null;
+
+            string query = @"UPDATE dentists SET 
                 first_name = @FirstName,
                 last_name = @LastName,
                 middle_initial = @MiddleInitial,
@@ -91,44 +91,53 @@ namespace Dental_Final
                 birthdate = @Birthdate
                 WHERE dentist_id = @DentistId";
 
-                using (SqlConnection conn = new SqlConnection(connectionString))
-                using (SqlCommand cmd = new SqlCommand(query, conn))
-                {
-                    // Add parameters similar to Add_Dentist save method
-                    cmd.Parameters.AddWithValue("@FirstName", txtFirstName.Text.Trim());
-                    cmd.Parameters.AddWithValue("@LastName", txtLastName.Text.Trim());
-                    cmd.Parameters.AddWithValue("@MiddleInitial",
-                        string.IsNullOrWhiteSpace(txtMiddleInitial.Text) ? DBNull.Value : (object)txtMiddleInitial.Text.Trim());
-                    cmd.Parameters.AddWithValue("@Suffix",
-                        string.IsNullOrWhiteSpace(txtSuffix.Text) ? DBNull.Value : (object)txtSuffix.Text.Trim());
-                    cmd.Parameters.AddWithValue("@Email",
-                        string.IsNullOrWhiteSpace(txtEmail.Text) ? DBNull.Value : (object)txtEmail.Text.Trim());
-                    cmd.Parameters.AddWithValue("@Phone",
-                        string.IsNullOrWhiteSpace(txtPhone.Text) ? DBNull.Value : (object)txtPhone.Text.Trim());
-                    cmd.Parameters.AddWithValue("@Gender",
-                        string.IsNullOrWhiteSpace(cmbGender.Text) ? DBNull.Value : (object)cmbGender.Text);
-                    cmd.Parameters.AddWithValue("@Specialization",
-                        string.IsNullOrWhiteSpace(textBox1.Text) ? DBNull.Value : (object)textBox1.Text.Trim());
-                    cmd.Parameters.AddWithValue("@Bio",
-                        string.IsNullOrWhiteSpace(txtAddress.Text) ? DBNull.Value : (object)txtAddress.Text.Trim());
-                    cmd.Parameters.AddWithValue("@AvailableDays",
-                        string.IsNullOrWhiteSpace(availableDays) ? DBNull.Value : (object)availableDays);
-                    cmd.Parameters.AddWithValue("@Birthdate", dtpBirthDate.Value);
-                    cmd.Parameters.AddWithValue("@DentistId", _dentistId);
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlCommand cmd = new SqlCommand(query, conn))
+            {
+                // Add parameters similar to Add_Dentist save method
+                cmd.Parameters.AddWithValue("@FirstName", txtFirstName.Text.Trim());
+                cmd.Parameters.AddWithValue("@LastName", txtLastName.Text.Trim());
+                cmd.Parameters.AddWithValue("@MiddleInitial",
+                    string.IsNullOrWhiteSpace(txtMiddleInitial.Text) ? DBNull.Value : (object)txtMiddleInitial.Text.Trim());
+                cmd.Parameters.AddWithValue("@Suffix",
+                    string.IsNullOrWhiteSpace(txtSuffix.Text) ? DBNull.Value : (object)txtSuffix.Text.Trim());
+                cmd.Parameters.AddWithValue("@Email",
+                    string.IsNullOrWhiteSpace(txtEmail.Text) ? DBNull.Value : (object)txtEmail.Text.Trim());
+                cmd.Parameters.AddWithValue("@Phone",
+                    string.IsNullOrWhiteSpace(txtPhone.Text) ? DBNull.Value : (object)txtPhone.Text.Trim());
+                cmd.Parameters.AddWithValue("@Gender",
+                    string.IsNullOrWhiteSpace(cmbGender.Text) ? DBNull.Value : (object)cmbGender.Text);
+                cmd.Parameters.AddWithValue("@Specialization",
+                    string.IsNullOrWhiteSpace(textBox1.Text) ? DBNull.Value : (object)textBox1.Text.Trim());
+                cmd.Parameters.AddWithValue("@Bio",
+                    string.IsNullOrWhiteSpace(txtAddress.Text) ? DBNull.Value : (object)txtAddress.Text.Trim());
+                cmd.Parameters.AddWithValue("@AvailableDays",
+                    string.IsNullOrWhiteSpace(availableDays) ? DBNull.Value : (object)availableDays);
+                cmd.Parameters.AddWithValue("@Birthdate", dtpBirthDate.Value);
+                cmd.Parameters.AddWithValue("@DentistId", _dentistId);
 
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                    MessageBox.Show("Dentist updated successfully.");
+
+                    // Log activity (safe swallow)
                     try
                     {
-                        conn.Open();
-                        cmd.ExecuteNonQuery();
-                        MessageBox.Show("Dentist updated successfully.");
-                        this.Close();
+                        var fullName = (txtFirstName.Text.Trim() + " " + txtLastName.Text.Trim()).Trim();
+                        ActivityLogger.Log($"Admin updated dentist '{fullName}'");
                     }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Error updating dentist: " + ex.Message);
-                    }
+                    catch { }
+
+                    this.Close();
                 }
-            
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error updating dentist: " + ex.Message);
+                }
+            }
+
         }
     }
 }

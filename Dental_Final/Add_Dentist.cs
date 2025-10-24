@@ -89,8 +89,18 @@ namespace Dental_Final
                 try
                 {
                     conn.Open();
+                    // existing behavior used ExecuteNonQuery; keep insert and still return success message
                     cmd.ExecuteNonQuery();
                     MessageBox.Show("Dentist saved successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    // Log activity (swallow logging errors)
+                    try
+                    {
+                        var fullName = (txtFirstName.Text.Trim() + " " + txtLastName.Text.Trim()).Trim();
+                        ActivityLogger.Log($"Admin added dentist '{fullName}'");
+                    }
+                    catch { }
+
                     this.Close();
                 }
                 catch (Exception ex)
@@ -107,7 +117,7 @@ namespace Dental_Final
 
         private void checkedListBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            
+
         }
     }
 }

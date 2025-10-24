@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActivityLogger.cs" />
     <Compile Include="Adding_Patient.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -41,6 +41,14 @@ namespace Dental_Final
 
                         cmd.ExecuteNonQuery();
                         MessageBox.Show("Staff information saved successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        // Log activity (swallow logging errors)
+                        try
+                        {
+                            var fullName = (txtFirstName.Text.Trim() + " " + txtLastName.Text.Trim()).Trim();
+                            ActivityLogger.Log($"Admin added staff '{fullName}'");
+                        }
+                        catch { }
                     }
                 }
             }

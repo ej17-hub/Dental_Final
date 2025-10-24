@@ -73,6 +73,14 @@ namespace Dental_Final
                     cmd.ExecuteNonQuery();
                     MessageBox.Show("Patient information saved successfully.");
 
+                    // Log activity (swallow logging errors)
+                    try
+                    {
+                        var fullName = (firstName + " " + lastName).Trim();
+                        ActivityLogger.Log($"Admin added patient '{fullName}'");
+                    }
+                    catch { }
+
                     Patients pats = new Patients();
                     pats.Show();
                     this.Hide();

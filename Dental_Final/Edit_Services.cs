@@ -22,7 +22,7 @@ namespace Dental_Final
         public Edit_Services(int id)
         {
             InitializeComponent();
-           
+
             s.Show();
             s.WindowState = FormWindowState.Maximized;
             serviceId = id;
@@ -91,6 +91,14 @@ namespace Dental_Final
                         if (result > 0)
                         {
                             MessageBox.Show("Service updated successfully!");
+
+                            // Log activity (safe swallow)
+                            try
+                            {
+                                ActivityLogger.Log($"Admin updated service '{serviceName}'");
+                            }
+                            catch { }
+
                             s.Close();
                             Services servicesForm = new Services();
                             servicesForm.Show();

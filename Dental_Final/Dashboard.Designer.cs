@@ -32,10 +32,10 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.lblTodayAppointment = new System.Windows.Forms.Label();
-            this.lblWaitingPatients = new System.Windows.Forms.Label();
-            this.lblAvailableDentists = new System.Windows.Forms.Label();
-            this.lblCompletedAppointments = new System.Windows.Forms.Label();
+            this.lblTodayAppt = new System.Windows.Forms.Label();
+            this.lblCompleted = new System.Windows.Forms.Label();
+            this.lblCancelled = new System.Windows.Forms.Label();
+            this.lblRevenue = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
@@ -57,6 +57,10 @@
             this.pictureBox6 = new System.Windows.Forms.PictureBox();
             this.label7 = new System.Windows.Forms.Label();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -102,53 +106,53 @@
             this.label3.TabIndex = 27;
             this.label3.Text = "Welcome Back, Admin!";
             // 
-            // lblTodayAppointment
+            // lblTodayAppt
             // 
-            this.lblTodayAppointment.AutoSize = true;
-            this.lblTodayAppointment.BackColor = System.Drawing.Color.Transparent;
-            this.lblTodayAppointment.Font = new System.Drawing.Font("Arial", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTodayAppointment.Location = new System.Drawing.Point(346, 177);
-            this.lblTodayAppointment.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblTodayAppointment.Name = "lblTodayAppointment";
-            this.lblTodayAppointment.Size = new System.Drawing.Size(55, 40);
-            this.lblTodayAppointment.TabIndex = 29;
-            this.lblTodayAppointment.Text = "10";
+            this.lblTodayAppt.AutoSize = true;
+            this.lblTodayAppt.BackColor = System.Drawing.Color.Transparent;
+            this.lblTodayAppt.Font = new System.Drawing.Font("Arial", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTodayAppt.Location = new System.Drawing.Point(337, 177);
+            this.lblTodayAppt.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblTodayAppt.Name = "lblTodayAppt";
+            this.lblTodayAppt.Size = new System.Drawing.Size(49, 35);
+            this.lblTodayAppt.TabIndex = 29;
+            this.lblTodayAppt.Text = "10";
             // 
-            // lblWaitingPatients
+            // lblCompleted
             // 
-            this.lblWaitingPatients.AutoSize = true;
-            this.lblWaitingPatients.BackColor = System.Drawing.Color.Transparent;
-            this.lblWaitingPatients.Font = new System.Drawing.Font("Arial", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblWaitingPatients.Location = new System.Drawing.Point(658, 177);
-            this.lblWaitingPatients.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblWaitingPatients.Name = "lblWaitingPatients";
-            this.lblWaitingPatients.Size = new System.Drawing.Size(55, 40);
-            this.lblWaitingPatients.TabIndex = 31;
-            this.lblWaitingPatients.Text = "10";
+            this.lblCompleted.AutoSize = true;
+            this.lblCompleted.BackColor = System.Drawing.Color.Transparent;
+            this.lblCompleted.Font = new System.Drawing.Font("Arial", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCompleted.Location = new System.Drawing.Point(662, 177);
+            this.lblCompleted.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblCompleted.Name = "lblCompleted";
+            this.lblCompleted.Size = new System.Drawing.Size(49, 35);
+            this.lblCompleted.TabIndex = 31;
+            this.lblCompleted.Text = "10";
             // 
-            // lblAvailableDentists
+            // lblCancelled
             // 
-            this.lblAvailableDentists.AutoSize = true;
-            this.lblAvailableDentists.BackColor = System.Drawing.Color.Transparent;
-            this.lblAvailableDentists.Font = new System.Drawing.Font("Arial", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblAvailableDentists.Location = new System.Drawing.Point(965, 177);
-            this.lblAvailableDentists.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblAvailableDentists.Name = "lblAvailableDentists";
-            this.lblAvailableDentists.Size = new System.Drawing.Size(55, 40);
-            this.lblAvailableDentists.TabIndex = 33;
-            this.lblAvailableDentists.Text = "10";
+            this.lblCancelled.AutoSize = true;
+            this.lblCancelled.BackColor = System.Drawing.Color.Transparent;
+            this.lblCancelled.Font = new System.Drawing.Font("Arial", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCancelled.Location = new System.Drawing.Point(966, 177);
+            this.lblCancelled.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblCancelled.Name = "lblCancelled";
+            this.lblCancelled.Size = new System.Drawing.Size(49, 35);
+            this.lblCancelled.TabIndex = 33;
+            this.lblCancelled.Text = "10";
             // 
-            // lblCompletedAppointments
+            // lblRevenue
             // 
-            this.lblCompletedAppointments.AutoSize = true;
-            this.lblCompletedAppointments.BackColor = System.Drawing.Color.Transparent;
-            this.lblCompletedAppointments.Font = new System.Drawing.Font("Arial", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCompletedAppointments.Location = new System.Drawing.Point(1285, 177);
-            this.lblCompletedAppointments.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblCompletedAppointments.Name = "lblCompletedAppointments";
-            this.lblCompletedAppointments.Size = new System.Drawing.Size(55, 40);
-            this.lblCompletedAppointments.TabIndex = 35;
-            this.lblCompletedAppointments.Text = "10";
+            this.lblRevenue.AutoSize = true;
+            this.lblRevenue.BackColor = System.Drawing.Color.Transparent;
+            this.lblRevenue.Font = new System.Drawing.Font("Arial", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblRevenue.Location = new System.Drawing.Point(1285, 177);
+            this.lblRevenue.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblRevenue.Name = "lblRevenue";
+            this.lblRevenue.Size = new System.Drawing.Size(49, 35);
+            this.lblRevenue.TabIndex = 35;
+            this.lblRevenue.Text = "10";
             // 
             // label4
             // 
@@ -395,11 +399,59 @@
             this.dataGridView2.Size = new System.Drawing.Size(1194, 103);
             this.dataGridView2.TabIndex = 46;
             // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.ForeColor = System.Drawing.Color.Black;
+            this.label8.Location = new System.Drawing.Point(340, 158);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(174, 20);
+            this.label8.TabIndex = 47;
+            this.label8.Text = "Today\'s Appointments";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.ForeColor = System.Drawing.Color.Black;
+            this.label9.Location = new System.Drawing.Point(663, 159);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(146, 20);
+            this.label9.TabIndex = 48;
+            this.label9.Text = "Completed Appts. ";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.ForeColor = System.Drawing.Color.Black;
+            this.label10.Location = new System.Drawing.Point(968, 159);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(160, 20);
+            this.label10.TabIndex = 49;
+            this.label10.Text = "Cancelled Appts.     ";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.ForeColor = System.Drawing.Color.Black;
+            this.label11.Location = new System.Drawing.Point(1287, 158);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(137, 20);
+            this.label11.TabIndex = 50;
+            this.label11.Text = "Today\'s Revenue";
+            // 
             // Dashboard
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.SystemColors.Window;
             this.ClientSize = new System.Drawing.Size(1558, 889);
+            this.Controls.Add(this.label11);
+            this.Controls.Add(this.label10);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.label8);
             this.Controls.Add(this.dataGridView2);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.dataGridView1);
@@ -407,10 +459,10 @@
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.lblCompletedAppointments);
-            this.Controls.Add(this.lblAvailableDentists);
-            this.Controls.Add(this.lblWaitingPatients);
-            this.Controls.Add(this.lblTodayAppointment);
+            this.Controls.Add(this.lblRevenue);
+            this.Controls.Add(this.lblCancelled);
+            this.Controls.Add(this.lblCompleted);
+            this.Controls.Add(this.lblTodayAppt);
             this.Controls.Add(this.pictureBox4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
@@ -457,10 +509,10 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.PictureBox pictureBox4;
-        private System.Windows.Forms.Label lblTodayAppointment;
-        private System.Windows.Forms.Label lblWaitingPatients;
-        private System.Windows.Forms.Label lblAvailableDentists;
-        private System.Windows.Forms.Label lblCompletedAppointments;
+        private System.Windows.Forms.Label lblTodayAppt;
+        private System.Windows.Forms.Label lblCompleted;
+        private System.Windows.Forms.Label lblCancelled;
+        private System.Windows.Forms.Label lblRevenue;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
@@ -473,5 +525,9 @@
         private System.Windows.Forms.PictureBox pictureBox6;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.DataGridView dataGridView2;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label11;
     }
 }

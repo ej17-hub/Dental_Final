@@ -85,6 +85,15 @@ namespace Dental_Final
 
                             cmd.ExecuteNonQuery();
                             MessageBox.Show("Staff information updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                            // Log activity (swallow logging errors)
+                            try
+                            {
+                                var fullName = (txtFirstName.Text.Trim() + " " + txtLastName.Text.Trim()).Trim();
+                                ActivityLogger.Log($"Admin updated staff '{fullName}'");
+                            }
+                            catch { }
+
                             this.Close();
                         }
                     }

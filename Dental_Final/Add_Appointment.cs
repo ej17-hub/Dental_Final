@@ -19,7 +19,7 @@ namespace Dental_Final
 
             // load lookups
             LoadPatientsIntoComboBox();
-            LoadDentistsIntoComboBox(); // loads based on the current date picker value
+            LoadDentistsIntoComboBox();
             LoadStaffIntoComboBoxes();
 
             // services checkbox list
@@ -27,18 +27,6 @@ namespace Dental_Final
 
             this.button2.Click -= Button2_Click;
             this.button2.Click += Button2_Click;
-
-            // Re-load dentists when the appointment date changes so only available dentists show
-            if (this.dateTimePicker1 != null)
-            {
-                this.dateTimePicker1.ValueChanged -= DateTimePicker1_ValueChanged;
-                this.dateTimePicker1.ValueChanged += DateTimePicker1_ValueChanged;
-            }
-        }
-
-        private void DateTimePicker1_ValueChanged(object sender, EventArgs e)
-        {
-            LoadDentistsIntoComboBox();
         }
 
         // Checks whether a column exists on a table (dbo schema)
@@ -422,6 +410,16 @@ namespace Dental_Final
                         }
 
                         tran.Commit();
+
+                        // Log activity
+                        try
+                        {
+                            DateTime dt = apptDate.Date + apptTime;
+                            // Format changed to: "10:30 AM January 2, 2025"
+                            ActivityLogger.Log($"Admin added an appointment for {patientItem.Name} on {dt:h:mm tt MMMM d, yyyy}");
+
+                        }
+                        catch { /* ignore logging errors */ }
 
                         // signal success to caller and close
                         this.DialogResult = DialogResult.OK;

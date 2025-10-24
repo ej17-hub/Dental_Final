@@ -79,6 +79,15 @@ namespace Dental_Final
                 conn.Open();
                 cmd.ExecuteNonQuery();
                 MessageBox.Show("Patient information updated successfully.");
+
+                // Log activity (swallow logging errors)
+                try
+                {
+                    var fullName = (textBoxFirstName.Text.Trim() + " " + textBoxLastName.Text.Trim()).Trim();
+                    ActivityLogger.Log($"Admin updated patient '{fullName}'");
+                }
+                catch { }
+
                 this.Hide();
             }
         }

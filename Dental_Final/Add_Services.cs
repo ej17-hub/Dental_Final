@@ -21,7 +21,7 @@ namespace Dental_Final
         public Add_Services()
         {
             InitializeComponent();
-         
+
             s.Show();
             s.WindowState = FormWindowState.Maximized;
         }
@@ -44,7 +44,7 @@ namespace Dental_Final
             txtDuration.Text = reader["duration_minutes"].ToString();
         }
 
-       
+
 
         private void button1_Click_1(object sender, EventArgs e)
         {
@@ -86,7 +86,14 @@ namespace Dental_Final
                             if (affected > 0)
                             {
                                 MessageBox.Show("Service updated successfully.");
-                                      
+
+                                // Log activity (safe swallow)
+                                try
+                                {
+                                    ActivityLogger.Log($"Admin added service named '{serviceName}'");
+                                }
+                                catch { }
+
                             }
 
                             else
@@ -95,8 +102,8 @@ namespace Dental_Final
                                 this.Close();
                             }
 
-                           
-                            
+
+
                         }
                         catch (Exception ex)
                         {
@@ -119,6 +126,14 @@ namespace Dental_Final
                         {
                             cmd.ExecuteNonQuery();
                             MessageBox.Show("Service added successfully.");
+
+                            // Log activity (safe swallow)
+                            try
+                            {
+                                ActivityLogger.Log($"Admin added service '{serviceName}' priced ₱{servicePrice:N2}");
+                            }
+                            catch { }
+
                             this.Close();
                             s.Close();
 

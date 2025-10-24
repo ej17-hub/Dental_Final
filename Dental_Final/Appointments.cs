@@ -229,11 +229,14 @@ namespace Dental_Final
                         {
                             var id = rdr["appointment_id"] != DBNull.Value ? Convert.ToInt32(rdr["appointment_id"]) : -1;
                             var apptDate = rdr["appointment_date"] != DBNull.Value ? Convert.ToDateTime(rdr["appointment_date"]) : DateTime.MinValue;
-                            var apptTime = rdr["appointment_time"] != DBNull.Value ? rdr["appointment_time"].ToString() : string.Empty;
+
+                            // read raw appointment_time (could be TIME, DATETIME or string)
+                            object apptTimeObj = rdr["appointment_time"];
+
+                            // Format price if present
                             decimal? price = null;
                             if (hasPrice && rdr["price"] != DBNull.Value)
                                 price = Convert.ToDecimal(rdr["price"]);
-                            // Format price using peso sign
                             var priceText = price.HasValue ? "₱" + price.Value.ToString("N2") : string.Empty;
 
                             var patient = rdr["patient_name"] != DBNull.Value ? rdr["patient_name"].ToString() : string.Empty;
@@ -260,7 +263,34 @@ namespace Dental_Final
                                 }
                             }
 
-                            var timeText = !string.IsNullOrEmpty(apptTime) ? apptTime : (apptDate != DateTime.MinValue ? apptDate.ToString("h:mm tt") : string.Empty);
+                            // Convert appointment_time to user-friendly 12-hour format (e.g. "4:00 PM")
+                            string timeText = string.Empty;
+                            if (apptTimeObj != null && apptTimeObj != DBNull.Value)
+                            {
+                                var apptTimeStr = apptTimeObj.ToString();
+
+                                // Try parse as TimeSpan first (SQL TIME -> "HH:mm:ss")
+                                TimeSpan ts;
+                                DateTime dt;
+                                if (TimeSpan.TryParse(apptTimeStr, out ts))
+                                {
+                                    timeText = DateTime.Today.Add(ts).ToString("h:mm tt");
+                                }
+                                else if (DateTime.TryParse(apptTimeStr, out dt))
+                                {
+                                    timeText = dt.ToString("h:mm tt");
+                                }
+                                else
+                                {
+                                    // fallback: show raw string
+                                    timeText = apptTimeStr;
+                                }
+                            }
+                            else if (apptDate != DateTime.MinValue)
+                            {
+                                // when time column is absent use appointment_date time part if available
+                                timeText = apptDate.ToString("h:mm tt");
+                            }
 
                             // classification rules:
                             // - cancelled appointments -> dataGridView3 ONLY if appointment_date == selectedDate

@@ -487,6 +487,14 @@ namespace Dental_Final
 
                         tran.Commit();
 
+                        // Log activity
+                        try
+                        {
+                            DateTime dt = apptDate.Date + apptTime;
+                            ActivityLogger.Log($"Admin updated an appointment for {label7.Text} on {dt:yyyy-MM-dd h:mm tt}");
+                        }
+                        catch { /* ignore logging errors */ }
+
                         this.DialogResult = DialogResult.OK;
                         this.Close();
                     }
