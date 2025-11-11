@@ -1,14 +1,15 @@
 ﻿using System;
+using System.Configuration;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using System.Data.SqlClient;
 
 namespace Dental_Final
 {
     public partial class Complete_Appointment : Form
     {
-        private readonly string connectionString = "Server=DESKTOP-PB8NME4\\SQLEXPRESS;Database=dental_final_clinic;Trusted_Connection=True;";
+        string connectionString = ConfigurationManager.ConnectionStrings["DentalClinicConnection"].ConnectionString;
 
         private int _appointmentId;
 

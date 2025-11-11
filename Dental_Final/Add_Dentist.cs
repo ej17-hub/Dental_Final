@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
@@ -9,8 +10,7 @@ namespace Dental_Final
 {
     public partial class Add_Dentist : Form
     {
-        private readonly string connectionString = "Server=DESKTOP-PB8NME4\\SQLEXPRESS;Database=dental_final_clinic;Trusted_Connection=True;";
-
+        string connectionString = ConfigurationManager.ConnectionStrings["DentalClinicConnection"].ConnectionString;
 
 
         public Add_Dentist()

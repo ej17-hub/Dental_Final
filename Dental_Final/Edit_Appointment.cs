@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace Dental_Final
     public partial class Edit_Appointment : Form
     {
         // match Add_Appointment connection string
-        private string connectionString = "Server=DESKTOP-PB8NME4\\SQLEXPRESS;Database=dental_final_clinic;Trusted_Connection=True;";
+        string connectionString = ConfigurationManager.ConnectionStrings["DentalClinicConnection"].ConnectionString;
 
 
         // Keep parameterless ctor for designer; use overload when opening for edit

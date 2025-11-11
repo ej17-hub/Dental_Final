@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
@@ -27,9 +28,9 @@ namespace Dental_Final
 
         private void LoadPatients()
         {
-                     string connectionString = "Server=DESKTOP-PB8NME4\\SQLEXPRESS;Database=dental_final_clinic;Trusted_Connection=True;";
+            string connectionString = ConfigurationManager.ConnectionStrings["DentalClinicConnection"].ConnectionString;
 
-        string query = @"SELECT 
+            string query = @"SELECT 
                                 patient_id, 
                                 first_name + ' ' + last_name AS Patient,
                                 email,
@@ -151,9 +152,9 @@ namespace Dental_Final
 
                 if (confirmResult == DialogResult.Yes)
                 {
-                            string connectionString = "Server=DESKTOP-PB8NME4\\SQLEXPRESS;Database=dental_final_clinic;Trusted_Connection=True;";
+                    string connectionString = ConfigurationManager.ConnectionStrings["DentalClinicConnection"].ConnectionString;
 
-        string query = "DELETE FROM patients WHERE patient_id = @PatientId";
+                    string query = "DELETE FROM patients WHERE patient_id = @PatientId";
 
                     using (SqlConnection conn = new SqlConnection(connectionString))
                     using (SqlCommand cmd = new SqlCommand(query, conn))

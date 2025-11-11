@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
@@ -16,7 +17,7 @@ namespace Dental_Final
         Services s = new Services();
 
         private int serviceId;
-        private string connectionString = "Server=DESKTOP-PB8NME4\\SQLEXPRESS;Database=dental_final_clinic;Trusted_Connection=True;";
+        string connectionString = ConfigurationManager.ConnectionStrings["DentalClinicConnection"].ConnectionString;
 
         public Edit_Services(int id)
         {

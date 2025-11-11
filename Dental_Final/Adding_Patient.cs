@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
@@ -32,11 +33,11 @@ namespace Dental_Final
 
         private void button1_Click(object sender, EventArgs e)
         {
-                     string connectionString = "Server=DESKTOP-PB8NME4\\SQLEXPRESS;Database=dental_final_clinic;Trusted_Connection=True;";
+            string connectionString = ConfigurationManager.ConnectionStrings["DentalClinicConnection"].ConnectionString;
 
 
-        // Collect data from form controls
-        string firstName = txtFirstName.Text.Trim();
+            // Collect data from form controls
+            string firstName = txtFirstName.Text.Trim();
             string lastName = txtLastName.Text.Trim();
             string middleInitial = txtMiddleInitial.Text.Trim();
             string suffix = txtSuffix.Text.Trim();
