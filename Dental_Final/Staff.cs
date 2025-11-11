@@ -10,7 +10,8 @@ namespace Dental_Final
 {
     public partial class Staff : Form
     {
-        private readonly string connectionString = "Server=FANGON\\SQLEXPRESS;Database=dental_final_clinic;Trusted_Connection=True;";
+        private readonly  string connectionString = "Server=DESKTOP-PB8NME4\\SQLEXPRESS;Database=dental_final_clinic;Trusted_Connection=True;";
+
         private readonly Dictionary<string, string> dayAbbreviations = new Dictionary<string, string>
         {
             { "Monday", "M" },
@@ -427,7 +428,9 @@ ORDER BY last_name, first_name;";
 
         private void button1_Click(object sender, EventArgs e)
         {
-            //appointments
+            Appointments appointments = new Appointments();
+            appointments.Show();
+            this.Hide();
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -442,6 +445,18 @@ ORDER BY last_name, first_name;";
             Services services = new Services();
             services.Show();
             this.Hide();
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            Adding_Patient adding_Patient = new Adding_Patient();
+            adding_Patient.Show();
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            Add_Appointment add_Appointment = new Add_Appointment();
+            add_Appointment.Show();
         }
     }
 }

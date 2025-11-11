@@ -40,10 +40,9 @@ namespace Dental_Final
 
         private void LoadServicesData()
         {
-            string connectionString = "Server=FANGON\\SQLEXPRESS;Database=dental_final_clinic;Trusted_Connection=True;";
-            string query = "SELECT service_id, name, price, description, duration_minutes FROM services";
+            string connectionString = "Server=DESKTOP-PB8NME4\\SQLEXPRESS;Database=dental_final_clinic;Trusted_Connection=True;";
 
-
+            string query = "SELECT service_id, name, category, price, description, duration_minutes FROM services";
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             using (SqlDataAdapter adapter = new SqlDataAdapter(query, conn))
@@ -64,7 +63,6 @@ namespace Dental_Final
                     dataGridViewServices.Columns.Remove("Edit");
                 if (dataGridViewServices.Columns.Contains("Delete"))
                     dataGridViewServices.Columns.Remove("Delete");
-
 
                 // Add Edit button column
                 DataGridViewButtonColumn editColumn = new DataGridViewButtonColumn();
@@ -93,10 +91,11 @@ namespace Dental_Final
                 // Rename headers
                 if (dataGridViewServices.Columns.Contains("name"))
                     dataGridViewServices.Columns["name"].HeaderText = "Service Name";
+                if (dataGridViewServices.Columns.Contains("category"))
+                    dataGridViewServices.Columns["category"].HeaderText = "Category";
                 if (dataGridViewServices.Columns.Contains("price"))
                 {
                     dataGridViewServices.Columns["price"].HeaderText = "Price";
-                    // keep price left-aligned to match other columns
                     dataGridViewServices.Columns["price"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
                 }
                 if (dataGridViewServices.Columns.Contains("description"))
@@ -169,8 +168,9 @@ namespace Dental_Final
 
                     if (result == DialogResult.Yes)
                     {
-                        string connectionString = "Server=FANGON\\SQLEXPRESS;Database=dental_final_clinic;Trusted_Connection=True;";
-                        string query = "DELETE FROM services WHERE service_id = @ServiceId";
+                                 string connectionString = "Server=DESKTOP-PB8NME4\\SQLEXPRESS;Database=dental_final_clinic;Trusted_Connection=True;";
+
+        string query = "DELETE FROM services WHERE service_id = @ServiceId";
 
                         using (SqlConnection conn = new SqlConnection(connectionString))
                         using (SqlCommand cmd = new SqlCommand(query, conn))
@@ -236,6 +236,12 @@ namespace Dental_Final
             Adding_Patient adding_Patient = new Adding_Patient();
             adding_Patient.Show();
 
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            Add_Appointment add_Appointment = new Add_Appointment();
+            add_Appointment.Show();
         }
     }
 }

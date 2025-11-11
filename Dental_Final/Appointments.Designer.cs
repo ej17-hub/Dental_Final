@@ -66,7 +66,7 @@
             this.label1.Location = new System.Drawing.Point(21, 473);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(173, 29);
+            this.label1.Size = new System.Drawing.Size(138, 22);
             this.label1.TabIndex = 51;
             this.label1.Text = "Quick Actions";
             // 
@@ -77,7 +77,7 @@
             this.label2.Location = new System.Drawing.Point(292, 39);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(270, 44);
+            this.label2.Size = new System.Drawing.Size(210, 34);
             this.label2.TabIndex = 117;
             this.label2.Text = "Appointments";
             // 
@@ -89,7 +89,7 @@
             this.label5.Location = new System.Drawing.Point(33, 821);
             this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(88, 29);
+            this.label5.Size = new System.Drawing.Size(69, 22);
             this.label5.TabIndex = 63;
             this.label5.Text = "Admin";
             // 
@@ -101,7 +101,7 @@
             this.label4.Location = new System.Drawing.Point(33, 848);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(149, 24);
+            this.label4.Size = new System.Drawing.Size(122, 20);
             this.label4.TabIndex = 62;
             this.label4.Text = "Clinic Administrator";
             // 
@@ -111,7 +111,7 @@
             this.label3.Font = new System.Drawing.Font("Arial", 18F, System.Drawing.FontStyle.Bold);
             this.label3.Location = new System.Drawing.Point(294, 128);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(91, 35);
+            this.label3.Size = new System.Drawing.Size(71, 29);
             this.label3.TabIndex = 118;
             this.label3.Text = "Date:";
             // 
@@ -120,7 +120,7 @@
             this.dateTimePicker1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dateTimePicker1.Location = new System.Drawing.Point(394, 133);
             this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(293, 27);
+            this.dateTimePicker1.Size = new System.Drawing.Size(293, 23);
             this.dateTimePicker1.TabIndex = 119;
             // 
             // dataGridView1
@@ -140,7 +140,7 @@
             this.label6.Font = new System.Drawing.Font("Arial", 15F, System.Drawing.FontStyle.Bold);
             this.label6.Location = new System.Drawing.Point(295, 473);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(140, 30);
+            this.label6.Size = new System.Drawing.Size(111, 24);
             this.label6.TabIndex = 122;
             this.label6.Text = "Completed";
             // 
@@ -150,7 +150,7 @@
             this.label7.Font = new System.Drawing.Font("Arial", 15F, System.Drawing.FontStyle.Bold);
             this.label7.Location = new System.Drawing.Point(928, 472);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(131, 30);
+            this.label7.Size = new System.Drawing.Size(102, 24);
             this.label7.TabIndex = 123;
             this.label7.Text = "Cancelled";
             // 
@@ -211,6 +211,7 @@
             this.button7.Size = new System.Drawing.Size(212, 69);
             this.button7.TabIndex = 53;
             this.button7.UseVisualStyleBackColor = false;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
             // 
             // button6
             // 
@@ -223,6 +224,7 @@
             this.button6.Size = new System.Drawing.Size(212, 69);
             this.button6.TabIndex = 52;
             this.button6.UseVisualStyleBackColor = false;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
             // button5
             // 
@@ -235,6 +237,7 @@
             this.button5.Size = new System.Drawing.Size(217, 59);
             this.button5.TabIndex = 50;
             this.button5.UseVisualStyleBackColor = false;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
             // button4
             // 
@@ -261,6 +264,7 @@
             this.button3.Size = new System.Drawing.Size(217, 59);
             this.button3.TabIndex = 48;
             this.button3.UseVisualStyleBackColor = false;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // button1
             // 
@@ -286,6 +290,7 @@
             this.button2.Size = new System.Drawing.Size(217, 59);
             this.button2.TabIndex = 46;
             this.button2.UseVisualStyleBackColor = false;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // pictureBox2
             // 

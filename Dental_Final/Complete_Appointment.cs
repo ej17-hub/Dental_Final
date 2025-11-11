@@ -8,7 +8,8 @@ namespace Dental_Final
 {
     public partial class Complete_Appointment : Form
     {
-        private readonly string connectionString = "Server=FANGON\\SQLEXPRESS;Database=dental_final_clinic;Trusted_Connection=True;";
+        private readonly string connectionString = "Server=DESKTOP-PB8NME4\\SQLEXPRESS;Database=dental_final_clinic;Trusted_Connection=True;";
+
         private int _appointmentId;
 
         public Complete_Appointment()

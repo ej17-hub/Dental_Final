@@ -11,7 +11,8 @@ namespace Dental_Final
     public partial class Edit_Appointment : Form
     {
         // match Add_Appointment connection string
-        private string connectionString = "Server=FANGON\\SQLEXPRESS;Database=dental_final_clinic;Trusted_Connection=True;";
+        private string connectionString = "Server=DESKTOP-PB8NME4\\SQLEXPRESS;Database=dental_final_clinic;Trusted_Connection=True;";
+
 
         // Keep parameterless ctor for designer; use overload when opening for edit
         public Edit_Appointment()
@@ -37,8 +38,25 @@ namespace Dental_Final
             this.button1.Click -= Button1_Click;
             this.button1.Click += Button1_Click;
 
+            // Wire up dentist selection change event to filter services
+            this.comboBox1.SelectedIndexChanged -= ComboBox1_SelectedIndexChanged;
+            this.comboBox1.SelectedIndexChanged += ComboBox1_SelectedIndexChanged;
+
+            // Wire up date picker change to reload dentists when date changes
+            if (this.dateTimePicker1 != null)
+            {
+                this.dateTimePicker1.ValueChanged -= DateTimePicker1_ValueChanged;
+                this.dateTimePicker1.ValueChanged += DateTimePicker1_ValueChanged;
+            }
+
             // load appointment values
             LoadAppointment(appointmentId);
+        }
+
+        private void DateTimePicker1_ValueChanged(object sender, EventArgs e)
+        {
+            // Reload dentists when date changes to filter by new day
+            LoadDentistsIntoComboBox();
         }
 
         // Checks whether a column exists on a table (dbo schema)
@@ -71,39 +89,106 @@ namespace Dental_Final
 
         private void LoadDentistsIntoComboBox()
         {
-            string select;
+            // Determine selected day name from date picker (falls back to today if control missing)
+            string dayName = (this.dateTimePicker1 != null) ? this.dateTimePicker1.Value.DayOfWeek.ToString() : DateTime.Today.DayOfWeek.ToString();
+
+            // Build base select depending on available name columns - include specialization
+            string selectBase;
+            string orderBy;
+            bool hasSpecialization = ColumnExists("dentists", "specialization");
+            
             if (ColumnExists("dentists", "first_name") && ColumnExists("dentists", "last_name"))
             {
-                select = "SELECT dentist_id, RTRIM(ISNULL(first_name,'')) + ' ' + RTRIM(ISNULL(last_name,'')) AS display_name FROM dentists ORDER BY last_name, first_name";
+                selectBase = hasSpecialization 
+                    ? "SELECT dentist_id, RTRIM(ISNULL(first_name,'')) + ' ' + RTRIM(ISNULL(last_name,'')) AS display_name, specialization, available_days FROM dentists"
+                    : "SELECT dentist_id, RTRIM(ISNULL(first_name,'')) + ' ' + RTRIM(ISNULL(last_name,'')) AS display_name, available_days FROM dentists";
+                orderBy = " ORDER BY last_name, first_name";
             }
             else if (ColumnExists("dentists", "name"))
             {
-                select = "SELECT dentist_id, RTRIM(ISNULL(name,'')) AS display_name FROM dentists ORDER BY name";
+                selectBase = hasSpecialization
+                    ? "SELECT dentist_id, RTRIM(ISNULL(name,'')) AS display_name, specialization, available_days FROM dentists"
+                    : "SELECT dentist_id, RTRIM(ISNULL(name,'')) AS display_name, available_days FROM dentists";
+                orderBy = " ORDER BY name";
             }
             else
             {
-                select = "SELECT dentist_id, CONVERT(varchar(20), dentist_id) AS display_name FROM dentists ORDER BY dentist_id";
+                selectBase = hasSpecialization
+                    ? "SELECT dentist_id, CONVERT(varchar(20), dentist_id) AS display_name, specialization, available_days FROM dentists"
+                    : "SELECT dentist_id, CONVERT(varchar(20), dentist_id) AS display_name, available_days FROM dentists";
+                orderBy = " ORDER BY dentist_id";
             }
+
+            // If dentists table has available_days column, filter dentists by the dayName
+            bool hasAvailableDays = ColumnExists("dentists", "available_days");
+            string finalSql = selectBase + orderBy;
 
             try
             {
+                // Store current selection to restore after reload
+                int currentDentistId = -1;
+                var currentItem = comboBox1.SelectedItem as ServiceItem;
+                if (currentItem != null)
+                    currentDentistId = currentItem.Id;
+
                 using (var conn = new SqlConnection(connectionString))
-                using (var cmd = new SqlCommand(select, conn))
+                using (var cmd = new SqlCommand(finalSql, conn))
                 {
                     conn.Open();
+                    comboBox1.Items.Clear(); // comboBox1 is Dentist in designer
+                    
                     using (var rdr = cmd.ExecuteReader())
                     {
-                        comboBox1.Items.Clear(); // comboBox1 is Dentist in designer
                         while (rdr.Read())
                         {
                             var id = rdr["dentist_id"] != DBNull.Value ? Convert.ToInt32(rdr["dentist_id"]) : -1;
                             var name = rdr["display_name"] != DBNull.Value ? rdr["display_name"].ToString() : string.Empty;
-                            comboBox1.Items.Add(new ServiceItem(id, name));
+                            
+                            // Filter by available_days in C# code (more reliable than SQL CHARINDEX)
+                            if (hasAvailableDays)
+                            {
+                                string availableDays = rdr["available_days"] != DBNull.Value ? rdr["available_days"].ToString() : string.Empty;
+                                
+                                // If available_days is NULL or empty, dentist is available all days
+                                bool isAvailable = string.IsNullOrWhiteSpace(availableDays);
+                                
+                                if (!isAvailable)
+                                {
+                                    // Split by comma and check if the day exists (case-insensitive)
+                                    var days = availableDays.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                                                            .Select(d => d.Trim())
+                                                            .ToList();
+                                    isAvailable = days.Any(d => d.Equals(dayName, StringComparison.OrdinalIgnoreCase));
+                                }
+                                
+                                // Skip this dentist if not available on selected day
+                                if (!isAvailable)
+                                    continue;
+                            }
+                            
+                            // Store specialization in the ServiceItem if available
+                            var item = new ServiceItem(id, name);
+                            
+                            // Store specialization as Tag for later retrieval
+                            if (hasSpecialization && rdr["specialization"] != DBNull.Value)
+                            {
+                                item.Tag = rdr["specialization"].ToString();
+                            }
+                            
+                            comboBox1.Items.Add(item);
                         }
                     }
                 }
 
                 comboBox1.DisplayMember = "Name";
+
+                // Restore previous selection if still available
+                if (currentDentistId > 0)
+                {
+                    var restoredItem = comboBox1.Items.OfType<ServiceItem>().FirstOrDefault(x => x.Id == currentDentistId);
+                    if (restoredItem != null)
+                        comboBox1.SelectedItem = restoredItem;
+                }
             }
             catch (Exception ex)
             {
@@ -158,17 +243,43 @@ namespace Dental_Final
             }
         }
 
-        private void LoadServicesIntoCheckedListBox()
+        private void LoadServicesIntoCheckedListBox(string specializationFilter = null)
         {
+            // Check if services table has a category column
+            bool hasCategoryColumn = ColumnExists("services", "category");
+
             string query = "SELECT service_id, name FROM services";
+            
+            // If specialization filter is provided and column exists, filter services
+            if (!string.IsNullOrWhiteSpace(specializationFilter) && hasCategoryColumn)
+            {
+                query += " WHERE category = @category OR category IS NULL OR category = ''";
+            }
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             using (SqlCommand cmd = new SqlCommand(query, conn))
             {
+                if (!string.IsNullOrWhiteSpace(specializationFilter) && hasCategoryColumn)
+                {
+                    cmd.Parameters.AddWithValue("@category", specializationFilter);
+                }
+
                 try
                 {
                     conn.Open();
                     SqlDataReader reader = cmd.ExecuteReader();
+
+                    // Store currently checked items before clearing
+                    var checkedIds = new HashSet<int>();
+                    for (int i = 0; i < checkedListBoxServices.Items.Count; i++)
+                    {
+                        if (checkedListBoxServices.GetItemChecked(i))
+                        {
+                            var si = checkedListBoxServices.Items[i] as ServiceItem;
+                            if (si != null)
+                                checkedIds.Add(si.Id);
+                        }
+                    }
 
                     checkedListBoxServices.Items.Clear();
 
@@ -176,10 +287,19 @@ namespace Dental_Final
                     {
                         var serviceId = reader.GetInt32(0);
                         var serviceName = reader.GetString(1);
-                        checkedListBoxServices.Items.Add(new ServiceItem(serviceId, serviceName));
+                        var item = new ServiceItem(serviceId, serviceName);
+                        checkedListBoxServices.Items.Add(item);
                     }
 
                     reader.Close();
+
+                    // Restore checked state
+                    for (int i = 0; i < checkedListBoxServices.Items.Count; i++)
+                    {
+                        var si = checkedListBoxServices.Items[i] as ServiceItem;
+                        if (si != null && checkedIds.Contains(si.Id))
+                            checkedListBoxServices.SetItemChecked(i, true);
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -188,6 +308,24 @@ namespace Dental_Final
             }
 
             checkedListBoxServices.DisplayMember = "Name";
+        }
+
+        // Event handler for when dentist selection changes
+        private void ComboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var selectedDentist = comboBox1.SelectedItem as ServiceItem;
+            if (selectedDentist == null || selectedDentist.Id <= 0)
+            {
+                // No dentist selected, show all services
+                LoadServicesIntoCheckedListBox();
+                return;
+            }
+
+            // Get the dentist's specialization from cached Tag property
+            string specialization = selectedDentist.Tag as string;
+            
+            // Reload services filtered by specialization
+            LoadServicesIntoCheckedListBox(specialization);
         }
 
         // Loads appointment data into controls. Stores patient id in label7.Tag and displays name in label7.Text (read-only)
@@ -249,11 +387,33 @@ namespace Dental_Final
                         label7.Tag = patientId;
                         label7.Text = string.IsNullOrWhiteSpace(displayName) ? "(Unknown)" : displayName;
 
-                        // dentist
-                        if (rdr["dentist_id"] != DBNull.Value)
+                        // date/time - Load these FIRST before loading dentist combo
+                        if (rdr["appointment_date"] != DBNull.Value)
                         {
-                            int did = Convert.ToInt32(rdr["dentist_id"]);
-                            var item = comboBox1.Items.OfType<ServiceItem>().FirstOrDefault(x => x.Id == did);
+                            DateTime dt = Convert.ToDateTime(rdr["appointment_date"]);
+                            dateTimePicker1.Value = dt.Date;
+                        }
+
+                        if (rdr["appointment_time"] != DBNull.Value)
+                        {
+                            TimeSpan ts;
+                            var timeObj = rdr["appointment_time"];
+                            if (timeObj is TimeSpan)
+                                ts = (TimeSpan)timeObj;
+                            else
+                                ts = TimeSpan.Parse(rdr["appointment_time"].ToString());
+
+                            dateTimePicker2.Value = dateTimePicker1.Value.Date + ts;
+                        }
+
+                        // Now reload dentists based on the appointment date (this will filter by day of week)
+                        int dentistIdToSelect = rdr["dentist_id"] != DBNull.Value ? Convert.ToInt32(rdr["dentist_id"]) : -1;
+                        LoadDentistsIntoComboBox();
+
+                        // dentist - select after reloading
+                        if (dentistIdToSelect > 0)
+                        {
+                            var item = comboBox1.Items.OfType<ServiceItem>().FirstOrDefault(x => x.Id == dentistIdToSelect);
                             if (item != null)
                                 comboBox1.SelectedItem = item;
                         }
@@ -277,25 +437,6 @@ namespace Dental_Final
 
                         // notes
                         textBox2.Text = rdr["notes"] != DBNull.Value ? rdr["notes"].ToString() : string.Empty;
-
-                        // date/time
-                        if (rdr["appointment_date"] != DBNull.Value)
-                        {
-                            DateTime dt = Convert.ToDateTime(rdr["appointment_date"]);
-                            dateTimePicker1.Value = dt.Date;
-                        }
-
-                        if (rdr["appointment_time"] != DBNull.Value)
-                        {
-                            TimeSpan ts;
-                            var timeObj = rdr["appointment_time"];
-                            if (timeObj is TimeSpan)
-                                ts = (TimeSpan)timeObj;
-                            else
-                                ts = TimeSpan.Parse(rdr["appointment_time"].ToString());
-
-                            dateTimePicker2.Value = dateTimePicker1.Value.Date + ts;
-                        }
                     }
                 }
 
@@ -491,7 +632,7 @@ namespace Dental_Final
                         try
                         {
                             DateTime dt = apptDate.Date + apptTime;
-                            ActivityLogger.Log($"Admin updated an appointment for {label7.Text} on {dt:yyyy-MM-dd h:mm tt}");
+                            ActivityLogger.Log($"Admin updated an appointment for {label7.Text} on {dt:h:mm tt MMMM d, yyyy}");
                         }
                         catch { /* ignore logging errors */ }
 

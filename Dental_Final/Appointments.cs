@@ -10,7 +10,7 @@ namespace Dental_Final
 {
     public partial class Appointments : Form
     {
-        private readonly string connectionString = "Server=FANGON\\SQLEXPRESS;Database=dental_final_clinic;Trusted_Connection=True;";
+        private readonly string connectionString = "Server=DESKTOP-PB8NME4\\SQLEXPRESS;Database=dental_final_clinic;Trusted_Connection=True;";
 
         public Appointments()
         {
@@ -588,6 +588,39 @@ namespace Dental_Final
             Staff staff = new Staff();
             staff.Show();
             this.Hide();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Dashboard dashboard = new Dashboard();
+            dashboard.Show();
+            this.Hide();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            Patients patients = new Patients();
+            patients.Show();    
+            this.Hide();
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            Services services = new Services();
+            services.Show();
+            this.Hide();
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            Adding_Patient adding_Patient = new Adding_Patient();
+            adding_Patient.Show();
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            Add_Appointment add_Appointment = new Add_Appointment();
+            add_Appointment.Show();
         }
     }
 }

@@ -27,8 +27,9 @@ namespace Dental_Final
 
         private void LoadPatients()
         {
-            string connectionString = "Server=FANGON\\SQLEXPRESS;Database=dental_final_clinic;Trusted_Connection=True;";
-            string query = @"SELECT 
+                     string connectionString = "Server=DESKTOP-PB8NME4\\SQLEXPRESS;Database=dental_final_clinic;Trusted_Connection=True;";
+
+        string query = @"SELECT 
                                 patient_id, 
                                 first_name + ' ' + last_name AS Patient,
                                 email,
@@ -150,8 +151,9 @@ namespace Dental_Final
 
                 if (confirmResult == DialogResult.Yes)
                 {
-                    string connectionString = "Server=FANGON\\SQLEXPRESS;Database=dental_final_clinic;Trusted_Connection=True;";
-                    string query = "DELETE FROM patients WHERE patient_id = @PatientId";
+                            string connectionString = "Server=DESKTOP-PB8NME4\\SQLEXPRESS;Database=dental_final_clinic;Trusted_Connection=True;";
+
+        string query = "DELETE FROM patients WHERE patient_id = @PatientId";
 
                     using (SqlConnection conn = new SqlConnection(connectionString))
                     using (SqlCommand cmd = new SqlCommand(query, conn))
@@ -176,7 +178,9 @@ namespace Dental_Final
 
         private void button1_Click(object sender, EventArgs e)
         {
-          //Appointments
+          Appointments appointments = new Appointments();
+            appointments.Show();
+            this.Hide();    
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -197,7 +201,13 @@ namespace Dental_Final
         {
             Adding_Patient adding_Patient = new Adding_Patient();
             adding_Patient.Show();
-            this.Hide();
+            
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            Add_Appointment add_Appointment = new Add_Appointment();
+            add_Appointment.Show();
         }
     }
 }

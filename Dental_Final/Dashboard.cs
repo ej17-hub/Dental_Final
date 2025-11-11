@@ -9,7 +9,8 @@ namespace Dental_Final
 {
     public partial class Dashboard : Form
     {
-        private readonly string connectionString = "Server=FANGON\\SQLEXPRESS;Database=dental_final_clinic;Trusted_Connection=True;";
+        private readonly  string connectionString = "Server=DESKTOP-PB8NME4\\SQLEXPRESS;Database=dental_final_clinic;Trusted_Connection=True;";
+
 
         public Dashboard()
         {
@@ -167,12 +168,203 @@ namespace Dental_Final
                 lblCancelled.Text = cancelled.ToString();
                 lblRevenue.Text = "₱" + revenue.ToString("N2");
 
-                // load activity log
+                // load today's appointments into dataGridView1
+                LoadTodaysAppointments();
+                
+                // load activity log into dataGridView2
                 LoadActivityLog();
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Failed to update dashboard stats: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        // Load today's appointments into dataGridView1
+        // Load today's appointments into dataGridView1
+        private void LoadTodaysAppointments()
+        {
+            try
+            {
+                DateTime today = DateTime.Today;
+
+                dataGridView1.Rows.Clear();
+                dataGridView1.Columns.Clear();
+
+                // Create columns for appointment details
+                dataGridView1.Columns.Add(new DataGridViewTextBoxColumn
+                {
+                    Name = "appointment_id",
+                    HeaderText = "ID",
+                    Visible = false
+                });
+
+                dataGridView1.Columns.Add(new DataGridViewTextBoxColumn
+                {
+                    Name = "time",
+                    HeaderText = "Time",
+                    Width = 80,
+                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                });
+
+                dataGridView1.Columns.Add(new DataGridViewTextBoxColumn
+                {
+                    Name = "patient",
+                    HeaderText = "Patient",
+                    AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+                });
+
+                dataGridView1.Columns.Add(new DataGridViewTextBoxColumn
+                {
+                    Name = "dentist",
+                    HeaderText = "Dentist",
+                    AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+                });
+
+                dataGridView1.Columns.Add(new DataGridViewTextBoxColumn
+                {
+                    Name = "service",
+                    HeaderText = "Service",
+                    AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+                });
+
+                dataGridView1.Columns.Add(new DataGridViewTextBoxColumn
+                {
+                    Name = "status",
+                    HeaderText = "Status",
+                    Width = 100,
+                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                });
+
+                // Build safe name expressions
+                string patientExpr;
+                if (ColumnExists("patients", "first_name") && ColumnExists("patients", "last_name"))
+                    patientExpr = "RTRIM(ISNULL(p.first_name,'')) + ' ' + RTRIM(ISNULL(p.last_name,''))";
+                else if (ColumnExists("patients", "name"))
+                    patientExpr = "RTRIM(ISNULL(p.name,''))";
+                else
+                    patientExpr = "CONVERT(varchar(20), p.patient_id)";
+
+                string dentistExpr;
+                if (ColumnExists("dentists", "first_name") && ColumnExists("dentists", "last_name"))
+                    dentistExpr = "RTRIM(ISNULL(d.first_name,'')) + ' ' + RTRIM(ISNULL(d.last_name,''))";
+                else if (ColumnExists("dentists", "name"))
+                    dentistExpr = "RTRIM(ISNULL(d.name,''))";
+                else
+                    dentistExpr = "CONVERT(varchar(20), d.dentist_id)";
+
+                string serviceExpr;
+                if (ColumnExists("services", "name"))
+                    serviceExpr = "s.name";
+                else
+                    serviceExpr = "CONVERT(varchar(20), s.service_id)";
+
+                // Query to get today's appointments with aggregated services
+                string sql = @"
+            SELECT 
+                a.appointment_id,
+                a.appointment_time,
+                " + patientExpr + @" AS patient_name,
+                " + dentistExpr + @" AS dentist_name,
+                " + serviceExpr + @" AS service_name,
+                ISNULL(a.notes,'') AS notes,
+                ISNULL((SELECT STUFF((
+                    SELECT ', ' + ISNULL(s2.name, CONVERT(varchar(20), aps2.service_id)) 
+                    FROM appointments_services aps2 
+                    LEFT JOIN services s2 ON aps2.service_id = s2.service_id 
+                    WHERE aps2.appointment_id = a.appointment_id 
+                    FOR XML PATH('')), 1, 2, '')), '') AS services_list
+            FROM appointments a
+            LEFT JOIN patients p ON a.patient_id = p.patient_id
+            LEFT JOIN dentists d ON a.dentist_id = d.dentist_id
+            LEFT JOIN services s ON a.service_id = s.service_id
+            WHERE CAST(a.appointment_date AS DATE) = @date
+            ORDER BY a.appointment_time";
+
+                using (var conn = new SqlConnection(connectionString))
+                using (var cmd = new SqlCommand(sql, conn))
+                {
+                    cmd.Parameters.Add("@date", SqlDbType.Date).Value = today;
+                    conn.Open();
+
+                    using (var rdr = cmd.ExecuteReader())
+                    {
+                        while (rdr.Read())
+                        {
+                            var id = rdr["appointment_id"] != DBNull.Value ? Convert.ToInt32(rdr["appointment_id"]) : -1;
+
+                            // Format appointment time
+                            string timeText = string.Empty;
+                            var apptTimeObj = rdr["appointment_time"];
+                            if (apptTimeObj != null && apptTimeObj != DBNull.Value)
+                            {
+                                var apptTimeStr = apptTimeObj.ToString();
+                                TimeSpan ts;
+                                DateTime dt;
+                                if (TimeSpan.TryParse(apptTimeStr, out ts))
+                                {
+                                    timeText = DateTime.Today.Add(ts).ToString("h:mm tt");
+                                }
+                                else if (DateTime.TryParse(apptTimeStr, out dt))
+                                {
+                                    timeText = dt.ToString("h:mm tt");
+                                }
+                                else
+                                {
+                                    timeText = apptTimeStr;
+                                }
+                            }
+
+                            var patient = rdr["patient_name"] != DBNull.Value ? rdr["patient_name"].ToString() : string.Empty;
+                            var dentist = rdr["dentist_name"] != DBNull.Value ? rdr["dentist_name"].ToString() : string.Empty;
+                            var singleService = rdr["service_name"] != DBNull.Value ? rdr["service_name"].ToString() : string.Empty;
+                            var servicesAgg = rdr["services_list"] != DBNull.Value ? rdr["services_list"].ToString() : string.Empty;
+                            var notes = rdr["notes"] != DBNull.Value ? rdr["notes"].ToString() : string.Empty;
+
+                            // Prefer aggregated service list when present
+                            string serviceDisplay = !string.IsNullOrEmpty(servicesAgg) ? servicesAgg : singleService;
+
+                            // Determine status
+                            string status = "Pending";
+                            if (notes.IndexOf("completed", StringComparison.OrdinalIgnoreCase) >= 0)
+                                status = "Completed";
+                            else if (notes.IndexOf("cancel", StringComparison.OrdinalIgnoreCase) >= 0)
+                                status = "Cancelled";
+
+                            // Add row to grid
+                            int rowIndex = dataGridView1.Rows.Add(id, timeText, patient, dentist, serviceDisplay, status);
+
+                            // Color code the row based on status - only green for completed, yellow for pending/cancelled
+                            var row = dataGridView1.Rows[rowIndex];
+                            if (status == "Completed")
+                            {
+                                row.DefaultCellStyle.BackColor = Color.LightGreen;
+                            }
+                            else
+                            {
+                                // Both Pending and Cancelled use light yellow
+                                row.DefaultCellStyle.BackColor = Color.LightYellow;
+                            }
+                        }
+                    }
+                }
+
+                // Grid appearance - clear header with no background color
+                dataGridView1.ReadOnly = true;
+                dataGridView1.RowHeadersVisible = false;
+                dataGridView1.AllowUserToAddRows = false;
+                dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+                dataGridView1.MultiSelect = false;
+
+                // Apply simple header style - bold text, default background (clear/white)
+                dataGridView1.EnableHeadersVisualStyles = false;
+                dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font(dataGridView1.Font, FontStyle.Bold);
+                dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = SystemColors.Control; // Default gray header
+                dataGridView1.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error loading today's appointments: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -231,6 +423,18 @@ namespace Dental_Final
             {
                 // ignore activity load failures
             }
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            Adding_Patient adding_Patient = new Adding_Patient();
+            adding_Patient.Show();
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            Add_Appointment add_Appointment = new Add_Appointment();
+            add_Appointment.Show();
         }
     }
 }

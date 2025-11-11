@@ -13,7 +13,8 @@ namespace Dental_Final
 {
     public partial class Add_Staff : Form
     {
-        private string connectionString = "Data Source=FANGON\\SQLEXPRESS;Initial Catalog=dental_Final_Clinic;Integrated Security=True";
+        private string connectionString = "Server=DESKTOP-PB8NME4\\SQLEXPRESS;Database=dental_final_clinic;Trusted_Connection=True;";
+
 
         public Add_Staff()
         {

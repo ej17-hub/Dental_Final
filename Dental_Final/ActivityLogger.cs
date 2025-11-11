@@ -5,7 +5,7 @@ namespace Dental_Final
 {
     public static class ActivityLogger
     {
-        private static readonly string connectionString = "Server=FANGON\\SQLEXPRESS;Database=dental_final_clinic;Trusted_Connection=True;";
+        private static readonly string connectionString = "Server=DESKTOP-PB8NME4\\SQLEXPRESS;Database=dental_final_clinic;Trusted_Connection=True;";
 
         // Ensures activity_log table exists then inserts a new record
         public static void Log(string message, string username = "Admin")

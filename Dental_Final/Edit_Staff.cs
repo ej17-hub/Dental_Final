@@ -7,7 +7,8 @@ namespace Dental_Final
 {
     public partial class Edit_Staff : Form
     {
-        private readonly string connectionString = "Server=FANGON\\SQLEXPRESS;Database=dental_final_clinic;Trusted_Connection=True;";
+        private readonly string connectionString = "Server=DESKTOP-PB8NME4\\SQLEXPRESS;Database=dental_final_clinic;Trusted_Connection=True;";
+
         private readonly int staffId;
 
         public Edit_Staff(int staffId)

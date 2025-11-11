@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Dashboard));
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -79,7 +80,7 @@
             this.label1.Location = new System.Drawing.Point(21, 473);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(173, 29);
+            this.label1.Size = new System.Drawing.Size(138, 22);
             this.label1.TabIndex = 20;
             this.label1.Text = "Quick Actions";
             // 
@@ -90,7 +91,7 @@
             this.label2.Location = new System.Drawing.Point(300, 23);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(138, 29);
+            this.label2.Size = new System.Drawing.Size(113, 22);
             this.label2.TabIndex = 26;
             this.label2.Text = "Dashboard";
             // 
@@ -102,7 +103,7 @@
             this.label3.Location = new System.Drawing.Point(301, 66);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(181, 24);
+            this.label3.Size = new System.Drawing.Size(149, 20);
             this.label3.TabIndex = 27;
             this.label3.Text = "Welcome Back, Admin!";
             // 
@@ -114,7 +115,7 @@
             this.lblTodayAppt.Location = new System.Drawing.Point(337, 177);
             this.lblTodayAppt.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblTodayAppt.Name = "lblTodayAppt";
-            this.lblTodayAppt.Size = new System.Drawing.Size(49, 35);
+            this.lblTodayAppt.Size = new System.Drawing.Size(39, 29);
             this.lblTodayAppt.TabIndex = 29;
             this.lblTodayAppt.Text = "10";
             // 
@@ -126,7 +127,7 @@
             this.lblCompleted.Location = new System.Drawing.Point(662, 177);
             this.lblCompleted.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblCompleted.Name = "lblCompleted";
-            this.lblCompleted.Size = new System.Drawing.Size(49, 35);
+            this.lblCompleted.Size = new System.Drawing.Size(39, 29);
             this.lblCompleted.TabIndex = 31;
             this.lblCompleted.Text = "10";
             // 
@@ -138,7 +139,7 @@
             this.lblCancelled.Location = new System.Drawing.Point(966, 177);
             this.lblCancelled.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblCancelled.Name = "lblCancelled";
-            this.lblCancelled.Size = new System.Drawing.Size(49, 35);
+            this.lblCancelled.Size = new System.Drawing.Size(39, 29);
             this.lblCancelled.TabIndex = 33;
             this.lblCancelled.Text = "10";
             // 
@@ -150,7 +151,7 @@
             this.lblRevenue.Location = new System.Drawing.Point(1285, 177);
             this.lblRevenue.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblRevenue.Name = "lblRevenue";
-            this.lblRevenue.Size = new System.Drawing.Size(49, 35);
+            this.lblRevenue.Size = new System.Drawing.Size(39, 29);
             this.lblRevenue.TabIndex = 35;
             this.lblRevenue.Text = "10";
             // 
@@ -162,7 +163,7 @@
             this.label4.Location = new System.Drawing.Point(33, 848);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(149, 24);
+            this.label4.Size = new System.Drawing.Size(122, 20);
             this.label4.TabIndex = 36;
             this.label4.Text = "Clinic Administrator";
             // 
@@ -174,7 +175,7 @@
             this.label5.Location = new System.Drawing.Point(33, 821);
             this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(88, 29);
+            this.label5.Size = new System.Drawing.Size(69, 22);
             this.label5.TabIndex = 37;
             this.label5.Text = "Admin";
             // 
@@ -185,13 +186,21 @@
             this.label6.Location = new System.Drawing.Point(300, 277);
             this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(269, 29);
+            this.label6.Size = new System.Drawing.Size(217, 22);
             this.label6.TabIndex = 38;
             this.label6.Text = "Today\'s Appointments";
             // 
             // dataGridView1
             // 
             this.dataGridView1.BackgroundColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Location = new System.Drawing.Point(305, 334);
             this.dataGridView1.Margin = new System.Windows.Forms.Padding(4);
@@ -245,6 +254,7 @@
             this.button7.Size = new System.Drawing.Size(212, 69);
             this.button7.TabIndex = 22;
             this.button7.UseVisualStyleBackColor = false;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
             // 
             // button6
             // 
@@ -257,6 +267,7 @@
             this.button6.Size = new System.Drawing.Size(212, 69);
             this.button6.TabIndex = 21;
             this.button6.UseVisualStyleBackColor = false;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
             // button5
             // 
@@ -384,7 +395,7 @@
             this.label7.Location = new System.Drawing.Point(300, 621);
             this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(151, 29);
+            this.label7.Size = new System.Drawing.Size(119, 22);
             this.label7.TabIndex = 45;
             this.label7.Text = "Activity Log";
             // 
@@ -406,7 +417,7 @@
             this.label8.ForeColor = System.Drawing.Color.Black;
             this.label8.Location = new System.Drawing.Point(340, 158);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(174, 20);
+            this.label8.Size = new System.Drawing.Size(148, 17);
             this.label8.TabIndex = 47;
             this.label8.Text = "Today\'s Appointments";
             // 
@@ -417,7 +428,7 @@
             this.label9.ForeColor = System.Drawing.Color.Black;
             this.label9.Location = new System.Drawing.Point(663, 159);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(146, 20);
+            this.label9.Size = new System.Drawing.Size(123, 17);
             this.label9.TabIndex = 48;
             this.label9.Text = "Completed Appts. ";
             // 
@@ -428,7 +439,7 @@
             this.label10.ForeColor = System.Drawing.Color.Black;
             this.label10.Location = new System.Drawing.Point(968, 159);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(160, 20);
+            this.label10.Size = new System.Drawing.Size(134, 17);
             this.label10.TabIndex = 49;
             this.label10.Text = "Cancelled Appts.     ";
             // 
@@ -439,7 +450,7 @@
             this.label11.ForeColor = System.Drawing.Color.Black;
             this.label11.Location = new System.Drawing.Point(1287, 158);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(137, 20);
+            this.label11.Size = new System.Drawing.Size(119, 17);
             this.label11.TabIndex = 50;
             this.label11.Text = "Today\'s Revenue";
             // 
