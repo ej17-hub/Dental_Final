@@ -304,5 +304,17 @@ namespace Dental_Final
         {
             this.Close();
         }
+
+        private void Edit_Services_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtDuration_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+       
     }
 }

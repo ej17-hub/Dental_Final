@@ -46,8 +46,12 @@ namespace Dental_Final
             if (e.RowIndex < 0)
                 return;
 
-            // Get dentist_id from the hidden original-value column
-            int dentistId = Convert.ToInt32(dataGridViewDentists.Rows[e.RowIndex].Cells["dentist_id"].Value);
+            // Get dentist_id from the underlying DataTable row
+            DataRowView rowView = dataGridViewDentists.Rows[e.RowIndex].DataBoundItem as DataRowView;
+            if (rowView == null)
+                return;
+
+            int dentistId = Convert.ToInt32(rowView["dentist_id"]);
 
             // Edit button clicked
             if (e.ColumnIndex == dataGridViewDentists.Columns["Edit"].Index)
@@ -150,16 +154,6 @@ namespace Dental_Final
                     // Clear existing columns
                     dataGridViewDentists.Columns.Clear();
 
-                    // Hidden original dentist_id column (keeps integer value for actions)
-                    var dentistIdHidden = new DataGridViewTextBoxColumn
-                    {
-                        Name = "dentist_id",
-                        HeaderText = "Id",
-                        DataPropertyName = "dentist_id",
-                        Visible = false
-                    };
-                    dataGridViewDentists.Columns.Add(dentistIdHidden);
-
                     // Visible formatted display column
                     var dentistDisplayCol = new DataGridViewTextBoxColumn
                     {
@@ -240,26 +234,28 @@ namespace Dental_Final
             }
         }
 
+
         private void label7_Click(object sender, EventArgs e)
         {
 
         }
 
         // Load staff with formatted display id (#STxxx) while keeping underlying staff_id integer
+        // Load staff with formatted display id (#STxxx) while keeping underlying staff_id integer
         public void LoadStaff()
         {
             const string query = @"
-SELECT 
-    staff_id,
-    first_name + ' ' +
-    COALESCE(NULLIF(middle_initial, ' ') + '. ', '')
-    + last_name
-    + CASE WHEN suffix IS NOT NULL AND LTRIM(RTRIM(suffix)) <> '' THEN ' ' + suffix ELSE '' END
-    AS Name,
-    gender,
-    email
-FROM dbo.staff
-ORDER BY last_name, first_name;";
+                SELECT 
+                    staff_id,
+                    first_name + ' ' +
+                    COALESCE(NULLIF(middle_initial, ' ') + '. ', '')
+                    + last_name
+                    + CASE WHEN suffix IS NOT NULL AND LTRIM(RTRIM(suffix)) <> '' THEN ' ' + suffix ELSE '' END
+                    AS Name,
+                    gender,
+                    email
+                FROM dbo.staff
+                ORDER BY last_name, first_name;";
 
             try
             {
@@ -292,16 +288,6 @@ ORDER BY last_name, first_name;";
 
                     // Clear all columns first
                     dataGridViewStaff.Columns.Clear();
-
-                    // Hidden original staff_id column (keeps integer value for actions)
-                    var staffIdHidden = new DataGridViewTextBoxColumn
-                    {
-                        Name = "staff_id",
-                        HeaderText = "Id",
-                        DataPropertyName = "staff_id",
-                        Visible = false
-                    };
-                    dataGridViewStaff.Columns.Add(staffIdHidden);
 
                     // Visible formatted staff display column
                     var staffDisplayCol = new DataGridViewTextBoxColumn
@@ -379,8 +365,12 @@ ORDER BY last_name, first_name;";
             if (e.RowIndex < 0)
                 return;
 
-            // Get underlying integer staff_id from hidden column
-            int staffId = Convert.ToInt32(dataGridViewStaff.Rows[e.RowIndex].Cells["staff_id"].Value);
+            // Get underlying integer staff_id from the DataTable row
+            DataRowView rowView = dataGridViewStaff.Rows[e.RowIndex].DataBoundItem as DataRowView;
+            if (rowView == null)
+                return;
+
+            int staffId = Convert.ToInt32(rowView["staff_id"]);
 
             // Edit button clicked
             if (e.ColumnIndex == dataGridViewStaff.Columns["Edit"].Index)

@@ -30,7 +30,6 @@
         {
             this.button1 = new System.Windows.Forms.Button();
             this.txtDescription = new System.Windows.Forms.RichTextBox();
-            this.txtDuration = new System.Windows.Forms.TextBox();
             this.txtServicePrice = new System.Windows.Forms.TextBox();
             this.txtServiceName = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
@@ -40,6 +39,8 @@
             this.button2 = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.cmbCategory = new System.Windows.Forms.ComboBox();
+            this.txtDuration = new System.Windows.Forms.NumericUpDown();
+            ((System.ComponentModel.ISupportInitialize)(this.txtDuration)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
@@ -61,13 +62,6 @@
             this.txtDescription.Size = new System.Drawing.Size(155, 84);
             this.txtDescription.TabIndex = 16;
             this.txtDescription.Text = "";
-            // 
-            // txtDuration
-            // 
-            this.txtDuration.Location = new System.Drawing.Point(146, 121);
-            this.txtDuration.Name = "txtDuration";
-            this.txtDuration.Size = new System.Drawing.Size(155, 20);
-            this.txtDuration.TabIndex = 15;
             // 
             // txtServicePrice
             // 
@@ -155,18 +149,30 @@
             this.cmbCategory.TabIndex = 20;
             this.cmbCategory.SelectedIndexChanged += new System.EventHandler(this.categoryCombo_SelectedIndexChanged);
             // 
+            // txtDuration
+            // 
+            this.txtDuration.Location = new System.Drawing.Point(146, 121);
+            this.txtDuration.Maximum = new decimal(new int[] {
+            500,
+            0,
+            0,
+            0});
+            this.txtDuration.Name = "txtDuration";
+            this.txtDuration.Size = new System.Drawing.Size(120, 20);
+            this.txtDuration.TabIndex = 21;
+            // 
             // Add_Services
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.ClientSize = new System.Drawing.Size(358, 440);
+            this.Controls.Add(this.txtDuration);
             this.Controls.Add(this.cmbCategory);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.txtDescription);
-            this.Controls.Add(this.txtDuration);
             this.Controls.Add(this.txtServicePrice);
             this.Controls.Add(this.txtServiceName);
             this.Controls.Add(this.label4);
@@ -175,6 +181,8 @@
             this.Controls.Add(this.label1);
             this.Name = "Add_Services";
             this.Text = "Add Service";
+        
+            ((System.ComponentModel.ISupportInitialize)(this.txtDuration)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -184,7 +192,6 @@
 
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.RichTextBox txtDescription;
-        private System.Windows.Forms.TextBox txtDuration;
         private System.Windows.Forms.TextBox txtServicePrice;
         private System.Windows.Forms.TextBox txtServiceName;
         private System.Windows.Forms.Label label4;
@@ -194,5 +201,6 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ComboBox cmbCategory;
+        private System.Windows.Forms.NumericUpDown txtDuration;
     }
 }

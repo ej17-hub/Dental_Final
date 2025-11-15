@@ -113,6 +113,10 @@ namespace Dental_Final
                 }
 
                 comboBox2.DisplayMember = "Name";
+        
+                // Enable autocomplete/search functionality
+                comboBox2.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                comboBox2.AutoCompleteSource = AutoCompleteSource.ListItems;
             }
             catch (Exception ex)
             {

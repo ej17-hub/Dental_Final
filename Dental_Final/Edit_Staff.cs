@@ -40,6 +40,13 @@ namespace Dental_Final
                                 txtSuffix.Text = reader["suffix"].ToString();
                                 cbGender.Text = reader["gender"].ToString();
                                 txtEmail.Text = reader["email"].ToString();
+
+                                // Load phone number
+                                if (reader["phone"] != DBNull.Value)
+                                {
+                                    txtPhone.Text = reader["phone"].ToString();
+                                }
+
                                 if (reader["birth_date"] != DBNull.Value)
                                 {
                                     dtpBirthDate.Value = Convert.ToDateTime(reader["birth_date"]);
@@ -71,6 +78,7 @@ namespace Dental_Final
                             suffix = @Suffix,
                             gender = @Gender,
                             email = @Email,
+                            phone = @Phone,
                             birth_date = @BirthDate
                         WHERE staff_id = @StaffId";
 
@@ -83,6 +91,7 @@ namespace Dental_Final
                             cmd.Parameters.AddWithValue("@Suffix", string.IsNullOrEmpty(txtSuffix.Text) ? (object)DBNull.Value : txtSuffix.Text);
                             cmd.Parameters.AddWithValue("@Gender", string.IsNullOrEmpty(cbGender.Text) ? (object)DBNull.Value : cbGender.Text);
                             cmd.Parameters.AddWithValue("@Email", string.IsNullOrEmpty(txtEmail.Text) ? (object)DBNull.Value : txtEmail.Text);
+                            cmd.Parameters.AddWithValue("@Phone", string.IsNullOrEmpty(txtPhone.Text) ? (object)DBNull.Value : txtPhone.Text);
                             cmd.Parameters.AddWithValue("@BirthDate", dtpBirthDate.Value);
 
                             cmd.ExecuteNonQuery();
