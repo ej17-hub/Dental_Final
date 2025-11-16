@@ -50,7 +50,7 @@ namespace Dental_Final
             }
         }
 
-        // Configure dataGridView1 (Today) / dataGridView2 (Completed) / dataGridView3 (Cancelled)
+        // Configure dataGridView1 (Today)
         private void SetupDesignerGrids()
         {
             bool hasPriceColumn = ColumnExists("appointments", "price");
@@ -103,51 +103,11 @@ namespace Dental_Final
             // ensure handler
             dataGridView1.CellContentClick -= DgvToday_CellContentClick;
             dataGridView1.CellContentClick += DgvToday_CellContentClick;
-
-            // --- Completed grid (dataGridView2) ---
-            dataGridView2.AllowUserToAddRows = false;
-            dataGridView2.ReadOnly = true;
-            dataGridView2.RowHeadersVisible = false;
-            dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridView2.BackgroundColor = Color.White;
-
-            // apply bold header style
-            dataGridView2.EnableHeadersVisualStyles = false;
-            dataGridView2.ColumnHeadersDefaultCellStyle.Font = new Font(dataGridView2.Font, FontStyle.Bold);
-
-            dataGridView2.Columns.Clear();
-            dataGridView2.Columns.Add("appointment_id", "Id");
-            dataGridView2.Columns["appointment_id"].Visible = false;
-            dataGridView2.Columns.Add("Patient", "Patient");
-            dataGridView2.Columns.Add("Service", "Service");
-            dataGridView2.Columns.Add("Time", "Time");
-            dataGridView2.Columns.Add("Dentist", "Dentist");
-
-            // --- Cancelled grid (dataGridView3) ---
-            dataGridView3.AllowUserToAddRows = false;
-            dataGridView3.ReadOnly = true;
-            dataGridView3.RowHeadersVisible = false;
-            dataGridView3.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridView3.BackgroundColor = Color.White;
-
-            // apply bold header style
-            dataGridView3.EnableHeadersVisualStyles = false;
-            dataGridView3.ColumnHeadersDefaultCellStyle.Font = new Font(dataGridView3.Font, FontStyle.Bold);
-
-            dataGridView3.Columns.Clear();
-            dataGridView3.Columns.Add("appointment_id", "Id");
-            dataGridView3.Columns["appointment_id"].Visible = false;
-            dataGridView3.Columns.Add("Patient", "Patient");
-            dataGridView3.Columns.Add("Service", "Service");
-            dataGridView3.Columns.Add("Time", "Time");
-            dataGridView3.Columns.Add("Dentist", "Dentist");
         }
 
         private void RenderGrids(DateTime selectedDate)
         {
             dataGridView1.Rows.Clear();
-            dataGridView2.Rows.Clear();
-            dataGridView3.Rows.Clear();
 
             // Build safe name expressions depending on which columns exist.
             string patientExpr;
@@ -214,7 +174,7 @@ namespace Dental_Final
                 "LEFT JOIN services s ON a.service_id = s.service_id " +
                 "LEFT JOIN staff st1 ON a.staff_assign_1 = st1.staff_id " +
                 "LEFT JOIN staff st2 ON a.staff_assign_2 = st2.staff_id " +
-                "WHERE (CAST(a.appointment_date AS DATE) = @date) OR (CAST(a.appointment_date AS DATE) < @date) " +
+                "WHERE (CAST(a.appointment_date AS DATE) = @date) " +
                 "ORDER BY a.appointment_date, a.appointment_time";
 
             try
@@ -293,24 +253,11 @@ namespace Dental_Final
                                 timeText = apptDate.ToString("h:mm tt");
                             }
 
-                            // classification rules:
-                            // - cancelled appointments -> dataGridView3 ONLY if appointment_date == selectedDate
-                            // - completed appointments -> dataGridView2 ONLY if appointment_date == selectedDate and marked completed
-                            // - appointments on the selected date -> dataGridView1
+                            // only show appointments that are not cancelled or completed on the selected date
                             var isCancelled = notes.IndexOf("cancel", StringComparison.OrdinalIgnoreCase) >= 0;
                             var isCompleted = notes.IndexOf("completed", StringComparison.OrdinalIgnoreCase) >= 0;
 
-                            if (isCancelled && apptDate.Date == selectedDate.Date)
-                            {
-                                int r = dataGridView3.Rows.Add(id, patient, serviceDisplay, timeText, dentist);
-                                dataGridView3.Rows[r].Tag = id;
-                            }
-                            else if (isCompleted && apptDate.Date == selectedDate.Date)
-                            {
-                                int r = dataGridView2.Rows.Add(id, patient, serviceDisplay, timeText, dentist);
-                                dataGridView2.Rows[r].Tag = id;
-                            }
-                            else if (apptDate.Date == selectedDate.Date)
+                            if (!isCancelled && !isCompleted && apptDate.Date == selectedDate.Date)
                             {
                                 // include price column when present (dataGridView1 schema already created in SetupDesignerGrids)
                                 int r;
@@ -319,10 +266,6 @@ namespace Dental_Final
                                 else
                                     r = dataGridView1.Rows.Add(id, patient, serviceDisplay, timeText, dentist);
                                 dataGridView1.Rows[r].Tag = id;
-                            }
-                            else
-                            {
-                                // older/future appointments that are neither completed nor cancelled on the selected date are not displayed
                             }
                         }
                     }
@@ -601,7 +544,7 @@ namespace Dental_Final
         private void button3_Click(object sender, EventArgs e)
         {
             Patients patients = new Patients();
-            patients.Show();    
+            patients.Show();
             this.Hide();
         }
 
@@ -622,6 +565,13 @@ namespace Dental_Final
         {
             Add_Appointment add_Appointment = new Add_Appointment();
             add_Appointment.Show();
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            Appointment_Status appointment_Status = new Appointment_Status();
+            appointment_Status.Show();
+            this.Hide();
         }
     }
 }

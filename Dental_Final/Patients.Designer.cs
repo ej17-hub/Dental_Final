@@ -94,19 +94,19 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(286, 118);
+            this.textBox1.Location = new System.Drawing.Point(286, 129);
             this.textBox1.Margin = new System.Windows.Forms.Padding(4);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(352, 48);
+            this.textBox1.Size = new System.Drawing.Size(352, 37);
             this.textBox1.TabIndex = 68;
             // 
             // searchTerm
             // 
-            this.searchTerm.Location = new System.Drawing.Point(667, 118);
+            this.searchTerm.Location = new System.Drawing.Point(667, 129);
             this.searchTerm.Margin = new System.Windows.Forms.Padding(4);
             this.searchTerm.Name = "searchTerm";
-            this.searchTerm.Size = new System.Drawing.Size(189, 49);
+            this.searchTerm.Size = new System.Drawing.Size(189, 38);
             this.searchTerm.TabIndex = 69;
             this.searchTerm.Text = "Search";
             this.searchTerm.UseVisualStyleBackColor = true;
@@ -192,6 +192,7 @@
             this.button8.Size = new System.Drawing.Size(212, 69);
             this.button8.TabIndex = 81;
             this.button8.UseVisualStyleBackColor = false;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
             // 
             // button7
             // 

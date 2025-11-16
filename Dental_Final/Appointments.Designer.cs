@@ -36,10 +36,6 @@
             this.label3 = new System.Windows.Forms.Label();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.dataGridView2 = new System.Windows.Forms.DataGridView();
-            this.dataGridView3 = new System.Windows.Forms.DataGridView();
             this.button9 = new System.Windows.Forms.Button();
             this.button8 = new System.Windows.Forms.Button();
             this.button7 = new System.Windows.Forms.Button();
@@ -52,8 +48,6 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -131,50 +125,8 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(1201, 259);
+            this.dataGridView1.Size = new System.Drawing.Size(1201, 562);
             this.dataGridView1.TabIndex = 121;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Arial", 15F, System.Drawing.FontStyle.Bold);
-            this.label6.Location = new System.Drawing.Point(295, 473);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(111, 24);
-            this.label6.TabIndex = 122;
-            this.label6.Text = "Completed";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Arial", 15F, System.Drawing.FontStyle.Bold);
-            this.label7.Location = new System.Drawing.Point(928, 472);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(102, 24);
-            this.label7.TabIndex = 123;
-            this.label7.Text = "Cancelled";
-            // 
-            // dataGridView2
-            // 
-            this.dataGridView2.BackgroundColor = System.Drawing.SystemColors.ButtonFace;
-            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView2.Location = new System.Drawing.Point(300, 519);
-            this.dataGridView2.Name = "dataGridView2";
-            this.dataGridView2.RowHeadersWidth = 51;
-            this.dataGridView2.RowTemplate.Height = 24;
-            this.dataGridView2.Size = new System.Drawing.Size(568, 259);
-            this.dataGridView2.TabIndex = 124;
-            // 
-            // dataGridView3
-            // 
-            this.dataGridView3.BackgroundColor = System.Drawing.SystemColors.ButtonFace;
-            this.dataGridView3.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView3.Location = new System.Drawing.Point(933, 519);
-            this.dataGridView3.Name = "dataGridView3";
-            this.dataGridView3.RowHeadersWidth = 51;
-            this.dataGridView3.RowTemplate.Height = 24;
-            this.dataGridView3.Size = new System.Drawing.Size(568, 259);
-            this.dataGridView3.TabIndex = 125;
             // 
             // button9
             // 
@@ -199,6 +151,7 @@
             this.button8.Size = new System.Drawing.Size(212, 69);
             this.button8.TabIndex = 54;
             this.button8.UseVisualStyleBackColor = false;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
             // 
             // button7
             // 
@@ -318,10 +271,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.SystemColors.Window;
             this.ClientSize = new System.Drawing.Size(1558, 889);
-            this.Controls.Add(this.dataGridView3);
-            this.Controls.Add(this.dataGridView2);
-            this.Controls.Add(this.label7);
-            this.Controls.Add(this.label6);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.button9);
             this.Controls.Add(this.dateTimePicker1);
@@ -344,8 +293,6 @@
             this.Name = "Appointments";
             this.Text = "Appointments";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
@@ -371,10 +318,6 @@
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
         private System.Windows.Forms.Button button9;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.DataGridView dataGridView2;
-        private System.Windows.Forms.DataGridView dataGridView3;
         private System.Windows.Forms.Button button1;
     }
 }

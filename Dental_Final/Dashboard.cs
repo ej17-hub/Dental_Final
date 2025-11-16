@@ -171,7 +171,7 @@ namespace Dental_Final
 
                 // load today's appointments into dataGridView1
                 LoadTodaysAppointments();
-                
+
                 // load activity log into dataGridView2
                 LoadActivityLog();
             }
@@ -181,7 +181,6 @@ namespace Dental_Final
             }
         }
 
-        // Load today's appointments into dataGridView1
         // Load today's appointments into dataGridView1
         private void LoadTodaysAppointments()
         {
@@ -335,16 +334,25 @@ namespace Dental_Final
                             // Add row to grid
                             int rowIndex = dataGridView1.Rows.Add(id, timeText, patient, dentist, serviceDisplay, status);
 
-                            // Color code the row based on status - only green for completed, yellow for pending/cancelled
-                            var row = dataGridView1.Rows[rowIndex];
+                            // Color code only the status cell based on status
+                            var statusCell = dataGridView1.Rows[rowIndex].Cells["status"];
                             if (status == "Completed")
                             {
-                                row.DefaultCellStyle.BackColor = Color.LightGreen;
+                                statusCell.Style.BackColor = Color.FromArgb(92, 184, 92); // Green
+                                statusCell.Style.ForeColor = Color.White;
+                                statusCell.Style.Font = new Font(dataGridView1.Font, FontStyle.Bold);
                             }
-                            else
+                            else if (status == "Cancelled")
                             {
-                                // Both Pending and Cancelled use light yellow
-                                row.DefaultCellStyle.BackColor = Color.LightYellow;
+                                statusCell.Style.BackColor = Color.FromArgb(217, 83, 79); // Red
+                                statusCell.Style.ForeColor = Color.White;
+                                statusCell.Style.Font = new Font(dataGridView1.Font, FontStyle.Bold);
+                            }
+                            else if (status == "Pending")
+                            {
+                                statusCell.Style.BackColor = Color.FromArgb(240, 173, 78); // Yellow/Orange
+                                statusCell.Style.ForeColor = Color.White;
+                                statusCell.Style.Font = new Font(dataGridView1.Font, FontStyle.Bold);
                             }
                         }
                     }
@@ -436,6 +444,13 @@ namespace Dental_Final
         {
             Add_Appointment add_Appointment = new Add_Appointment();
             add_Appointment.Show();
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            Appointment_Status appointment_Status = new Appointment_Status();
+            appointment_Status.Show();
+            this.Hide();
         }
     }
 }

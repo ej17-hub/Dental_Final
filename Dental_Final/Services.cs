@@ -244,5 +244,12 @@ namespace Dental_Final
             Add_Appointment add_Appointment = new Add_Appointment();
             add_Appointment.Show();
         }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            Appointment_Status appointment_Status = new Appointment_Status();
+            appointment_Status.Show();
+            this.Hide();
+        }
     }
 }
