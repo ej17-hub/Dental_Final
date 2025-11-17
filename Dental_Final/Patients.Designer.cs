@@ -153,9 +153,9 @@
             this.label1.Location = new System.Drawing.Point(32, 822);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(69, 22);
+            this.label1.Size = new System.Drawing.Size(15, 22);
             this.label1.TabIndex = 83;
-            this.label1.Text = "Admin";
+            this.label1.Text = "/";
             // 
             // label3
             // 

@@ -81,6 +81,8 @@ namespace Dental_Final
                 dataGridViewPatients.Columns["patient_id"].Visible = false;
 
                 // Remove old action columns if they exist
+                if (dataGridViewPatients.Columns.Contains("View"))
+                    dataGridViewPatients.Columns.Remove("View");
                 if (dataGridViewPatients.Columns.Contains("Edit"))
                     dataGridViewPatients.Columns.Remove("Edit");
                 if (dataGridViewPatients.Columns.Contains("Delete"))
@@ -88,22 +90,37 @@ namespace Dental_Final
                 if (dataGridViewPatients.Columns.Contains("Actions"))
                     dataGridViewPatients.Columns.Remove("Actions");
 
+                // Add View button column
+                DataGridViewButtonColumn viewColumn = new DataGridViewButtonColumn
+                {
+                    Name = "View",
+                    HeaderText = "",
+                    Text = "View",
+                    UseColumnTextForButtonValue = true,
+                    Width = 60
+                };
+                dataGridViewPatients.Columns.Add(viewColumn);
+
                 // Add Edit button column
-                DataGridViewButtonColumn editColumn = new DataGridViewButtonColumn();
-                editColumn.Name = "Edit";
-                editColumn.HeaderText = "";
-                editColumn.Text = "Edit";
-                editColumn.UseColumnTextForButtonValue = true;
-                editColumn.Width = 60;
+                DataGridViewButtonColumn editColumn = new DataGridViewButtonColumn
+                {
+                    Name = "Edit",
+                    HeaderText = "",
+                    Text = "Edit",
+                    UseColumnTextForButtonValue = true,
+                    Width = 60
+                };
                 dataGridViewPatients.Columns.Add(editColumn);
 
                 // Add Delete button column
-                DataGridViewButtonColumn deleteColumn = new DataGridViewButtonColumn();
-                deleteColumn.Name = "Delete";
-                deleteColumn.HeaderText = "";
-                deleteColumn.Text = "Delete";
-                deleteColumn.UseColumnTextForButtonValue = true;
-                deleteColumn.Width = 60;
+                DataGridViewButtonColumn deleteColumn = new DataGridViewButtonColumn
+                {
+                    Name = "Delete",
+                    HeaderText = "",
+                    Text = "Delete",
+                    UseColumnTextForButtonValue = true,
+                    Width = 60
+                };
                 dataGridViewPatients.Columns.Add(deleteColumn);
             }
         }
@@ -132,17 +149,36 @@ namespace Dental_Final
             if (e.RowIndex < 0)
                 return;
 
-            // Get patient_id for the selected row
-            int patientId = Convert.ToInt32(dataGridViewPatients.Rows[e.RowIndex].Cells["patient_id"].Value);
+            // Get patient_id for the selected row (hidden column)
+            object idObj = dataGridViewPatients.Rows[e.RowIndex].Cells["patient_id"].Value;
+            if (idObj == null || idObj == DBNull.Value)
+                return;
+
+            int patientId = Convert.ToInt32(idObj);
+
+            // View button logic
+            if (dataGridViewPatients.Columns.Contains("View") && e.ColumnIndex == dataGridViewPatients.Columns["View"].Index)
+            {
+                try
+                {
+                    var viewForm = new ViewRecord(patientId);
+                    viewForm.Show();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Failed to open View Record: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                return;
+            }
 
             // Edit button logic
-            if (e.ColumnIndex == dataGridViewPatients.Columns["Edit"].Index)
+            if (dataGridViewPatients.Columns.Contains("Edit") && e.ColumnIndex == dataGridViewPatients.Columns["Edit"].Index)
             {
                 Edit_Patient editP = new Edit_Patient(patientId);
                 editP.Show();
             }
             // Delete button logic
-            else if (e.ColumnIndex == dataGridViewPatients.Columns["Delete"].Index)
+            else if (dataGridViewPatients.Columns.Contains("Delete") && e.ColumnIndex == dataGridViewPatients.Columns["Delete"].Index)
             {
                 var confirmResult = MessageBox.Show(
                     "Are you sure you want to delete this patient?",
