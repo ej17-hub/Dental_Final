@@ -81,5 +81,15 @@ namespace Dental_Final
             txtPassword.ForeColor = Color.LightGray;
         }
 
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            //Patient_Login patientLogin = new Patient_Login();
+            //patientLogin.Show();
+            //this.Hide();
+
+            Patient_Dashboard patientDashboard = new Patient_Dashboard();
+            patientDashboard.Show();
+            this.Hide();
+        }
     }
 }

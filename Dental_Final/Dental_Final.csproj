@@ -147,6 +147,36 @@
     <Compile Include="Patients.Designer.cs">
       <DependentUpon>Patients.cs</DependentUpon>
     </Compile>
+    <Compile Include="Patient_Appointments.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Patient_Appointments.Designer.cs">
+      <DependentUpon>Patient_Appointments.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Patient_Dashboard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Patient_Dashboard.Designer.cs">
+      <DependentUpon>Patient_Dashboard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Patient_Login.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Patient_Login.Designer.cs">
+      <DependentUpon>Patient_Login.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Patient_Services.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Patient_Services.Designer.cs">
+      <DependentUpon>Patient_Services.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Patient_Settings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Patient_Settings.Designer.cs">
+      <DependentUpon>Patient_Settings.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services.cs">
@@ -214,6 +244,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Patients.resx">
       <DependentUpon>Patients.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Patient_Appointments.resx">
+      <DependentUpon>Patient_Appointments.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Patient_Dashboard.resx">
+      <DependentUpon>Patient_Dashboard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Patient_Login.resx">
+      <DependentUpon>Patient_Login.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Patient_Services.resx">
+      <DependentUpon>Patient_Services.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Patient_Settings.resx">
+      <DependentUpon>Patient_Settings.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -304,6 +349,48 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Frame 22582.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Frame 2259.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Frame 22591.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Group 2264.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Frame 22592.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Frame 2259 %281%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Group 2265.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Group 2266.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Group 22661.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Group 2268.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Group 2267.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Group 2269.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\appointments1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\appointments2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ngani.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
