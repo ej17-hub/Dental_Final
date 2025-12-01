@@ -10,7 +10,7 @@ namespace Dental_Final
     public partial class Patient_Settings : Form
     {
         // match other files' connection string
-        private readonly string connectionString = @"Server=FANGON\SQLEXPRESS;Database=dental_final_clinic;Integrated Security=True;MultipleActiveResultSets=True";
+        private readonly string connectionString = @"Server=DESKTOP-O65C6K9\SQLEXPRESS;Database=dental_final_clinic;Integrated Security=True;MultipleActiveResultSets=True";
 
         // Caller should set this before showing the form (current logged-in patient id).
         public int? PatientId { get; set; }

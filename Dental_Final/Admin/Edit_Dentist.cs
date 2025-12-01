@@ -8,7 +8,7 @@ namespace Dental_Final
 {
     public partial class Edit_Dentist : Form
     {
-        string connectionString = "Server=FANGON\\SQLEXPRESS;Database=dental_final_clinic;Integrated Security=True;MultipleActiveResultSets=True";
+        string connectionString = "Server=DESKTOP-O65C6K9\\SQLEXPRESS;Database=dental_final_clinic;Integrated Security=True;MultipleActiveResultSets=True";
 
         private readonly int _dentistId;
 

@@ -4,17 +4,12 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Windows.Forms;
-using System.Configuration;
-
 
 namespace Dental_Final
 {
     public partial class Add_Appointment : Form
     {
-        // 💡 Adjust this or use your config file
-        string connectionString = "Server=FANGON\\SQLEXPRESS;Database=dental_final_clinic;Integrated Security=True;MultipleActiveResultSets=True";
-
-
+        string connectionString = @"Server=DESKTOP-O65C6K9\SQLEXPRESS;Database=dental_final_clinic;Integrated Security=True;MultipleActiveResultSets=True";
 
         public Add_Appointment()
         {
@@ -34,7 +29,7 @@ namespace Dental_Final
             // Wire up dentist selection change event to filter services
             this.comboBox1.SelectedIndexChanged -= ComboBox1_SelectedIndexChanged;
             this.comboBox1.SelectedIndexChanged += ComboBox1_SelectedIndexChanged;
-            
+
             // Wire up date picker change to reload dentists when date changes
             if (this.dateTimePicker1 != null)
             {
@@ -90,7 +85,6 @@ namespace Dental_Final
             }
             else
             {
-                // fallback to id if no name columns exist
                 select = "SELECT patient_id, CONVERT(varchar(20), patient_id) AS display_name FROM patients ORDER BY patient_id";
             }
 
@@ -102,7 +96,7 @@ namespace Dental_Final
                     conn.Open();
                     using (var rdr = cmd.ExecuteReader())
                     {
-                        comboBox2.Items.Clear(); // comboBox2 is Patient in designer
+                        comboBox2.Items.Clear();
                         while (rdr.Read())
                         {
                             var id = rdr["patient_id"] != DBNull.Value ? Convert.ToInt32(rdr["patient_id"]) : -1;
@@ -113,30 +107,26 @@ namespace Dental_Final
                 }
 
                 comboBox2.DisplayMember = "Name";
-        
-                // Enable autocomplete/search functionality
                 comboBox2.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
                 comboBox2.AutoCompleteSource = AutoCompleteSource.ListItems;
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error loading patients: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ErrorHandler.HandleDatabaseError(ex, "Loading patients");
             }
         }
 
         private void LoadDentistsIntoComboBox()
         {
-            // Determine selected day name from date picker (falls back to today if control missing)
             string dayName = (this.dateTimePicker1 != null) ? this.dateTimePicker1.Value.DayOfWeek.ToString() : DateTime.Today.DayOfWeek.ToString();
 
-            // Build base select depending on available name columns - include specialization
             string selectBase;
             string orderBy;
             bool hasSpecialization = ColumnExists("dentists", "specialization");
-            
+
             if (ColumnExists("dentists", "first_name") && ColumnExists("dentists", "last_name"))
             {
-                selectBase = hasSpecialization 
+                selectBase = hasSpecialization
                     ? "SELECT dentist_id, RTRIM(ISNULL(first_name,'')) + ' ' + RTRIM(ISNULL(last_name,'')) AS display_name, specialization, available_days FROM dentists"
                     : "SELECT dentist_id, RTRIM(ISNULL(first_name,'')) + ' ' + RTRIM(ISNULL(last_name,'')) AS display_name, available_days FROM dentists";
                 orderBy = " ORDER BY last_name, first_name";
@@ -156,7 +146,6 @@ namespace Dental_Final
                 orderBy = " ORDER BY dentist_id";
             }
 
-            // If dentists table has available_days column, filter dentists by the dayName
             bool hasAvailableDays = ColumnExists("dentists", "available_days");
             string finalSql = selectBase + orderBy;
 
@@ -166,46 +155,39 @@ namespace Dental_Final
                 using (var cmd = new SqlCommand(finalSql, conn))
                 {
                     conn.Open();
-                    comboBox1.Items.Clear(); // comboBox1 is Dentist in designer
-                    
+                    comboBox1.Items.Clear();
+
                     using (var rdr = cmd.ExecuteReader())
                     {
                         while (rdr.Read())
                         {
                             var id = rdr["dentist_id"] != DBNull.Value ? Convert.ToInt32(rdr["dentist_id"]) : -1;
                             var name = rdr["display_name"] != DBNull.Value ? rdr["display_name"].ToString() : string.Empty;
-                            
-                            // Filter by available_days in C# code (more reliable than SQL CHARINDEX)
+
                             if (hasAvailableDays)
                             {
                                 string availableDays = rdr["available_days"] != DBNull.Value ? rdr["available_days"].ToString() : string.Empty;
-                                
-                                // If available_days is NULL or empty, dentist is available all days
                                 bool isAvailable = string.IsNullOrWhiteSpace(availableDays);
-                                
+
                                 if (!isAvailable)
                                 {
-                                    // Split by comma and check if the day exists (case-insensitive)
                                     var days = availableDays.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
                                                             .Select(d => d.Trim())
                                                             .ToList();
                                     isAvailable = days.Any(d => d.Equals(dayName, StringComparison.OrdinalIgnoreCase));
                                 }
-                                
-                                // Skip this dentist if not available on selected day
+
                                 if (!isAvailable)
                                     continue;
                             }
-                            
-                            // Store specialization in the ServiceItem if available
+
                             var item = new ServiceItem(id, name);
-                            
-                            // Store specialization as Tag for later retrieval
+
                             if (hasSpecialization && rdr["specialization"] != DBNull.Value)
                             {
                                 item.Tag = rdr["specialization"].ToString();
                             }
-                            
+
                             comboBox1.Items.Add(item);
                         }
                     }
@@ -215,7 +197,7 @@ namespace Dental_Final
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error loading dentists: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ErrorHandler.HandleDatabaseError(ex, "Loading dentists");
             }
         }
 
@@ -243,7 +225,6 @@ namespace Dental_Final
                     conn.Open();
                     using (var rdr = cmd.ExecuteReader())
                     {
-                        // cmbGender = Staff 1, textBox1 = Staff 2 (both are ComboBox controls in designer)
                         cmbGender.Items.Clear();
                         textBox1.Items.Clear();
 
@@ -263,18 +244,16 @@ namespace Dental_Final
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error loading staff: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ErrorHandler.HandleDatabaseError(ex, "Loading staff");
             }
         }
 
         private void LoadServicesIntoCheckedListBox(string specializationFilter = null)
         {
-            // Check if services table has a category column
             bool hasCategoryColumn = ColumnExists("services", "category");
 
             string query = "SELECT service_id, name FROM services";
-            
-            // If specialization filter is provided and column exists, filter services
+
             if (!string.IsNullOrWhiteSpace(specializationFilter) && hasCategoryColumn)
             {
                 query += " WHERE category = @category OR category IS NULL OR category = ''";
@@ -293,15 +272,12 @@ namespace Dental_Final
                     conn.Open();
                     SqlDataReader reader = cmd.ExecuteReader();
 
-                    checkedListBoxServices.Items.Clear(); // Clear old items if any
+                    checkedListBoxServices.Items.Clear();
 
                     while (reader.Read())
                     {
-                        // 💡 Store both ID and Name so you can retrieve ID later
                         var serviceId = reader.GetInt32(0);
                         var serviceName = reader.GetString(1);
-
-                        // Wrap in custom object or anonymous type
                         checkedListBoxServices.Items.Add(new ServiceItem(serviceId, serviceName));
                     }
 
@@ -309,74 +285,41 @@ namespace Dental_Final
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error loading services: " + ex.Message);
+                    ErrorHandler.HandleDatabaseError(ex, "Loading services");
                 }
             }
 
-            // So that only the name shows, not the object
             checkedListBoxServices.DisplayMember = "Name";
         }
 
-        // Event handler for when dentist selection changes
         private void ComboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             var selectedDentist = comboBox1.SelectedItem as ServiceItem;
             if (selectedDentist == null || selectedDentist.Id <= 0)
             {
-                // No dentist selected, show all services
                 LoadServicesIntoCheckedListBox();
                 return;
             }
 
-            // Get the dentist's specialization from cached Tag property
             string specialization = selectedDentist.Tag as string;
-            
-            // Reload services filtered by specialization
             LoadServicesIntoCheckedListBox(specialization);
-        }
-
-        // Helper method to retrieve dentist's specialization
-        private string GetDentistSpecialization(int dentistId)
-        {
-            if (!ColumnExists("dentists", "specialization"))
-                return null;
-
-            string query = "SELECT specialization FROM dentists WHERE dentist_id = @dentistId";
-
-            using (SqlConnection conn = new SqlConnection(connectionString))
-            using (SqlCommand cmd = new SqlCommand(query, conn))
-            {
-                cmd.Parameters.AddWithValue("@dentistId", dentistId);
-
-                try
-                {
-                    conn.Open();
-                    var result = cmd.ExecuteScalar();
-                    return result != DBNull.Value && result != null ? result.ToString() : null;
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error retrieving dentist specialization: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return null;
-                }
-            }
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            // Patient
+            // Validate Patient
             var patientItem = comboBox2.SelectedItem as ServiceItem;
             if (patientItem == null || patientItem.Id <= 0)
             {
-                MessageBox.Show("Please select a patient.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                ErrorHandler.HandleValidationError("Please select a patient.", "Validation");
                 return;
             }
 
-            // Dentist
+            // Validate Dentist
             var dentistItem = comboBox1.SelectedItem as ServiceItem;
             if (dentistItem == null || dentistItem.Id <= 0)
             {
-                MessageBox.Show("Please select a dentist.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                ErrorHandler.HandleValidationError("Please select a dentist.", "Validation");
                 return;
             }
 
@@ -386,18 +329,18 @@ namespace Dental_Final
             int? staff1Id = (staff1Item != null && staff1Item.Id > 0) ? staff1Item.Id : (int?)null;
             int? staff2Id = (staff2Item != null && staff2Item.Id > 0) ? staff2Item.Id : (int?)null;
 
-            // Services (multiple)
+            // Validate Services
             var selectedServiceItems = checkedListBoxServices.CheckedItems
                 .OfType<ServiceItem>()
                 .ToList();
 
             if (selectedServiceItems.Count == 0)
             {
-                MessageBox.Show("Please select at least one service.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                ErrorHandler.HandleValidationError("Please select at least one service.", "Validation");
                 return;
             }
 
-            // Appointment date (from date picker) and time (from time picker)
+            // Get Appointment Date and Time
             DateTime apptDate;
             TimeSpan apptTime;
 
@@ -411,17 +354,45 @@ namespace Dental_Final
             else
                 apptTime = TimeSpan.Zero;
 
-            // NOTES: use the actual designer TextBox (textBox2) for notes
-            // Designer shows a multiline TextBox named textBox2 for notes.
+            // VALIDATE APPOINTMENT TIME (8 AM - 5 PM)
+            if (!ErrorHandler.ValidateAppointmentTime(apptTime, out string timeError))
+            {
+                return;
+            }
+
+            // VALIDATE DATE (must be today or future)
+            if (!ErrorHandler.ValidateDate(apptDate, "Appointment Date", futureOnly: true))
+            {
+                return;
+            }
+
+            // CHECK FOR DUPLICATE APPOINTMENT AND CONFLICTS
+            if (!ErrorHandler.ValidateAppointmentBooking(
+                connectionString,
+                dentistItem.Id,
+                apptDate,
+                apptTime,
+                excludeAppointmentId: null,
+                checkConflicts: true,
+                bufferMinutes: 30))
+            {
+                return;
+            }
+
+            // CHECK PATIENT APPOINTMENT LIMIT
+            if (!ErrorHandler.CheckPatientAppointmentLimit(connectionString, patientItem.Id, out string limitError, maxPendingAppointments: 5))
+            {
+                return;
+            }
+
+            // Get Notes
             string notes = null;
             if (this.textBox2 != null)
             {
                 notes = string.IsNullOrWhiteSpace(this.textBox2.Text) ? null : this.textBox2.Text.Trim();
             }
 
-            // collect service IDs and names
             var serviceIds = selectedServiceItems.Select(si => si.Id).ToList();
-            var serviceNames = selectedServiceItems.Select(si => si.Name).ToList();
 
             using (var conn = new SqlConnection(connectionString))
             {
@@ -430,7 +401,7 @@ namespace Dental_Final
                 {
                     try
                     {
-                        // compute total price for selected services
+                        // Calculate total price
                         decimal? totalPrice = null;
                         if (serviceIds.Any())
                         {
@@ -448,32 +419,29 @@ namespace Dental_Final
                             }
                         }
 
-                        // Insert one appointment row. service_id column keeps first service for backward compatibility.
                         int? serviceIdForColumn = serviceIds.FirstOrDefault();
-
-                        // include price column if it exists
                         bool hasPriceColumn = ColumnExists("appointments", "price");
 
                         string insertSql;
                         if (hasPriceColumn)
                         {
                             insertSql = @"
-                    INSERT INTO appointments
-                        (patient_id, dentist_id, service_id, appointment_date, appointment_time, staff_assign_1, staff_assign_2, notes, price, created_at)
-                    VALUES
-                        (@patient_id, @dentist_id, @service_id, @appointment_date, @appointment_time, @staff1, @staff2, @notes, @price, GETDATE());
-                    SELECT CAST(SCOPE_IDENTITY() AS int);
-                ";
+                                INSERT INTO appointments
+                                    (patient_id, dentist_id, service_id, appointment_date, appointment_time, staff_assign_1, staff_assign_2, notes, price, created_at)
+                                VALUES
+                                    (@patient_id, @dentist_id, @service_id, @appointment_date, @appointment_time, @staff1, @staff2, @notes, @price, GETDATE());
+                                SELECT CAST(SCOPE_IDENTITY() AS int);
+                            ";
                         }
                         else
                         {
                             insertSql = @"
-                    INSERT INTO appointments
-                        (patient_id, dentist_id, service_id, appointment_date, appointment_time, staff_assign_1, staff_assign_2, notes, created_at)
-                    VALUES
-                        (@patient_id, @dentist_id, @service_id, @appointment_date, @appointment_time, @staff1, @staff2, @notes, GETDATE());
-                    SELECT CAST(SCOPE_IDENTITY() AS int);
-                ";
+                                INSERT INTO appointments
+                                    (patient_id, dentist_id, service_id, appointment_date, appointment_time, staff_assign_1, staff_assign_2, notes, created_at)
+                                VALUES
+                                    (@patient_id, @dentist_id, @service_id, @appointment_date, @appointment_time, @staff1, @staff2, @notes, GETDATE());
+                                SELECT CAST(SCOPE_IDENTITY() AS int);
+                            ";
                         }
 
                         int newAppointmentId;
@@ -485,8 +453,11 @@ namespace Dental_Final
                                 cmd.Parameters.AddWithValue("@service_id", serviceIdForColumn.Value);
                             else
                                 cmd.Parameters.AddWithValue("@service_id", DBNull.Value);
-                            cmd.Parameters.Add("@appointment_date", SqlDbType.Date).Value = apptDate;
-                            cmd.Parameters.Add("@appointment_time", SqlDbType.Time).Value = apptTime;
+
+                            // Use DATETIME for appointment_date and VARCHAR for appointment_time
+                            cmd.Parameters.AddWithValue("@appointment_date", apptDate);
+                            cmd.Parameters.AddWithValue("@appointment_time", apptTime.ToString(@"hh\:mm"));
+
                             cmd.Parameters.AddWithValue("@staff1", staff1Id.HasValue ? (object)staff1Id.Value : DBNull.Value);
                             cmd.Parameters.AddWithValue("@staff2", staff2Id.HasValue ? (object)staff2Id.Value : DBNull.Value);
                             cmd.Parameters.AddWithValue("@notes", string.IsNullOrEmpty(notes) ? (object)DBNull.Value : notes);
@@ -496,6 +467,8 @@ namespace Dental_Final
                                 if (totalPrice.HasValue)
                                 {
                                     var p = cmd.Parameters.Add("@price", SqlDbType.Decimal);
+                                    p.Precision = 10;
+                                    p.Scale = 2;
                                     p.Value = totalPrice.Value;
                                 }
                                 else
@@ -507,7 +480,7 @@ namespace Dental_Final
                             newAppointmentId = (int)cmd.ExecuteScalar();
                         }
 
-                        // If a linking table exists, insert rows mapping the appointment to each selected service.
+                        // Insert into appointments_services linking table
                         if (TableExists("appointments_services"))
                         {
                             const string linkInsert = "INSERT INTO appointments_services (appointment_id, service_id) VALUES (@aid, @sid)";
@@ -530,20 +503,18 @@ namespace Dental_Final
                         try
                         {
                             DateTime dt = apptDate.Date + apptTime;
-                            // Format changed to: "10:30 AM January 2, 2025"
                             ActivityLogger.Log($"Admin added an appointment for {patientItem.Name} on {dt:h:mm tt MMMM d, yyyy}");
-
                         }
-                        catch { /* ignore logging errors */ }
+                        catch { }
 
-                        // signal success to caller and close
+                        ErrorHandler.ShowSuccess("Appointment created successfully!");
                         this.DialogResult = DialogResult.OK;
                         this.Close();
                     }
                     catch (Exception ex)
                     {
                         tran.Rollback();
-                        MessageBox.Show("Error saving appointment(s): " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        ErrorHandler.HandleDatabaseError(ex, "Saving appointment");
                     }
                 }
             }
@@ -551,25 +522,22 @@ namespace Dental_Final
 
         private void Button2_Click(object sender, EventArgs e)
         {
-            var result = MessageBox.Show(
+            var result = ErrorHandler.ShowConfirmation(
                 "Are you sure you want to cancel? Unsaved information will be lost.",
-                "Confirm Cancel",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question);
+                "Confirm Cancel");
 
-            if (result == DialogResult.Yes)
+            if (result)
             {
                 this.Close();
             }
         }
     }
 
-    // Small helper class to store ID and display name
     public class ServiceItem
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public object Tag { get; set; } // For storing additional data like specialization
+        public object Tag { get; set; }
 
         public ServiceItem(int id, string name)
         {
@@ -579,7 +547,7 @@ namespace Dental_Final
 
         public override string ToString()
         {
-            return Name; // This ensures the name appears in the list
+            return Name;
         }
     }
 }

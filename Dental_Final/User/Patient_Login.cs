@@ -10,7 +10,7 @@ namespace Dental_Final
     public partial class Patient_Login : Form
     {
         // Use the same stable connection string as other forms
-        private readonly string connectionString = @"Server=FANGON\SQLEXPRESS;Database=dental_final_clinic;Integrated Security=True;MultipleActiveResultSets=True";
+        private readonly string connectionString = @"Server=DESKTOP-O65C6K9\SQLEXPRESS;Database=dental_final_clinic;Integrated Security=True;MultipleActiveResultSets=True";
 
         public Patient_Login()
         {

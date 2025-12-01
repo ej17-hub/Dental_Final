@@ -14,7 +14,7 @@ namespace Dental_Final
 {
     public partial class Add_Staff : Form
     {
-        string connectionString = "Server=FANGON\\SQLEXPRESS;Database=dental_final_clinic;Integrated Security=True;MultipleActiveResultSets=True";
+        string connectionString = "Server=DESKTOP-O65C6K9\\SQLEXPRESS;Database=dental_final_clinic;Integrated Security=True;MultipleActiveResultSets=True";
 
 
         public Add_Staff()

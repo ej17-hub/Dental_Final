@@ -42,7 +42,7 @@ namespace Dental_Final
 
         private void LoadServicesData()
         {
-            string connectionString = "Server=FANGON\\SQLEXPRESS;Database=dental_final_clinic;Integrated Security=True;MultipleActiveResultSets=True";
+            string connectionString = "Server=DESKTOP-O65C6K9\\SQLEXPRESS;Database=dental_final_clinic;Integrated Security=True;MultipleActiveResultSets=True";
 
             string query = "SELECT service_id, name, category, price, description, duration_minutes FROM services";
 
@@ -57,7 +57,8 @@ namespace Dental_Final
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error loading services: " + ex.Message);
+                    ErrorHandler.HandleDatabaseError(ex, "Loading services data");
+                    return;
                 }
 
                 // Remove old action/edit/delete columns if they exist to avoid duplicates
@@ -130,13 +131,121 @@ namespace Dental_Final
             }
         }
 
+        /// <summary>
+        /// Checks if a service can be safely deleted by verifying:
+        /// 1. No dentists have this category as their specialization
+        /// 2. No appointments are using this service
+        /// 3. No appointment_requests_services links exist (optional check)
+        /// </summary>
+        private bool CanDeleteService(int serviceId, string categoryOrSpecialization, out string errorMessage)
+        {
+            errorMessage = "";
+            string connectionString = ConfigurationManager.ConnectionStrings["DentalClinicConnection"].ConnectionString;
+
+            try
+            {
+                using (var conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    // Check 1: If any dentist has this category as their specialization
+                    string checkDentistSql = @"
+                        SELECT COUNT(*) FROM dentists
+                        WHERE specialization = @spec
+                    ";
+
+                    using (var cmd = new SqlCommand(checkDentistSql, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@spec", categoryOrSpecialization ?? "");
+                        int dentistCount = (int)cmd.ExecuteScalar();
+
+                        if (dentistCount > 0)
+                        {
+                            errorMessage = $"Cannot delete this service!\n\n" +
+                                         $"There {(dentistCount == 1 ? "is" : "are")} {dentistCount} dentist(s) " +
+                                         $"specialized in \"{categoryOrSpecialization}\".\n\n" +
+                                         $"Please reassign the dentist(s) to a different specialization before deleting this service.";
+                            return false;
+                        }
+                    }
+
+                    // Check 2: If this service is referenced in any appointment
+                    string checkAppointmentSql = @"
+                        SELECT COUNT(*) FROM appointments 
+                        WHERE service_id = @serviceId
+                    ";
+
+                    using (var cmd = new SqlCommand(checkAppointmentSql, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@serviceId", serviceId);
+                        int appointmentCount = (int)cmd.ExecuteScalar();
+
+                        if (appointmentCount > 0)
+                        {
+                            errorMessage = $"Cannot delete this service!\n\n" +
+                                         $"This service is currently used in {appointmentCount} appointment(s).\n\n" +
+                                         $"Please remove or update these appointments before deleting this service.";
+                            return false;
+                        }
+                    }
+
+                    // Check 3: If this service is in appointments_services linking table
+                    string checkAppointmentServicesSql = @"
+                        SELECT COUNT(*) FROM appointments_services 
+                        WHERE service_id = @serviceId
+                    ";
+
+                    using (var cmd = new SqlCommand(checkAppointmentServicesSql, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@serviceId", serviceId);
+                        int linkCount = (int)cmd.ExecuteScalar();
+
+                        if (linkCount > 0)
+                        {
+                            errorMessage = $"Cannot delete this service!\n\n" +
+                                         $"This service is linked to {linkCount} appointment(s).\n\n" +
+                                         $"Please remove these links before deleting this service.";
+                            return false;
+                        }
+                    }
+
+                    // Check 4: If this service is in appointment_requests_services linking table
+                    string checkRequestServicesSql = @"
+                        SELECT COUNT(*) FROM appointment_requests_services 
+                        WHERE service_id = @serviceId
+                    ";
+
+                    using (var cmd = new SqlCommand(checkRequestServicesSql, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@serviceId", serviceId);
+                        int requestLinkCount = (int)cmd.ExecuteScalar();
+
+                        if (requestLinkCount > 0)
+                        {
+                            errorMessage = $"Cannot delete this service!\n\n" +
+                                         $"This service is linked to {requestLinkCount} pending appointment request(s).\n\n" +
+                                         $"Please process these requests before deleting this service.";
+                            return false;
+                        }
+                    }
+                }
+
+                return true; // Safe to delete
+            }
+            catch (Exception ex)
+            {
+                ErrorHandler.HandleDatabaseError(ex, "Checking service constraints before deletion");
+                errorMessage = "Error checking if service can be deleted. Please check the error log.";
+                return false;
+            }
+        }
+
         private void btnNewService_Click(object sender, EventArgs e)
         {
             Add_Services add_Service = new Add_Services();
             add_Service.Show();
 
             this.Close();
-
         }
 
         private void dataGridViewServices_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
@@ -149,29 +258,35 @@ namespace Dental_Final
                 if (clickedColumn == "Edit")
                 {
                     int serviceId = Convert.ToInt32(dataGridViewServices.Rows[e.RowIndex].Cells["service_id"].Value);
-                    //Open your edit form(uncomment and adjust when Edit_Services implementation exists)
                     Edit_Services editForm = new Edit_Services(serviceId);
                     editForm.Show();
                     this.Close();
                     return;
                 }
 
-
                 // Delete button clicked
                 if (clickedColumn == "Delete")
                 {
                     int serviceId = Convert.ToInt32(dataGridViewServices.Rows[e.RowIndex].Cells["service_id"].Value);
+                    string serviceName = dataGridViewServices.Rows[e.RowIndex].Cells["name"].Value?.ToString() ?? "Unknown Service";
+                    string categoryOrSpec = dataGridViewServices.Rows[e.RowIndex].Cells["category"].Value?.ToString() ?? "";
 
-                    var result = MessageBox.Show(
-                        "Are you sure you want to delete this service?",
-                        "Confirm Delete",
-                        MessageBoxButtons.YesNo,
-                        MessageBoxIcon.Warning);
+                    // CHECK CONSTRAINTS BEFORE ALLOWING DELETE
+                    if (!CanDeleteService(serviceId, categoryOrSpec, out string errMsg))
+                    {
+                        ErrorHandler.HandleValidationError(errMsg, "Cannot Delete Service");
+                        return;
+                    }
 
-                    if (result == DialogResult.Yes)
+                    // Show confirmation dialog
+                    var result = ErrorHandler.ShowConfirmation(
+                        $"Are you sure you want to delete the service:\n\n\"{serviceName}\"?\n\n" +
+                        "This action cannot be undone.",
+                        "Confirm Delete");
+
+                    if (result)
                     {
                         string connectionString = ConfigurationManager.ConnectionStrings["DentalClinicConnection"].ConnectionString;
-
                         string query = "DELETE FROM services WHERE service_id = @ServiceId";
 
                         using (SqlConnection conn = new SqlConnection(connectionString))
@@ -186,17 +301,26 @@ namespace Dental_Final
 
                                 if (rowsAffected > 0)
                                 {
-                                    MessageBox.Show("Service deleted successfully.");
+                                    // Log the deletion
+                                    try
+                                    {
+                                        ActivityLogger.Log($"Admin deleted service: {serviceName}");
+                                    }
+                                    catch { /* Ignore logging errors */ }
+
+                                    ErrorHandler.ShowSuccess($"Service \"{serviceName}\" deleted successfully.");
                                     LoadServicesData(); // Refresh the grid
                                 }
                                 else
                                 {
-                                    MessageBox.Show("Service could not be deleted. It may have already been removed.");
+                                    ErrorHandler.HandleValidationError(
+                                        "Service could not be deleted. It may have already been removed.",
+                                        "Delete Service");
                                 }
                             }
                             catch (Exception ex)
                             {
-                                MessageBox.Show("Error deleting service: " + ex.Message);
+                                ErrorHandler.HandleDatabaseError(ex, "Deleting service");
                             }
                         }
                     }
@@ -237,7 +361,6 @@ namespace Dental_Final
         {
             Adding_Patient adding_Patient = new Adding_Patient();
             adding_Patient.Show();
-
         }
 
         private void button7_Click(object sender, EventArgs e)
@@ -255,8 +378,11 @@ namespace Dental_Final
 
         private void button10_Click(object sender, EventArgs e)
         {
-            var dr = MessageBox.Show("Are you sure you want to log out?", "Confirm Logout", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (dr != DialogResult.Yes) return;
+            var dr = ErrorHandler.ShowConfirmation(
+                "Are you sure you want to log out?",
+                "Confirm Logout");
+
+            if (!dr) return;
 
             try
             {
@@ -266,7 +392,7 @@ namespace Dental_Final
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Failed to open login screen: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ErrorHandler.HandleDatabaseError(ex, "Opening login screen");
             }
         }
     }

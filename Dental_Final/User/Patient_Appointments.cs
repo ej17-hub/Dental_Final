@@ -11,7 +11,7 @@ namespace Dental_Final
 {
     public partial class Patient_Appointments : Form
     {
-        private readonly string connectionString = @"Server=FANGON\SQLEXPRESS;Database=dental_final_clinic;Integrated Security=True;MultipleActiveResultSets=True";
+        private readonly string connectionString = @"Server=DESKTOP-O65C6K9\SQLEXPRESS;Database=dental_final_clinic;Integrated Security=True;MultipleActiveResultSets=True";
 
         // runtime-only label to show patient name (keeps designer label3 as "Date:")
         private Label labelPatientName;

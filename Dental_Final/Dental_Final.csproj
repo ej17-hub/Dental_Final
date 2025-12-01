@@ -141,6 +141,7 @@
     <Compile Include="Admin\Pending_Appointments.Designer.cs">
       <DependentUpon>Pending_Appointments.cs</DependentUpon>
     </Compile>
+    <Compile Include="ErrorHandler.cs" />
     <Compile Include="Log_in.cs">
       <SubType>Form</SubType>
     </Compile>

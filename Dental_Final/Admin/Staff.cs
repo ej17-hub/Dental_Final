@@ -12,7 +12,7 @@ namespace Dental_Final
 {
     public partial class Staff : Form
     {
-        string connectionString = "Server=FANGON\\SQLEXPRESS;Database=dental_final_clinic;Integrated Security=True;MultipleActiveResultSets=True";
+        string connectionString = "Server=DESKTOP-O65C6K9\\SQLEXPRESS;Database=dental_final_clinic;Integrated Security=True;MultipleActiveResultSets=True";
 
         private readonly Dictionary<string, string> dayAbbreviations = new Dictionary<string, string>
         {
@@ -33,12 +33,100 @@ namespace Dental_Final
             this.WindowState = FormWindowState.Maximized;
         }
 
+        /// <summary>
+        /// Checks if a dentist can be deleted by verifying they have no upcoming appointments
+        /// </summary>
+        private bool CanDeleteDentist(int dentistId, out string errorMessage, out int conflictCount)
+        {
+            errorMessage = string.Empty;
+            conflictCount = 0;
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    string query = @"
+                        SELECT COUNT(*) as conflict_count
+                            FROM appointments
+                            WHERE dentist_id = @DentistId
+                            AND CAST(appointment_date AS DATE) >= CAST(GETDATE() AS DATE)
+                            ";
+
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@DentistId", dentistId);
+                        conn.Open();
+
+                        int count = (int)cmd.ExecuteScalar();
+                        conflictCount = count;
+
+                        if (count > 0)
+                        {
+                            errorMessage = $"Cannot delete this dentist! This dentist has {count} upcoming appointment(s). Please reassign or cancel these appointments before deleting.";
+                            return false;
+                        }
+                    }
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                errorMessage = "Error checking dentist appointments: " + ex.Message;
+                conflictCount = 0;
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Checks if staff can be deleted by verifying they are not assigned to upcoming appointments
+        /// </summary>
+        private bool CanDeleteStaff(int staffId, out string errorMessage, out int conflictCount)
+        {
+            errorMessage = string.Empty;
+            conflictCount = 0;
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    string query = @"
+                SELECT COUNT(*) as conflict_count
+                    FROM appointments
+                    WHERE (staff_assign_1 = @StaffId OR staff_assign_2 = @StaffId)
+                    AND CAST(appointment_date AS DATE) >= CAST(GETDATE() AS DATE)
+                    ";
+
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@StaffId", staffId);
+                        conn.Open();
+
+                        int count = (int)cmd.ExecuteScalar();
+                        conflictCount = count;
+
+                        if (count > 0)
+                        {
+                            errorMessage = $"Cannot delete this staff member! This staff is assigned to {count} upcoming appointment(s). Please reassign or cancel these appointments before deleting.";
+                            return false;
+                        }
+                    }
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                errorMessage = "Error checking staff appointments: " + ex.Message;
+                conflictCount = 0;
+                return false;
+            }
+        }
+
         private void btnNewService_Click(object sender, EventArgs e)
         {
             Add_Dentist addDentistForm = new Add_Dentist();
             addDentistForm.ShowDialog();
-
-            // Refresh the grid after the dialog is closed (new dentist may have been added)
             LoadDentists();
         }
 
@@ -47,67 +135,71 @@ namespace Dental_Final
             if (e.RowIndex < 0)
                 return;
 
-            // Get dentist_id from the underlying DataTable row
             DataRowView rowView = dataGridViewDentists.Rows[e.RowIndex].DataBoundItem as DataRowView;
             if (rowView == null)
                 return;
 
             int dentistId = Convert.ToInt32(rowView["dentist_id"]);
+            string dentistName = rowView["Dentist"].ToString();
 
-            // Edit button clicked
             if (e.ColumnIndex == dataGridViewDentists.Columns["Edit"].Index)
             {
                 Edit_Dentist editForm = new Edit_Dentist(dentistId);
                 editForm.ShowDialog();
-                LoadDentists(); // Refresh after edit
+                LoadDentists();
             }
-            // Delete button clicked
             else if (e.ColumnIndex == dataGridViewDentists.Columns["Delete"].Index)
             {
+                if (!CanDeleteDentist(dentistId, out string errorMessage, out int conflictCount))
+                {
+                    MessageBox.Show(errorMessage, "Cannot Delete", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
                 var confirmResult = MessageBox.Show(
-                    "Are you sure you want to delete this dentist?",
+                    $"Are you sure you want to delete dentist '{dentistName}'?",
                     "Confirm Delete",
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Warning);
 
                 if (confirmResult == DialogResult.Yes)
                 {
-                    using (SqlConnection conn = new SqlConnection(connectionString))
-                    using (SqlCommand cmd = new SqlCommand("DELETE FROM dentists WHERE dentist_id = @DentistId", conn))
+                    try
                     {
-                        cmd.Parameters.AddWithValue("@DentistId", dentistId);
-                        try
+                        using (SqlConnection conn = new SqlConnection(connectionString))
+                        using (SqlCommand cmd = new SqlCommand("DELETE FROM dentists WHERE dentist_id = @DentistId", conn))
                         {
+                            cmd.Parameters.AddWithValue("@DentistId", dentistId);
                             conn.Open();
                             cmd.ExecuteNonQuery();
-                            MessageBox.Show("Dentist deleted successfully.");
-                            LoadDentists(); // Refresh the grid
+
+                            MessageBox.Show($"Dentist '{dentistName}' has been deleted successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            LoadDentists();
                         }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show("Error deleting dentist: " + ex.Message);
-                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error deleting dentist: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
         }
 
-        // Loads dentists and displays only: formatted display id, Dentist (first last [mi] [suffix]), gender, specialization, email, available_days
         public void LoadDentists()
         {
             const string query = @"
-        SELECT
-            dentist_id,
-            first_name + ' ' + COALESCE(' ' + NULLIF(middle_initial, ' '), '') + '. '
-                + last_name
-                + CASE WHEN suffix IS NOT NULL AND LTRIM(RTRIM(suffix)) <> '' THEN ' ' + suffix ELSE '' END
-                AS Dentist,
-            gender,
-            specialization,
-            email,
-            available_days
-        FROM dbo.dentists
-        ORDER BY last_name, first_name;";
+                SELECT
+                    dentist_id,
+                    first_name + ' ' + COALESCE(' ' + NULLIF(middle_initial, ' '), '') + '. '
+                        + last_name
+                        + CASE WHEN suffix IS NOT NULL AND LTRIM(RTRIM(suffix)) <> '' THEN ' ' + suffix ELSE '' END
+                        AS Dentist,
+                    gender,
+                    specialization,
+                    email,
+                    available_days
+                FROM dbo.dentists
+                ORDER BY last_name, first_name;";
 
             try
             {
@@ -117,7 +209,6 @@ namespace Dental_Final
                     var dt = new DataTable();
                     da.Fill(dt);
 
-                    // Convert available_days to abbreviated form
                     foreach (DataRow row in dt.Rows)
                     {
                         if (row["available_days"] != DBNull.Value)
@@ -131,7 +222,6 @@ namespace Dental_Final
                         }
                     }
 
-                    // Add a display-only column that preserves the original integer dentist_id
                     if (!dt.Columns.Contains("dentist_display_id"))
                         dt.Columns.Add("dentist_display_id", typeof(string));
 
@@ -151,11 +241,8 @@ namespace Dental_Final
                     dataGridViewDentists.AutoGenerateColumns = false;
                     dataGridViewDentists.DataSource = dt;
                     dataGridViewDentists.AllowUserToAddRows = false;
-
-                    // Clear existing columns
                     dataGridViewDentists.Columns.Clear();
 
-                    // Visible formatted display column
                     var dentistDisplayCol = new DataGridViewTextBoxColumn
                     {
                         Name = "dentist_display_id",
@@ -165,7 +252,6 @@ namespace Dental_Final
                     };
                     dataGridViewDentists.Columns.Add(dentistDisplayCol);
 
-                    // Add other visible data columns
                     dataGridViewDentists.Columns.Add(new DataGridViewTextBoxColumn
                     {
                         Name = "Dentist",
@@ -206,7 +292,6 @@ namespace Dental_Final
                         AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
                     });
 
-                    // Add Edit button column
                     DataGridViewButtonColumn editColumn = new DataGridViewButtonColumn
                     {
                         Name = "Edit",
@@ -217,7 +302,6 @@ namespace Dental_Final
                     };
                     dataGridViewDentists.Columns.Add(editColumn);
 
-                    // Add Delete button column
                     DataGridViewButtonColumn deleteColumn = new DataGridViewButtonColumn
                     {
                         Name = "Delete",
@@ -235,14 +319,10 @@ namespace Dental_Final
             }
         }
 
-
         private void label7_Click(object sender, EventArgs e)
         {
-
         }
 
-        // Load staff with formatted display id (#STxxx) while keeping underlying staff_id integer
-        // Load staff with formatted display id (#STxxx) while keeping underlying staff_id integer
         public void LoadStaff()
         {
             const string query = @"
@@ -266,7 +346,6 @@ namespace Dental_Final
                     var dt = new DataTable();
                     da.Fill(dt);
 
-                    // Add display-only staff_display_id column
                     if (!dt.Columns.Contains("staff_display_id"))
                         dt.Columns.Add("staff_display_id", typeof(string));
 
@@ -286,11 +365,8 @@ namespace Dental_Final
                     dataGridViewStaff.AutoGenerateColumns = false;
                     dataGridViewStaff.DataSource = dt;
                     dataGridViewStaff.AllowUserToAddRows = false;
-
-                    // Clear all columns first
                     dataGridViewStaff.Columns.Clear();
 
-                    // Visible formatted staff display column
                     var staffDisplayCol = new DataGridViewTextBoxColumn
                     {
                         Name = "staff_display_id",
@@ -300,7 +376,6 @@ namespace Dental_Final
                     };
                     dataGridViewStaff.Columns.Add(staffDisplayCol);
 
-                    // Name
                     dataGridViewStaff.Columns.Add(new DataGridViewTextBoxColumn
                     {
                         Name = "Name",
@@ -325,7 +400,6 @@ namespace Dental_Final
                         AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
                     });
 
-                    // Add Edit button column
                     DataGridViewButtonColumn editColumn = new DataGridViewButtonColumn
                     {
                         Name = "Edit",
@@ -336,7 +410,6 @@ namespace Dental_Final
                     };
                     dataGridViewStaff.Columns.Add(editColumn);
 
-                    // Add Delete button column
                     DataGridViewButtonColumn deleteColumn = new DataGridViewButtonColumn
                     {
                         Name = "Delete",
@@ -366,46 +439,51 @@ namespace Dental_Final
             if (e.RowIndex < 0)
                 return;
 
-            // Get underlying integer staff_id from the DataTable row
             DataRowView rowView = dataGridViewStaff.Rows[e.RowIndex].DataBoundItem as DataRowView;
             if (rowView == null)
                 return;
 
             int staffId = Convert.ToInt32(rowView["staff_id"]);
+            string staffName = rowView["Name"].ToString();
 
-            // Edit button clicked
             if (e.ColumnIndex == dataGridViewStaff.Columns["Edit"].Index)
             {
                 Edit_Staff editForm = new Edit_Staff(staffId);
                 editForm.ShowDialog();
-                LoadStaff(); // Refresh after edit
+                LoadStaff();
             }
-            // Delete button clicked
             else if (e.ColumnIndex == dataGridViewStaff.Columns["Delete"].Index)
             {
+                if (!CanDeleteStaff(staffId, out string errorMessage, out int conflictCount))
+                {
+                    MessageBox.Show(errorMessage, "Cannot Delete", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
                 var confirmResult = MessageBox.Show(
-                    "Are you sure you want to delete this staff member?",
+                    $"Are you sure you want to delete staff member '{staffName}'?",
                     "Confirm Delete",
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Warning);
 
                 if (confirmResult == DialogResult.Yes)
                 {
-                    using (SqlConnection conn = new SqlConnection(connectionString))
-                    using (SqlCommand cmd = new SqlCommand("DELETE FROM staff WHERE staff_id = @StaffId", conn))
+                    try
                     {
-                        cmd.Parameters.AddWithValue("@StaffId", staffId);
-                        try
+                        using (SqlConnection conn = new SqlConnection(connectionString))
+                        using (SqlCommand cmd = new SqlCommand("DELETE FROM staff WHERE staff_id = @StaffId", conn))
                         {
+                            cmd.Parameters.AddWithValue("@StaffId", staffId);
                             conn.Open();
                             cmd.ExecuteNonQuery();
-                            MessageBox.Show("Staff member deleted successfully.");
-                            LoadStaff(); // Refresh the grid
+
+                            MessageBox.Show($"Staff member '{staffName}' has been deleted successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            LoadStaff();
                         }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show("Error deleting staff member: " + ex.Message);
-                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error deleting staff member: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }

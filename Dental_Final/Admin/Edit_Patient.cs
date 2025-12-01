@@ -19,7 +19,7 @@ namespace Dental_Final
 
         private void LoadPatientData()
         {
-            string connectionString = "Server=FANGON\\SQLEXPRESS;Database=dental_final_clinic;Integrated Security=True;MultipleActiveResultSets=True";
+            string connectionString = "Server=DESKTOP-O65C6K9\\SQLEXPRESS;Database=dental_final_clinic;Integrated Security=True;MultipleActiveResultSets=True";
 
             string query = "SELECT * FROM patients WHERE patient_id = @PatientId";
 

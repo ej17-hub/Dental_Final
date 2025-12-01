@@ -10,7 +10,7 @@ namespace Dental_Final.Admin
 {
     public partial class Pending_Appointments : Form
     {
-        private readonly string connectionString = @"Server=FANGON\SQLEXPRESS;Database=dental_final_clinic;Integrated Security=True;MultipleActiveResultSets=True";
+        private readonly string connectionString = @"Server=DESKTOP-O65C6K9\SQLEXPRESS;Database=dental_final_clinic;Integrated Security=True;MultipleActiveResultSets=True";
 
         public Pending_Appointments()
         {

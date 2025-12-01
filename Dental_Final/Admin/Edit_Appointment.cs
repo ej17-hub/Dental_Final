@@ -12,7 +12,7 @@ namespace Dental_Final
     public partial class Edit_Appointment : Form
     {
         // match Add_Appointment connection string
-        string connectionString = "Server=FANGON\\SQLEXPRESS;Database=dental_final_clinic;Integrated Security=True;MultipleActiveResultSets=True";
+        string connectionString = "Server=DESKTOP-O65C6K9\\SQLEXPRESS;Database=dental_final_clinic;Integrated Security=True;MultipleActiveResultSets=True";
 
 
         // Keep parameterless ctor for designer; use overload when opening for edit

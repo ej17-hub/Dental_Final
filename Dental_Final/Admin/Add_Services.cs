@@ -15,7 +15,7 @@ namespace Dental_Final
     public partial class Add_Services : Form
     {
         Services s = new Services();
-        string connectionString = "Server=FANGON\\SQLEXPRESS;Database=dental_final_clinic;Integrated Security=True;MultipleActiveResultSets=True";
+        string connectionString = "Server=DESKTOP-O65C6K9\\SQLEXPRESS;Database=dental_final_clinic;Integrated Security=True;MultipleActiveResultSets=True";
         // Nullable int to hold the service ID when editing an existing service
         private int? editingServiceId;
 

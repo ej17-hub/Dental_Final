@@ -11,7 +11,7 @@ namespace Dental_Final
     public partial class Log_in : Form
     {
         // Keep using the same stable connection string used elsewhere
-        private readonly string connectionString = @"Server=FANGON\SQLEXPRESS;Database=dental_final_clinic;Integrated Security=True;MultipleActiveResultSets=True";
+        private readonly string connectionString = @"Server=DESKTOP-O65C6K9\SQLEXPRESS;Database=dental_final_clinic;Integrated Security=True;MultipleActiveResultSets=True";
 
         public Log_in()
         {

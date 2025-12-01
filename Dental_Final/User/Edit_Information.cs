@@ -16,7 +16,7 @@ namespace Dental_Final.User
     public partial class Edit_Information : Form
     {
         // same connection string used across the project
-        private readonly string connectionString = @"Server=FANGON\SQLEXPRESS;Database=dental_final_clinic;Integrated Security=True;MultipleActiveResultSets=True";
+        private readonly string connectionString = @"Server=DESKTOP-O65C6K9\SQLEXPRESS;Database=dental_final_clinic;Integrated Security=True;MultipleActiveResultSets=True";
 
         // Caller should set this before showing the form (current logged-in patient id).
         public int? PatientId { get; set; }

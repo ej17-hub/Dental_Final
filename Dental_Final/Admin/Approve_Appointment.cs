@@ -10,7 +10,7 @@ namespace Dental_Final.Admin
     public partial class Approve_Appointment : Form
     {
         // match other files' connection string
-        private readonly string connectionString = @"Server=FANGON\SQLEXPRESS;Database=dental_final_clinic;Integrated Security=True;MultipleActiveResultSets=True";
+        private readonly string connectionString = @"Server=DESKTOP-O65C6K9\SQLEXPRESS;Database=dental_final_clinic;Integrated Security=True;MultipleActiveResultSets=True";
 
         // store service names passed in so we can insert linking rows
         private readonly List<string> _serviceNames = new List<string>();

@@ -33,7 +33,7 @@ namespace Dental_Final
 
         private void button1_Click(object sender, EventArgs e)
         {
-            string connectionString = "Server=FANGON\\SQLEXPRESS;Database=dental_final_clinic;Integrated Security=True;MultipleActiveResultSets=True";
+            string connectionString = "Server=DESKTOP-O65C6K9\\SQLEXPRESS;Database=dental_final_clinic;Integrated Security=True;MultipleActiveResultSets=True";
 
 
             // Collect data from form controls
